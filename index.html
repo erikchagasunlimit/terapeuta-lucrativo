@@ -821,10 +821,11 @@ const NAV = [
   {id:"m5",label:"Jornada de 8 Sessões",num:"M5",type:"module"},
   {id:"m6",label:"Guia Terapeuta Lucrativo",num:"M6",type:"module"},
   {section:"BÔNUS EXCLUSIVOS"},
-  {id:"b1",label:"Ritual de Preparação",num:"B1",type:"bonus"},
-  {id:"b2",label:"30 Posts Instagram",num:"B2",type:"bonus"},
-  {id:"b3",label:"Calculadora de Faturamento",num:"B3",type:"bonus"},
-  {id:"b4",label:"Certificado Digital",num:"B4",type:"bonus"},
+  {id:"b2",label:"30 Posts Instagram",num:"B1",type:"bonus"},
+  {id:"b3",label:"Calculadora de Faturamento",num:"B2",type:"bonus"},
+  {id:"b4",label:"Certificado Digital",num:"B3",type:"bonus"},
+  {id:"b5",label:"Stories Prontos",num:"B4",type:"bonus"},
+  {id:"b6",label:"15 Criativos Prontos",num:"B5",type:"bonus"},
 ];
 
 const PROTOCOLS = [
@@ -932,10 +933,11 @@ function renderDashboard(c){
     {num:"MÓDULO 6",title:"Guia Terapeuta Lucrativo",desc:"Posicionamento, preço e captação.",count:"6 seções",id:"m6"},
   ];
   const bons=[
-    {num:"BÔNUS 1",title:"Ritual de Preparação",desc:"5 áudios de ancoragem energética.",count:"5 áudios",id:"b1",bonus:true},
-    {num:"BÔNUS 2",title:"30 Posts Instagram",desc:"Templates prontos para atrair clientes.",count:"30 templates",id:"b2",bonus:true},
-    {num:"BÔNUS 3",title:"Calculadora de Faturamento",desc:"Planilha interativa no browser.",count:"1 planilha",id:"b3",bonus:true},
-    {num:"BÔNUS 4",title:"Certificado Digital",desc:"Certificado personalizado com seu nome.",count:"1 certificado",id:"b4",bonus:true},
+    {num:"BÔNUS 1",title:"30 Posts Instagram",desc:"Templates prontos para atrair clientes.",count:"30 templates",id:"b2",bonus:true},
+    {num:"BÔNUS 2",title:"Calculadora de Faturamento",desc:"Planilha interativa no browser.",count:"1 planilha",id:"b3",bonus:true},
+    {num:"BÔNUS 3",title:"Certificado Digital",desc:"Certificado personalizado com seu nome.",count:"1 certificado",id:"b4",bonus:true},
+    {num:"BÔNUS 4",title:"Stories Prontos",desc:"15 modelos prontos para todos os objetivos.",count:"15 stories",id:"b5",bonus:true},
+    {num:"BÔNUS 5",title:"15 Criativos Prontos",desc:"Artes com copy para campanhas de tráfego.",count:"Em breve",id:"b6",bonus:true},
   ];
   const card=m=>`<div class="dash-card${m.bonus?' bonus':''}" onclick="navigate('${m.id}')">
     <div class="dc-num">${m.num}</div><div class="dc-title">${m.title}</div>
@@ -979,17 +981,373 @@ function renderProtocol(c,num){
   if(fn[num]) fn[num](c); else { c.innerHTML='<p>Protocolo não encontrado.</p>'; }
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// BÔNUS 4 — STORIES PRONTOS (15 modelos)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const B5_CATEGORIAS = [
+  { id: 's1', nome: 'Identificação', desc: 'Stories que fazem o seguidor pensar "isso sou eu" — geram resposta e DM.', icone: '🪞', cor: '#C9A84C', bg: '#FFF9EC', qtd: 3 },
+  { id: 's2', nome: 'Autoridade', desc: 'Posicionam você como especialista de forma rápida e direta.', icone: '📚', cor: '#1A6B47', bg: '#F0FAF4', qtd: 3 },
+  { id: 's3', nome: 'Agendamento', desc: 'Stories com CTA direto — transformam seguidor em paciente.', icone: '📅', cor: '#223388', bg: '#F0F2FA', qtd: 3 },
+  { id: 's4', nome: 'Engajamento', desc: 'Geram resposta, salvamento e compartilhamento.', icone: '💬', cor: '#7A3B9A', bg: '#F5F0FF', qtd: 3 },
+  { id: 's5', nome: 'Bastidores', desc: 'Humanizam e aproximam — mostram quem você é além dos posts.', icone: '🎬', cor: '#CC6633', bg: '#FFF4EE', qtd: 3 },
+];
+
+const B5_STORIES = [
+
+  // ── CATEGORIA 1 — IDENTIFICAÇÃO ────────────────────────────────────────
+  {
+    cat: 's1', num: 1,
+    titulo: 'Você também faz isso?',
+    objetivo: 'Identificação com dor — gera resposta e DM espontâneo',
+    formato: 'Enquete',
+    texto: '[Texto do story]\n"Você acorda com energia mas quando chega a hora de fazer o que precisa... trava.\n\nIsso tem nome. E tem solução."\n\n[Enquete abaixo do texto]\n👆 Sim, acontece comigo\n👇 Não, não é meu caso',
+    cta: 'Depois da enquete: "Responde aqui embaixo com um 🙋 se quiser entender por que isso acontece."',
+    dica: 'Após quem respondeu "sim", entre em contato no DM: "Vi que você votou — posso te explicar em 2 minutos por que isso acontece?"',
+    ia: 'Prompt IA: "Escreva uma enquete de story para Instagram onde um terapeuta pergunta se o seguidor se identifica com autossabotagem, de forma empática e sem termos técnicos."',
+  },
+  {
+    cat: 's1', num: 2,
+    titulo: 'A frase que ninguém te disse',
+    objetivo: 'Identificação profunda — gera salvamento e compartilhamento',
+    formato: 'Texto direto',
+    texto: '[Texto do story — fundo escuro, letra grande]\n"Você não é ansioso.\n\nVocê aprendeu a viver em alerta porque em algum momento era necessário.\n\nO problema é que o perigo passou — mas o corpo não recebeu esse aviso."\n\n[Botão de compartilhar visível]',
+    cta: '"Se isso fez sentido pra você → compartilha nos seus stories."',
+    dica: 'Stories de texto simples com fundo escuro e letra grande têm alto índice de compartilhamento. Não use fundo elaborado — a simplicidade chama atenção.',
+    ia: 'Prompt IA: "Escreva um story de Instagram com uma afirmação poderosa sobre ansiedade que ressoa com quem vive em modo alerta constante. Linguagem simples, sem termos técnicos, máximo 3 frases."',
+  },
+  {
+    cat: 's1', num: 3,
+    titulo: 'Qual é a sua?',
+    objetivo: 'Identificação com caixa de resposta — gera conversa e leads',
+    formato: 'Caixa de pergunta',
+    texto: '[Texto do story]\n"Qual é o padrão que você mais está cansado de repetir?\n\nResponde aqui embaixo 👇"\n\n[Sticker de caixa de pergunta do Instagram]',
+    cta: 'Responda cada pessoa individualmente no DM com empatia. Esse é o primeiro passo de uma conversa que pode virar agendamento.',
+    dica: 'Publique sexta à noite ou domingo à tarde — quando as pessoas estão mais reflexivas. Prepare-se para responder os DMs no mesmo dia.',
+    ia: 'Prompt IA: "Crie uma pergunta para stories do Instagram que incentive terapeutas em potencial a compartilhar qual padrão emocional mais os incomoda. Tom acolhedor, linguagem simples."',
+  },
+
+  // ── CATEGORIA 2 — AUTORIDADE ───────────────────────────────────────────
+  {
+    cat: 's2', num: 4,
+    titulo: 'Você sabia que...',
+    objetivo: 'Autoridade com dado — posiciona como especialista',
+    formato: 'Texto + dado',
+    texto: '[Texto do story]\n"Você sabia que 26,8% dos brasileiros têm sintomas de ansiedade?\n\nIsso significa que, em cada 4 pessoas que você conhece, pelo menos 1 está sofrendo em silêncio.\n\nE a maioria ainda não pediu ajuda porque não sabe que existe um caminho."',
+    cta: '"Se você é um desses — me chama. Vamos conversar."',
+    dica: 'Dados de saúde mental geram muito salvamento. Adicione "salva pra não esquecer" ao final para aumentar o alcance.',
+    ia: 'Prompt IA: "Crie um story de Instagram para um terapeuta compartilhar um dado sobre saúde mental no Brasil de forma impactante, sem parecer um artigo científico. Termine com um CTA suave para quem se identifica."',
+  },
+  {
+    cat: 's2', num: 5,
+    titulo: 'A diferença que poucos entendem',
+    objetivo: 'Autoridade educativa — gera salvamento e seguidas',
+    formato: 'Sequência de 3 stories',
+    texto: '[Story 1]\n"Tristeza e depressão são coisas diferentes."\n\n[Story 2]\n"Tristeza é uma resposta. Passa com o tempo.\n\nDepressão é um estado. Não passa sozinha."\n\n[Story 3]\n"Saber a diferença pode mudar a forma como você cuida de si — e de quem você ama.\n\nSe tiver dúvidas → me chama."',
+    cta: '"Salva essa sequência pra ter quando precisar."',
+    dica: 'Sequências de 3 stories têm retenção maior. Use o mesmo fundo e tipografia nos 3 para criar identidade visual.',
+    ia: 'Prompt IA: "Crie uma sequência de 3 stories para Instagram onde um terapeuta explica a diferença entre tristeza e depressão de forma simples e acolhedora, terminando com um convite para conversar."',
+  },
+  {
+    cat: 's2', num: 6,
+    titulo: 'O que é protocolo terapêutico',
+    objetivo: 'Autoridade — posiciona método e diferencial',
+    formato: 'Texto direto',
+    texto: '[Texto do story]\n"As clínicas que mais geram resultado no mundo não improvisam.\n\nElas usam protocolos — roteiros do minuto 0 ao 60 de cada sessão.\n\nÉ exatamente assim que eu trabalho.\n\nSessão estruturada = resultado visível = paciente que volta e indica."',
+    cta: '"Quer saber como funciona na prática? Me manda uma mensagem."',
+    dica: 'Stories que mostram seu método geram curiosidade e quebram objeção de "será que funciona?". Use fundo sério e tipografia limpa.',
+    ia: 'Prompt IA: "Escreva um story para Instagram onde um terapeuta explica de forma simples o que é um protocolo terapêutico e por que isso gera mais resultado que sessões improvisadas."',
+  },
+
+  // ── CATEGORIA 3 — AGENDAMENTO ──────────────────────────────────────────
+  {
+    cat: 's3', num: 7,
+    titulo: 'Vagas abertas',
+    objetivo: 'CTA direto — gera agendamento imediato',
+    formato: 'Anúncio de vaga',
+    texto: '[Texto do story]\n"📅 VAGAS ABERTAS — [mês]\n\nEstou abrindo [X] vagas para novos pacientes.\n\nSe você:\n→ Sente que repete sempre os mesmos padrões\n→ Quer entender de onde vem sua ansiedade\n→ Está pronto para começar\n\nMe chama no DM com a palavra VAGA."',
+    cta: 'Responda cada DM rapidamente — quanto mais rápido, maior a conversão.',
+    dica: 'Publique às segundas e quartas de manhã. Mencione o número real de vagas para criar escassez genuína.',
+    ia: 'Prompt IA: "Crie um story de anúncio de vagas para um terapeuta online que trabalha com ansiedade e padrões emocionais. Tom profissional mas acolhedor, com CTA de DM."',
+  },
+  {
+    cat: 's3', num: 8,
+    titulo: 'Sessão experimental',
+    objetivo: 'CTA para sessão experimental — converte seguidor em paciente',
+    formato: 'Proposta direta',
+    texto: '[Texto do story]\n"Você já pensou em fazer terapia mas trava em não saber como é?\n\nVou te propor algo:\n\nUma sessão de 50 minutos onde a gente vai entender juntos o que está travando você — e se faz sentido a gente trabalhar.\n\nSem compromisso de continuidade.\n\nMe manda um 👋 aqui no DM."',
+    cta: '"Responde aqui com 👋 pra eu te passar mais detalhes."',
+    dica: 'Use esse story depois de uma sequência de stories de identificação ou autoridade — o paciente já está aquecido.',
+    ia: 'Prompt IA: "Escreva um story de Instagram onde um terapeuta convida seguidores para uma sessão experimental de 50 minutos, sem pressão, com CTA suave de DM. Tom acolhedor e direto."',
+  },
+  {
+    cat: 's3', num: 9,
+    titulo: 'Última vaga',
+    objetivo: 'Escassez real — gera urgência positiva',
+    formato: 'Urgência',
+    texto: '[Texto do story]\n"⚠️ ÚLTIMA VAGA DISPONÍVEL ESSA SEMANA\n\nSe você vem pensando em começar uma terapia mas vai empurrando...\n\nEssa é sua deixa.\n\nMe manda QUERO no DM — eu te explico como funciona."',
+    cta: '"Só use esse story quando for verdade. Urgência falsa destrói confiança."',
+    dica: 'Combine esse story com uma contagem regressiva nativa do Instagram. Só use quando for real — autenticidade converte mais que pressão.',
+    ia: 'Prompt IA: "Crie um story de escassez real para um terapeuta anunciando última vaga da semana. Tom urgente mas não agressivo, com CTA de DM simples."',
+  },
+
+  // ── CATEGORIA 4 — ENGAJAMENTO ──────────────────────────────────────────
+  {
+    cat: 's4', num: 10,
+    titulo: 'Teste rápido',
+    objetivo: 'Engajamento com quiz — gera resposta e retenção',
+    formato: 'Quiz de 3 opções',
+    texto: '[Story 1 — pergunta]\n"Qual é o seu maior travamento agora?\n\n🔴 Financeiro — não consigo prosperar\n🟡 Relacionamentos — repito os mesmos padrões\n🟢 Propósito — não sei o que quero da vida"\n\n[Sticker de enquete com as 3 opções]\n\n[Story 2 — após resposta]\n"Independente da sua resposta... todos têm uma raiz emocional que pode ser trabalhada.\n\nMe chama se quiser entender a sua."',
+    cta: 'Ao ver os resultados da enquete, entre no DM de cada pessoa que votou com uma mensagem personalizada.',
+    dica: 'Quizzes de 3 opções geram mais engajamento que enquetes de 2. Use cores diferentes para cada opção para facilitar a visualização.',
+    ia: 'Prompt IA: "Crie um quiz de story de Instagram com 3 opções de travamentos emocionais comuns (financeiro, relacionamentos, propósito) para um terapeuta usar como ferramenta de triagem e engajamento."',
+  },
+  {
+    cat: 's4', num: 11,
+    titulo: 'Pergunta reflexiva',
+    objetivo: 'Engajamento profundo — gera resposta e conexão',
+    formato: 'Caixa de resposta',
+    texto: '[Texto do story]\n"Uma pergunta pra você responder com honestidade:\n\nSe você pudesse resolver UMA coisa na sua vida emocional hoje — o que seria?\n\n👇 Responde aqui embaixo"\n\n[Sticker de caixa de resposta]',
+    cta: 'Reposte as respostas anônimas nos próximos stories (com permissão implícita) para mostrar que você lê e se importa.',
+    dica: 'Publique à noite — pessoas respondem perguntas reflexivas quando estão mais tranquilas. Cada resposta é uma abertura para conversa no DM.',
+    ia: 'Prompt IA: "Escreva uma pergunta reflexiva para stories do Instagram que um terapeuta pode usar para entender o principal travamento do seu público, incentivando respostas honestas na caixa de resposta."',
+  },
+  {
+    cat: 's4', num: 12,
+    titulo: 'Antes e depois',
+    objetivo: 'Prova social — gera desejo e confiança',
+    formato: 'Depoimento adaptado',
+    texto: '[Texto do story]\n"Uma paciente me disse isso semana passada:\n\n\'Eu achei que era assim que eu era. Agitada, ansiosa, travada. Achei que não tinha jeito.\n\nDepois de 8 sessões, percebo quando o padrão vai acontecer — e consigo escolher diferente.\'\n\nIsso não é milagre. É processo.\n\nSe você quiser o mesmo → me chama."',
+    cta: '"Responde esse story com \'QUERO\' e eu te explico como funciona."',
+    dica: 'Peça autorização ao paciente antes de usar o relato. Nunca identifique o paciente. Depoimentos reais convertem muito mais que genéricos.',
+    ia: 'Prompt IA: "Adapte um depoimento de paciente sobre transformação terapêutica para um story de Instagram, mantendo autenticidade e anonimato, terminando com CTA de DM."',
+  },
+
+  // ── CATEGORIA 5 — BASTIDORES ───────────────────────────────────────────
+  {
+    cat: 's5', num: 13,
+    titulo: 'Por que faço isso',
+    objetivo: 'Humanização — cria conexão e confiança',
+    formato: 'Texto pessoal',
+    texto: '[Texto do story — tom pessoal]\n"Decidi ser terapeuta porque vi de perto o que a falta de saúde emocional faz com uma pessoa.\n\nVi alguém que eu amava repetir padrões que não conseguia quebrar sozinho.\n\nE entendi que conhecimento sem estrutura não transforma.\n\nPor isso trabalho com protocolo. Por isso cada sessão tem começo, meio e fim.\n\nPorque resultado não é acidente — é método."',
+    cta: 'Sem CTA direto nesse story. O objetivo é humanizar — o agendamento vem naturalmente depois.',
+    dica: 'Stories pessoais sem CTA comercial geram o maior índice de resposta. Apareça. Pessoas compram de pessoas.',
+    ia: 'Prompt IA: "Escreva um story pessoal onde um terapeuta conta brevemente por que escolheu essa profissão, de forma autêntica e vulnerável, sem parecer um pitch de vendas."',
+  },
+  {
+    cat: 's5', num: 14,
+    titulo: 'Nos bastidores de uma sessão',
+    objetivo: 'Bastidores — reduz medo do desconhecido sobre a terapia',
+    formato: 'Sequência de 2 stories',
+    texto: '[Story 1]\n"Muita gente tem medo de fazer terapia porque não sabe o que vai acontecer na sessão.\n\nEntão deixa eu te mostrar como é por dentro."\n\n[Story 2]\n"Nos primeiros 10 minutos: entendemos o que está pesando hoje.\n\nNos próximos 35 minutos: vamos até a raiz — não fica só na superfície.\n\nNos últimos 15 minutos: você sai com uma âncora prática pra semana.\n\nNão tem mistério. Tem método.\n\nDúvidas? Me pergunta aqui."',
+    cta: '"Tem alguma dúvida sobre como é uma sessão? Me pergunta aqui 👇"',
+    dica: 'Stories que desmistificam a terapia convertem muito bem — principalmente para quem nunca fez. Use esse story regularmente.',
+    ia: 'Prompt IA: "Crie uma sequência de 2 stories onde um terapeuta desmistifica como é uma sessão de terapia, explicando as etapas de forma simples e acolhedora, sem jargões clínicos."',
+  },
+  {
+    cat: 's5', num: 15,
+    titulo: 'Minha formação em 60 segundos',
+    objetivo: 'Credibilidade rápida — gera confiança antes do agendamento',
+    formato: 'Lista de credenciais adaptada',
+    texto: '[Texto do story]\n"Você pode me perguntar qualquer coisa sobre o processo terapêutico.\n\nMas antes, aqui está quem sou eu em 60 segundos:\n\n→ [Formação principal]\n→ [Especialidade ou nicho]\n→ [Quantos pacientes ou tempo de atuação]\n→ [Um resultado que te orgulha]\n\nSe faz sentido trabalharmos juntos → link na bio."',
+    cta: '"Me conta: o que você mais quer resolver na terapia?"',
+    dica: 'Substitua os campos entre colchetes pelas suas informações reais. Credenciais simples e diretas convertem mais que listas longas de títulos.',
+    ia: 'Prompt IA: "Crie um story de apresentação rápida para um terapeuta, listando credenciais de forma simples e humana, terminando com um convite para conversa. Máximo 5 linhas."',
+  },
+];
+
+function renderB5(c) {
+  c.innerHTML = `
+    <div class="proto-eyebrow">BÔNUS 4</div>
+    <div class="proto-title">Stories Prontos</div>
+    <div class="proto-sub">15 modelos de stories para identificação, autoridade, agendamento, engajamento e bastidores</div>
+    <div class="gold-rule"></div>
+
+    <div class="callout tip" style="margin-bottom:20px">
+      <b>COMO USAR:</b> Cada story tem o texto pronto para adaptar, o objetivo, o CTA recomendado, uma dica de publicação e um <b>prompt de IA</b> para gerar variações com sua voz. Substitua os campos entre <b>[colchetes]</b> pelas suas informações.
+    </div>
+
+    <div class="b2-cats-grid">
+      ${B5_CATEGORIAS.map(cat => `
+        <div class="b2-cat-card" onclick="filterB5('${cat.id}',this)" style="border-top:3px solid ${cat.cor}">
+          <div class="b2-cat-icon">${cat.icone}</div>
+          <div class="b2-cat-num" style="color:${cat.cor}">${cat.qtd} stories</div>
+          <div class="b2-cat-nome">${cat.nome}</div>
+          <div class="b2-cat-desc">${cat.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="b2-filtro-bar" id="b5-filtros">
+      <button class="queixa-btn queixa-all active" onclick="filterB5('ALL',this)">Todos os 15</button>
+      ${B5_CATEGORIAS.map(cat => `<button class="queixa-btn" onclick="filterB5('${cat.id}',this)">${cat.icone} ${cat.nome}</button>`).join('')}
+    </div>
+
+    <div id="b5-stories-grid">
+      ${B5_STORIES.map(s => buildStoryCard(s)).join('')}
+    </div>
+  `;
+}
+
+function buildStoryCard(s) {
+  const cat = B5_CATEGORIAS.find(c => c.id === s.cat);
+  const cor = cat ? cat.cor : '#C9A84C';
+  const bg  = cat ? cat.bg  : '#FFF9EC';
+  const bodyId = 'b5-body-' + s.num;
+  const chevId = 'b5-chev-' + s.num;
+
+  return `
+  <div class="b2-post-card" id="b5-story-${s.num}" data-cat="${s.cat}">
+    <div class="b2-post-header" onclick="toggleStory(${s.num})" style="border-left:4px solid ${cor}">
+      <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+        <div class="b2-post-num-badge" style="background:${cor}">${s.num}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px">
+            <span class="b2-formato-badge" style="background:${bg};color:${cor};border:0.5px solid ${cor}">${s.formato}</span>
+            <span class="b2-cat-badge-sm" style="color:${cor}">${cat ? cat.icone+' '+cat.nome : ''}</span>
+          </div>
+          <div class="b2-post-titulo">${s.titulo}</div>
+        </div>
+        <span class="b2-chev" id="${chevId}">▼</span>
+      </div>
+    </div>
+    <div class="b2-post-body" id="${bodyId}" style="display:none">
+      <div class="sc-section-lbl">OBJETIVO</div>
+      <div class="sc-quando-box">${s.objetivo}</div>
+
+      <div class="sc-section-lbl">TEXTO DO STORY</div>
+      <div class="sc-script-box" style="white-space:pre-line">${s.texto}</div>
+
+      <div class="sc-section-lbl">CTA RECOMENDADO</div>
+      <div class="callout tip" style="margin:4px 0">${s.cta}</div>
+
+      <div class="sc-section-lbl">DICA DE PUBLICAÇÃO</div>
+      <div class="sc-quando-box">${s.dica}</div>
+
+      <div class="sc-section-lbl" style="color:#7A3B9A">PROMPT DE IA PARA VARIAÇÕES</div>
+      <div class="sc-script-box" style="background:#F5F0FF;border-left-color:#9B59B6;font-style:normal;font-size:11.5px">${s.ia}</div>
+    </div>
+  </div>`;
+}
+
+function toggleStory(num) {
+  const body = document.getElementById('b5-body-' + num);
+  const chev = document.getElementById('b5-chev-' + num);
+  const open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  chev.textContent = open ? '▲' : '▼';
+}
+
+function filterB5(cat, btn) {
+  document.querySelectorAll('#b5-filtros .queixa-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#b5-stories-grid .b2-post-card').forEach(card => {
+    card.style.display = (cat === 'ALL' || card.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BÔNUS 5 — 15 CRIATIVOS PRONTOS
+// ═══════════════════════════════════════════════════════════════════════════
+
+function renderB6(c) {
+  c.innerHTML = `
+    <div class="proto-eyebrow">BÔNUS 5</div>
+    <div class="proto-title">15 Criativos Prontos</div>
+    <div class="proto-sub">Templates editáveis no Canva — baixe, coloque seu nome e ative hoje</div>
+    <div class="gold-rule"></div>
+
+    <div class="callout tip" style="margin-bottom:20px">
+      <b>COMO USAR:</b> Clique em "Acessar Templates no Canva", faça uma cópia gratuita e edite com seu nome, foto, CRP e cores. Cada criativo já tem o copy escrito e a arte montada. Leva menos de 5 minutos por anúncio.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px">
+      <div class="callout info">
+        <b>📐 Formato:</b> 1080×1080px (feed) + 1080×1920px (stories/reels) — ambos incluídos em cada template.
+      </div>
+      <div class="callout tip">
+        <b>🎨 Identidade:</b> Templates em branco e dourado — compatível com qualquer paleta de cores. Basta trocar as cores pelo seu esquema.
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:32px 0">
+      <a href="SEU_LINK_CANVA_AQUI" target="_blank" rel="noopener" style="
+        display:inline-flex;align-items:center;gap:10px;
+        background:#0A0A0A;color:#C9A84C;
+        border:1.5px solid #C9A84C;border-radius:8px;
+        padding:14px 32px;font-size:14px;font-weight:700;
+        letter-spacing:1px;text-decoration:none;
+        font-family:'Poppins',sans-serif;transition:all .15s
+      " onmouseover="this.style.background='#C9A84C';this.style.color='#0A0A0A'"
+         onmouseout="this.style.background='#0A0A0A';this.style.color='#C9A84C'">
+        ↗ Acessar Templates no Canva
+      </a>
+      <div style="font-size:11px;color:#aaa;margin-top:10px">Gratuito · Requer conta no Canva · Faça uma cópia antes de editar</div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top:8px">O QUE ESTÁ INCLUÍDO</div>
+    <div class="gold-rule"></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      ${[
+        {num:'01', tema:'Ansiedade — Identificação', copy:'"Você acorda cansado de um sono que nunca descansa?"', obj:'Parar o scroll · Gerar DM'},
+        {num:'02', tema:'Autossabotagem — Dor', copy:'"Você sabe o que precisa fazer. Mas na hora H trava."', obj:'Alto índice de salvamento'},
+        {num:'03', tema:'Relacionamentos — Padrão', copy:'"Repetindo os mesmos padrões e não sabe por quê?"', obj:'Identificação · DM espontâneo'},
+        {num:'04', tema:'Propósito — Vazio', copy:'"Tem tudo. Mas sente que falta algo que não consegue nomear."', obj:'Engajamento reflexivo'},
+        {num:'05', tema:'Luto — Acolhimento', copy:'"Perder não é só sobre morte. É sobre qualquer coisa que mudou para sempre."', obj:'Conexão emocional'},
+        {num:'06', tema:'Credibilidade — Apresentação', copy:'"[Seu nome] · [Especialidade] · Atendimento online"', obj:'Primeira impressão'},
+        {num:'07', tema:'Método — Protocolo', copy:'"Sessão estruturada do minuto 0 ao 60. Resultado visível desde a 1ª vez."', obj:'Diferencial clínico'},
+        {num:'08', tema:'Vaga aberta — CTA direto', copy:'"Vagas abertas para [mês]. Me chama no DM: VAGA."', obj:'Conversão imediata'},
+        {num:'09', tema:'Sessão experimental — Convite', copy:'"50 minutos para entendermos juntos o que está travando você."', obj:'Agendamento direto'},
+        {num:'10', tema:'Depoimento — Prova social', copy:'"[Espaço para relato de paciente]"', obj:'Confiança e conversão'},
+        {num:'11', tema:'Ansiedade — Educação', copy:'"Ansiedade não é fraqueza. É o sistema nervoso em modo sobrevivência."', obj:'Autoridade · Salvamento'},
+        {num:'12', tema:'Trauma financeiro — Dor', copy:'"Você trabalha, mas o dinheiro nunca sobra. Isso tem uma raiz."', obj:'Nicho financeiro · DM'},
+        {num:'13', tema:'Criança interior — Identificação', copy:'"Algumas reações suas não são suas. São de quem você foi."', obj:'Profundidade · Engajamento'},
+        {num:'14', tema:'Limites — Autoridade', copy:'"Dizer não sem culpa é uma habilidade. Pode ser desenvolvida."', obj:'Autoridade · Seguidores'},
+        {num:'15', tema:'Fechamento — Pacote', copy:'"Programa de 8 sessões. Começo, meio e fim. De R$[X] a R$[Y]."', obj:'Venda de pacote'},
+      ].map(cr => `
+        <div style="background:#fff;border:0.5px solid var(--divider);border-radius:8px;padding:12px 14px;border-left:3px solid var(--gold)">
+          <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);margin-bottom:4px">CRIATIVO ${cr.num}</div>
+          <div style="font-size:12px;font-weight:600;color:#111;margin-bottom:4px">${cr.tema}</div>
+          <div style="font-size:11px;color:#555;font-style:italic;margin-bottom:6px;line-height:1.5">${cr.copy}</div>
+          <div style="font-size:9.5px;color:#888">🎯 ${cr.obj}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="callout alert" style="margin-bottom:16px">
+      <b>ANTES DE PUBLICAR:</b> Substitua todos os campos entre [colchetes] pelas suas informações reais. Não publique o template sem personalizar — anúncios genéricos têm CTR baixo.
+    </div>
+
+    <div style="text-align:center;margin-top:24px">
+      <a href="SEU_LINK_CANVA_AQUI" target="_blank" rel="noopener" style="
+        display:inline-flex;align-items:center;gap:10px;
+        background:#0A0A0A;color:#C9A84C;
+        border:1.5px solid #C9A84C;border-radius:8px;
+        padding:14px 32px;font-size:14px;font-weight:700;
+        letter-spacing:1px;text-decoration:none;
+        font-family:'Poppins',sans-serif
+      " onmouseover="this.style.background='#C9A84C';this.style.color='#0A0A0A'"
+         onmouseout="this.style.background='#0A0A0A';this.style.color='#C9A84C'">
+        ↗ Acessar Templates no Canva
+      </a>
+    </div>
+  `;
+}
+
+
 function renderComingSoon(c,id){
   if(id==='m2'){renderM2(c);return;}
   if(id==='m3'){renderM3(c);return;}
   if(id==='m4'){renderM4(c);return;}
   if(id==='m5'){renderM5(c);return;}
   if(id==='m6'){renderM6(c);return;}
-  if(id==='b1'){renderB1(c);return;}
   if(id==='b2'){renderB2(c);return;}
   if(id==='b3'){renderB3(c);return;}
   if(id==='b4'){renderB4(c);return;}
-  const labels={m2:"Árvore de Decisão Clínica",m3:"17 Scripts de Condução",m4:"Kit de Fichas de Acompanhamento",m5:"Jornada de 8 Sessões",m6:"Guia Terapeuta Lucrativo",b1:"Ritual de Preparação",b2:"30 Modelos de Post para Instagram",b3:"Calculadora de Faturamento",b4:"Certificado Digital"};
+  if(id==='b5'){renderB5(c);return;}
+  if(id==='b6'){renderB6(c);return;}
+  const labels={m2:"Árvore de Decisão Clínica",m3:"17 Scripts de Condução",m4:"Kit de Fichas de Acompanhamento",m5:"Jornada de 8 Sessões",m6:"Guia Terapeuta Lucrativo",b2:"30 Modelos de Post para Instagram",b3:"Calculadora de Faturamento",b4:"Certificado Digital",b5:"Stories Prontos",b6:"15 Criativos Prontos"};
   c.innerHTML=`<div class="proto-eyebrow">${id.startsWith('b')?'BÔNUS':'MÓDULO'}</div>
     <div class="proto-title">${labels[id]||id}</div><div class="gold-rule"></div>
     <div class="coming-box"><p>Conteúdo em produção</p><small>Este módulo será preenchido em breve.</small></div>`;
