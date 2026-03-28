@@ -2129,6 +2129,8 @@ window.mk1GerarSugestoes = async function() {
     objetivo:      st.obj.join(', ')
   };
 
+  console.log('MK1 Webhook payload:', JSON.stringify(payload));
+
   try {
     var r = await fetch('https://webhook.pancadajoias.space/webhook/74ddc26d-4eb7-46ff-b5e6-ea7eab1f07a1', {
       method: 'POST',
@@ -2136,16 +2138,22 @@ window.mk1GerarSugestoes = async function() {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      mode: 'cors',
       body: JSON.stringify(payload)
     });
 
-    if (!r.ok) throw new Error('HTTP ' + r.status);
+    console.log('MK1 Webhook status:', r.status);
 
-    var d = await r.json();
+    if (!r.ok) {
+      var errBody = await r.text();
+      console.error('MK1 Webhook error body:', errBody);
+      throw new Error('HTTP ' + r.status + ' — ' + errBody);
+    }
 
-    // Normalize response
-    // Expected: [{"output": "["Nome 1", "Nome 2", ...]"}]
+    var raw = await r.text();
+    console.log('MK1 Webhook raw response:', raw);
+    var d = JSON.parse(raw);
+
+    // Normalize response — Expected: [{"output": "["Nome 1", "Nome 2", ...]"}]
     var ideias = [];
     try {
       // Format: array with object containing "output" as JSON string
