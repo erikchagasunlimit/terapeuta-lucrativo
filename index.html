@@ -2322,42 +2322,36 @@ window.mk1Gerar = async function() {
     var raw = await r.text();
     console.log('MK1 Gerar raw:', raw);
 
-    // Normaliza retorno do n8n — aceita múltiplos formatos
-    var d = JSON.parse(raw);
+    // Normaliza retorno do n8n — aceita texto puro ou JSON
     var texto = '';
 
-    // Formato 1: [{output: "texto do fluxo"}]
-    if (Array.isArray(d) && d[0] && typeof d[0].output === 'string') {
-      texto = d[0].output;
-    }
-    // Formato 2: string pura
-    else if (typeof d === 'string') {
-      texto = d;
-    }
-    // Formato 3: {output: "..."}
-    else if (d && typeof d === 'object' && !Array.isArray(d) && d.output) {
-      texto = d.output;
-    }
-    // Formato 4: {texto: "..."} ou {fluxo: "..."}
-    else if (d && (d.texto || d.fluxo)) {
-      texto = d.texto || d.fluxo;
-    }
-    // Formato 5: array de objetos com "nome" (retorno do bot de iscas)
-    // N8n retornou ideias de produto em vez de scripts — converte para texto legível
-    else if (Array.isArray(d) && d[0] && d[0].nome) {
-      texto = d.map(function(item, i) {
-        return 'IDEIA ' + (i+1) + ' — ' + item.nome + '\n' +
-          'Formato: ' + (item.formato || '') + '\n' +
-          'Público: ' + (item.publico || '') + '\n' +
-          'Conteúdo: ' + (item.conteudo || '') + '\n' +
-          'Ângulo de venda: ' + (item.angulo_de_venda || '') + '\n' +
-          'Tipo: ' + (item.tipo || '') + '\n' +
-          (item.preco_sugerido ? 'Preço sugerido: R$' + item.preco_sugerido : 'Gratuita');
-      }).join('\n\n---\n\n');
-    }
-    // Formato 6: qualquer outro objeto/array — serializa
-    else {
-      texto = typeof d === 'object' ? JSON.stringify(d, null, 2) : String(d);
+    // Primeiro tenta como JSON
+    try {
+      var d = JSON.parse(raw);
+
+      // [{output: "texto do fluxo"}]
+      if (Array.isArray(d) && d[0] && typeof d[0].output === 'string') {
+        texto = d[0].output;
+      }
+      // string pura dentro do JSON
+      else if (typeof d === 'string') {
+        texto = d;
+      }
+      // {output: "..."}
+      else if (d && typeof d === 'object' && !Array.isArray(d) && d.output) {
+        texto = String(d.output);
+      }
+      // {texto: "..."} ou {fluxo: "..."}
+      else if (d && (d.texto || d.fluxo)) {
+        texto = d.texto || d.fluxo;
+      }
+      // qualquer outro objeto — serializa como texto legível
+      else {
+        texto = typeof d === 'object' ? JSON.stringify(d, null, 2) : String(d);
+      }
+    } catch(jsonErr) {
+      // Não é JSON — usa o texto puro diretamente (formato mais comum do n8n com texto longo)
+      texto = raw;
     }
 
     if (!texto || !texto.trim()) throw new Error('Resposta vazia');
@@ -2411,10 +2405,98 @@ window.mk1RenderOutputTexto = function(texto) {
     fs.innerHTML = html;
   }
 
+  // Botão de download PDF
+  var panel = document.getElementById('mk1-panel-funil');
+  if (panel) {
+    var dlWrap = document.getElementById('mk1-dl-wrap');
+    if (!dlWrap) {
+      dlWrap = document.createElement('div');
+      dlWrap.id = 'mk1-dl-wrap';
+      dlWrap.style.cssText = 'margin-top:20px;padding-top:16px;border-top:1px solid #E8E4DC;display:flex;gap:10px;flex-wrap:wrap';
+      var btn1 = document.createElement('button');
+      btn1.textContent = '↓ Baixar Scripts em PDF';
+      btn1.style.cssText = 'display:flex;align-items:center;gap:8px;padding:11px 20px;background:#0A0A0A;color:#C9A84C;border:1.5px solid #C9A84C;border-radius:10px;font-family:Poppins,sans-serif;font-size:13px;font-weight:700;cursor:pointer';
+      btn1.onclick = mk1DownloadPDF;
+      var btn2 = document.createElement('button');
+      btn2.textContent = '⎘ Copiar tudo';
+      btn2.style.cssText = 'display:flex;align-items:center;gap:8px;padding:11px 20px;background:#FAF8F3;color:#555;border:1px solid #E8E4DC;border-radius:10px;font-family:Poppins,sans-serif;font-size:13px;font-weight:600;cursor:pointer';
+      btn2.onclick = mk1CopiarTudo;
+      dlWrap.appendChild(btn1);
+      dlWrap.appendChild(btn2);
+      panel.appendChild(dlWrap);
+    }
+  }
+
   // Esconde aba de recontato — tudo está no funil
   var tab1 = document.getElementById('mk1-tab1');
   if (tab1) tab1.style.display = 'none';
   mk1SetTab(0);
+};
+
+window.mk1CopiarTudo = function() {
+  var texto = (window.mk1State.out && window.mk1State.out.texto) || '';
+  if (!texto) return;
+  navigator.clipboard.writeText(texto).then(function() {
+    var btn = document.querySelector('#mk1-dl-wrap button:last-child');
+    if (btn) { var orig = btn.textContent; btn.textContent = '✓ Copiado!'; setTimeout(function(){ btn.textContent = orig; }, 2000); }
+  });
+};
+
+window.mk1DownloadPDF = function() {
+  var texto = (window.mk1State.out && window.mk1State.out.texto) || '';
+  var st = window.mk1State;
+  var nome = document.getElementById('mk1-nome') ? document.getElementById('mk1-nome').value : 'Terapeuta';
+  var prod = document.getElementById('mk1-prod-nome') ? document.getElementById('mk1-prod-nome').value : 'Produto';
+  if (!texto) return;
+
+  var linhas = texto.split('\n');
+  var htmlLinhas = linhas.map(function(linha) {
+    if (!linha.trim()) return '<div style="height:6px"></div>';
+    // Títulos de etapa
+    if (linha.match(/^(ETAPA|CAMINHO|D\+|──|═)/i) || linha.match(/^[A-ZÁÉÍÓÚ\s\+—]+:?$/)) {
+      return '<div style="font-size:8pt;font-weight:700;letter-spacing:2px;color:#C9A84C;text-transform:uppercase;margin-top:14px;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #E8E4DC">' + linha + '</div>';
+    }
+    // Labels de tipo (emoji no início)
+    if (linha.match(/^[🎙💬⏱↪]/u)) {
+      return '<div style="font-size:8pt;font-weight:700;color:#555;letter-spacing:1px;margin-top:8px;margin-bottom:3px">' + linha + '</div>';
+    }
+    // Mensagens entre aspas
+    if (linha.startsWith('"') || linha.startsWith('\u201c')) {
+      return '<div style="background:#FAF8F3;border-left:3px solid #C9A84C;border-radius:0 6px 6px 0;padding:8px 12px;font-size:11pt;line-height:1.8;color:#222;margin-bottom:3px;font-style:italic">' + linha + '</div>';
+    }
+    // Linha normal
+    return '<div style="background:#FAF8F3;border:0.5px solid #E8E4DC;border-radius:6px;padding:8px 12px;font-size:11pt;line-height:1.8;color:#333;margin-bottom:3px">' + linha + '</div>';
+  }).join('');
+
+  var css = [
+    '@page{size:A4 portrait;margin:18mm 16mm;}',
+    '*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}',
+    'html,body{font-family:"Poppins",sans-serif;font-size:11pt;color:#222;background:#fff;}',
+    'div{orphans:3;widows:3;}'
+  ].join('');
+
+  var header = '<div style="border-bottom:2px solid #C9A84C;padding-bottom:12px;margin-bottom:20px">'
+    + '<div style="font-size:8pt;font-weight:700;letter-spacing:3px;color:#C9A84C;margin-bottom:4px">FLUXO PARA WHATSAPP</div>'
+    + '<div style="font-family:Georgia,serif;font-size:20pt;color:#111;margin-bottom:4px">Scripts de ' + (st.isca === 'free' ? 'Isca Gratuita' : 'Produto Pago') + '</div>'
+    + '<div style="font-size:10pt;color:#888">' + nome + '  ·  ' + prod + '  ·  ' + new Date().toLocaleDateString('pt-BR') + '</div>'
+    + '</div>';
+
+  var printDoc = '<!DOCTYPE html><html lang="pt-BR"><head>'
+    + '<meta charset="UTF-8">'
+    + '<title>Scripts WhatsApp — ' + prod + '</title>'
+    + '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">'
+    + '<style>' + css + '</style>'
+    + '</head><body>' + header + htmlLinhas + '</body></html>';
+
+  var blob = new Blob([printDoc], {type:'text/html;charset=utf-8'});
+  var url  = URL.createObjectURL(blob);
+  var win  = window.open(url, '_blank');
+  if (win) {
+    win.onload = function() {
+      setTimeout(function() { win.print(); }, 800);
+    };
+  }
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
 };
 
 
