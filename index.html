@@ -2140,23 +2140,43 @@ window.mk1GerarSugestoes = async function() {
 
     var d = await r.json();
 
-    // Normalize response — accepts: string[], {ideias:[]}, [{nome:...}], {output:[]}, etc.
+    // Normalize response
+    // Expected: [{"output": "["Nome 1", "Nome 2", ...]"}]
     var ideias = [];
-    if (Array.isArray(d)) {
-      ideias = d.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || JSON.stringify(x)); });
-    } else if (d.ideias && Array.isArray(d.ideias)) {
-      ideias = d.ideias.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || x); });
-    } else if (d.output && Array.isArray(d.output)) {
-      ideias = d.output.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || x); });
-    } else if (d.nomes && Array.isArray(d.nomes)) {
-      ideias = d.nomes;
-    } else if (typeof d === 'object') {
-      // Try to find first array value
-      var keys = Object.keys(d);
-      for (var k = 0; k < keys.length; k++) {
-        if (Array.isArray(d[keys[k]])) { ideias = d[keys[k]]; break; }
+    try {
+      // Format: array with object containing "output" as JSON string
+      if (Array.isArray(d) && d[0] && typeof d[0].output === 'string') {
+        ideias = JSON.parse(d[0].output);
       }
+      // Format: array of strings directly
+      else if (Array.isArray(d) && typeof d[0] === 'string') {
+        ideias = d;
+      }
+      // Format: {output: "..."}
+      else if (d.output && typeof d.output === 'string') {
+        ideias = JSON.parse(d.output);
+      }
+      // Format: {ideias: [...]}
+      else if (d.ideias && Array.isArray(d.ideias)) {
+        ideias = d.ideias;
+      }
+      // Fallback: find first array in any key
+      else if (typeof d === 'object' && !Array.isArray(d)) {
+        var keys = Object.keys(d);
+        for (var k = 0; k < keys.length; k++) {
+          var val = d[keys[k]];
+          if (Array.isArray(val)) { ideias = val; break; }
+          if (typeof val === 'string' && val.trim().startsWith('[')) {
+            try { ideias = JSON.parse(val); break; } catch(e2) {}
+          }
+        }
+      }
+    } catch(parseErr) {
+      console.error('Parse error:', parseErr);
     }
+
+    // Normalize each item to string
+    ideias = ideias.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || String(x)); });
 
     if (!ideias.length) throw new Error('Nenhuma ideia retornada');
 
