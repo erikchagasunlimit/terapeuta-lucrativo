@@ -2172,6 +2172,10 @@ window.mk1GerarSugestoes = async function() {
       else if (d.ideias && Array.isArray(d.ideias)) {
         ideias = d.ideias;
       }
+      // Format: array de objetos com "nome" (retorno direto do bot de iscas)
+      else if (Array.isArray(d) && d[0] && typeof d[0] === 'object' && d[0].nome) {
+        ideias = d; // passa o array inteiro — o map no final extrai .nome
+      }
       // Fallback: find first array in any key
       else if (typeof d === 'object' && !Array.isArray(d)) {
         var keys = Object.keys(d);
@@ -2188,7 +2192,19 @@ window.mk1GerarSugestoes = async function() {
     }
 
     // Normalize each item to string
-    ideias = ideias.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || String(x)); });
+    // Se o objeto tiver campos extras (formato, tipo, preco_sugerido), guarda completo em sugestoes
+    // mas exibe só o nome como botão clicável
+    var ideiasCompletas = ideias; // guarda objetos originais para referência
+    ideias = ideias.map(function(x){
+      if (typeof x === 'string') return x;
+      var label = x.nome || x.name || String(x);
+      // Adiciona contexto ao label se disponível
+      if (x.formato) label += ' [' + x.formato + ']';
+      if (x.preco_sugerido !== undefined) label += x.preco_sugerido === 0 ? ' · Gratuita' : ' · R$' + x.preco_sugerido;
+      return label;
+    });
+    // Salva também as ideias completas para uso futuro
+    st.ideiasCompletas = ideiasCompletas;
 
     if (!ideias.length) throw new Error('Nenhuma ideia retornada');
 
@@ -2306,25 +2322,45 @@ window.mk1Gerar = async function() {
     var raw = await r.text();
     console.log('MK1 Gerar raw:', raw);
 
-    // Normaliza retorno do n8n — mesmo padrão: [{output: "..."}]
+    // Normaliza retorno do n8n — aceita múltiplos formatos
     var d = JSON.parse(raw);
     var texto = '';
 
+    // Formato 1: [{output: "texto do fluxo"}]
     if (Array.isArray(d) && d[0] && typeof d[0].output === 'string') {
       texto = d[0].output;
-    } else if (typeof d === 'string') {
+    }
+    // Formato 2: string pura
+    else if (typeof d === 'string') {
       texto = d;
-    } else if (d.output && typeof d.output === 'string') {
+    }
+    // Formato 3: {output: "..."}
+    else if (d && typeof d === 'object' && !Array.isArray(d) && d.output) {
       texto = d.output;
-    } else if (d.texto) {
-      texto = d.texto;
-    } else if (d.fluxo) {
-      texto = d.fluxo;
-    } else {
-      texto = JSON.stringify(d);
+    }
+    // Formato 4: {texto: "..."} ou {fluxo: "..."}
+    else if (d && (d.texto || d.fluxo)) {
+      texto = d.texto || d.fluxo;
+    }
+    // Formato 5: array de objetos com "nome" (retorno do bot de iscas)
+    // N8n retornou ideias de produto em vez de scripts — converte para texto legível
+    else if (Array.isArray(d) && d[0] && d[0].nome) {
+      texto = d.map(function(item, i) {
+        return 'IDEIA ' + (i+1) + ' — ' + item.nome + '\n' +
+          'Formato: ' + (item.formato || '') + '\n' +
+          'Público: ' + (item.publico || '') + '\n' +
+          'Conteúdo: ' + (item.conteudo || '') + '\n' +
+          'Ângulo de venda: ' + (item.angulo_de_venda || '') + '\n' +
+          'Tipo: ' + (item.tipo || '') + '\n' +
+          (item.preco_sugerido ? 'Preço sugerido: R$' + item.preco_sugerido : 'Gratuita');
+      }).join('\n\n---\n\n');
+    }
+    // Formato 6: qualquer outro objeto/array — serializa
+    else {
+      texto = typeof d === 'object' ? JSON.stringify(d, null, 2) : String(d);
     }
 
-    if (!texto) throw new Error('Resposta vazia');
+    if (!texto || !texto.trim()) throw new Error('Resposta vazia');
 
     // Salva e renderiza como texto no resultado
     st.out = { texto: texto };
@@ -2362,6 +2398,10 @@ window.mk1RenderOutputTexto = function(texto) {
         html += '<div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:18px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #E8E4DC">' + linha + '</div>';
       } else if (linha.startsWith('🎙️') || linha.startsWith('💬') || linha.startsWith('⏱️') || linha.startsWith('↪️')) {
         html += '<div style="font-size:10px;font-weight:700;color:#555;letter-spacing:1px;margin-top:10px;margin-bottom:4px">' + linha + '</div>';
+    } else if (linha.match(/^IDEIA\s+\d+/)) {
+        html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:24px;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid var(--gold)">' + linha + '</div>';
+    } else if (linha === '---') {
+        html += '<hr style="border:none;border-top:1px solid #E8E4DC;margin:16px 0">';
       } else if (linha.startsWith('"') || linha.startsWith('"')) {
         html += '<div style="background:#FAF8F3;border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;font-size:13px;line-height:1.8;color:#333;white-space:pre-wrap;margin-bottom:4px;font-style:italic">' + linha + '</div>';
       } else {
