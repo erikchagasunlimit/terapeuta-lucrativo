@@ -2377,34 +2377,17 @@ window.mk1Gerar = async function() {
 };
 
 window.mk1RenderOutputTexto = function(texto) {
-  // Renderiza o fluxo completo como texto formatado
+  // Mostra só a tela de sucesso — conteúdo vai no PDF
   var fd = document.getElementById('mk1-funil-desc');
   var fs = document.getElementById('mk1-funil-steps');
-  if (fd) fd.textContent = 'Fluxo completo gerado e pronto para usar';
+  if (fd) fd.textContent = '';
   if (fs) {
-    // Formata o texto em blocos por etapa
-    var linhas = texto.split('\n');
-    var html = '';
-    linhas.forEach(function(linha) {
-      if (!linha.trim()) {
-        html += '<div style="height:8px"></div>';
-      } else if (linha.match(/^(ETAPA|CAMINHO|D\+|ÁUDIO|MENSAGEM|REFORÇO|ENTREGA|SEQUÊNCIA|PÓS)/i) || linha.match(/^[A-Z\s\+]+:$/)) {
-        html += '<div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:18px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #E8E4DC">' + linha + '</div>';
-      } else if (linha.startsWith('🎙️') || linha.startsWith('💬') || linha.startsWith('⏱️') || linha.startsWith('↪️')) {
-        html += '<div style="font-size:10px;font-weight:700;color:#555;letter-spacing:1px;margin-top:10px;margin-bottom:4px">' + linha + '</div>';
-    } else if (linha.match(/^IDEIA\s+\d+/)) {
-        html += '<div style="font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:24px;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid var(--gold)">' + linha + '</div>';
-    } else if (linha === '---') {
-        html += '<hr style="border:none;border-top:1px solid #E8E4DC;margin:16px 0">';
-      } else if (linha.startsWith('"') || linha.startsWith('"')) {
-        html += '<div style="background:#FAF8F3;border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;font-size:13px;line-height:1.8;color:#333;white-space:pre-wrap;margin-bottom:4px;font-style:italic">' + linha + '</div>';
-      } else {
-        html += '<div style="background:#FAF8F3;border:1px solid #E8E4DC;border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.8;color:#333;white-space:pre-wrap;margin-bottom:4px">' + linha + '</div>';
-      }
-    });
-    fs.innerHTML = html;
+    fs.innerHTML = '<div style="text-align:center;padding:48px 20px">'
+      + '<div style="font-size:52px;margin-bottom:20px">✅</div>'
+      + '<div style="font-family:Lora,serif;font-size:22px;color:#111;margin-bottom:10px">Scripts gerados com sucesso!</div>'
+      + '<div style="font-size:13px;color:#888;line-height:1.8;max-width:360px;margin:0 auto 24px">Seu fluxo completo de WhatsApp está pronto. Clique em <b style="color:#111">Baixar PDF</b> para ver todos os scripts organizados por etapa, prontos para usar.</div>'
+      + '</div>';
   }
-
   // Botão de download PDF
   var panel = document.getElementById('mk1-panel-funil');
   if (panel) {
