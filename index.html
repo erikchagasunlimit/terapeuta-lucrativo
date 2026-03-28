@@ -2260,49 +2260,123 @@ window.mk1Gerar = async function() {
   if (btn) btn.disabled = true;
   if (prog) prog.style.display = 'block';
   if (errEl) errEl.style.display = 'none';
+  if (bar) bar.style.width = '0%';
 
-  var steps = ['Analisando perfil...','Escrevendo funil WhatsApp...','Criando sequência de recontato...'];
+  var steps = ['Analisando perfil...', 'Escrevendo scripts de WhatsApp...', 'Finalizando fluxo completo...'];
   var si = setInterval(function() {
     var cur = parseInt(bar.style.width) || 0;
-    var next = Math.min(cur + 30, 90);
+    var next = Math.min(cur + 20, 90);
     if (bar) bar.style.width = next + '%';
     var sIdx = Math.floor(next / 33);
-    if (stxt) stxt.textContent = steps[Math.min(sIdx, steps.length-1)];
-  }, 2000);
+    if (stxt) stxt.textContent = steps[Math.min(sIdx, steps.length - 1)];
+  }, 2500);
 
-  var cta6  = st.isca==='free' ? 'CTA — Agendamento de sessão' : 'CTA — Link de pagamento';
-  var p5    = st.isca==='free' ? 'Entrega da isca gratuita' : 'Apresentação da oferta';
-  var iscaT = st.isca==='free'
-    ? 'ISCA GRATUITA — entregue pelo WhatsApp, objetivo é agendar sessão'
-    : 'ISCA PAGA (low-ticket) — produto vendido, depois direciona para sessão';
+  // Payload para o webhook n8n — todos os dados como string
+  var payload = {
+    tipo:          st.isca === 'free' ? 'Isca Gratuita' : 'Produto Pago (Low-ticket)',
+    nome:          nome,
+    bio:           dif || 'Não informado',
+    especialidade: st.esp.join(', '),
+    tom:           st.tom.join(', '),
+    objetivo:      st.obj.join(', '),
+    produto:       prod,
+    preco:         preco || 'Não informado'
+  };
 
-  var prompt = 'Você é especialista em copywriting e funis de WhatsApp para terapeutas brasileiros.\n\nPerfil:\n- Nome: '+nome+'\n- Especialidade: '+st.esp.join(', ')+'\n- Tom: '+st.tom.join(', ')+'\n- Objetivo: '+st.obj.join(', ')+'\n- Diferencial: '+(dif||'não informado')+'\n\nProduto:\n- Nome: '+prod+'\n- Tipo: '+iscaT+(preco?'\n- Preço: R$ '+preco:'')+'\n\nGere o funil completo. SOMENTE JSON:\n{"funil":{"descricao":"...","passos":[{"num":1,"tipo":"Abertura — Captura do nome","msg":"..."},{"num":2,"tipo":"Qualificação da dor","msg":"..."},{"num":3,"tipo":"Empatia + História","msg":"..."},{"num":4,"tipo":"Apresentação da solução","msg":"..."},{"num":5,"tipo":"'+p5+'","msg":"..."},{"num":6,"tipo":"'+cta6+'","msg":"..."}]},"recontato":{"descricao":"...","msgs":[{"quando":"Imediatamente após interação","tipo":"Boas-vindas","msg":"..."},{"quando":"24h depois","tipo":"Entrega de valor","msg":"..."},{"quando":"3 dias depois","tipo":"Quebra de objeção + convite","msg":"..."},{"quando":"7 dias depois","tipo":"Última chamada","msg":"..."}]}}\n\nREGRAS: mensagens naturais, no tom pedido, com o nome do terapeuta. Usar \\n para quebras. Emojis moderados. Cada mensagem mínimo 4 linhas.';
+  console.log('MK1 Gerar payload:', JSON.stringify(payload));
 
   try {
-    var r = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:4096, messages:[{role:'user',content:prompt}] })
+    var r = await fetch('https://webhook.pancadajoias.space/webhook/d0f7b953-bf70-4852-9f3c-8a42455d216d', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
     });
+
     clearInterval(si);
     if (bar) bar.style.width = '100%';
-    var d = await r.json();
-    var raw = (d.content||[]).map(function(b){return b.text||'';}).join('');
-    var clean = raw.replace(/```json|```/g,'').trim();
-    var parsed = JSON.parse(clean.slice(clean.indexOf('{'), clean.lastIndexOf('}')+1));
-    if (!parsed) throw new Error('parse');
-    st.out = parsed;
-    setTimeout(function(){
+
+    console.log('MK1 Gerar status:', r.status);
+
+    if (!r.ok) {
+      var errBody = await r.text();
+      console.error('MK1 Gerar error:', errBody);
+      throw new Error('HTTP ' + r.status);
+    }
+
+    var raw = await r.text();
+    console.log('MK1 Gerar raw:', raw);
+
+    // Normaliza retorno do n8n — mesmo padrão: [{output: "..."}]
+    var d = JSON.parse(raw);
+    var texto = '';
+
+    if (Array.isArray(d) && d[0] && typeof d[0].output === 'string') {
+      texto = d[0].output;
+    } else if (typeof d === 'string') {
+      texto = d;
+    } else if (d.output && typeof d.output === 'string') {
+      texto = d.output;
+    } else if (d.texto) {
+      texto = d.texto;
+    } else if (d.fluxo) {
+      texto = d.fluxo;
+    } else {
+      texto = JSON.stringify(d);
+    }
+
+    if (!texto) throw new Error('Resposta vazia');
+
+    // Salva e renderiza como texto no resultado
+    st.out = { texto: texto };
+    setTimeout(function() {
       if (prog) prog.style.display = 'none';
-      mk1RenderOutput();
+      mk1RenderOutputTexto(texto);
       mk1GoStep(4);
     }, 400);
+
   } catch(e) {
     clearInterval(si);
     if (prog) prog.style.display = 'none';
-    if (errEl) { errEl.style.display='block'; errEl.textContent='⚠ Erro ao gerar os scripts. Tente novamente.'; }
+    if (bar) bar.style.width = '0%';
+    if (errEl) {
+      errEl.style.display = 'block';
+      errEl.textContent = '⚠ Erro ao gerar os scripts. Verifique sua conexão e tente novamente.';
+    }
     if (btn) btn.disabled = false;
   }
 };
+
+window.mk1RenderOutputTexto = function(texto) {
+  // Renderiza o fluxo completo como texto formatado
+  var fd = document.getElementById('mk1-funil-desc');
+  var fs = document.getElementById('mk1-funil-steps');
+  if (fd) fd.textContent = 'Fluxo completo gerado e pronto para usar';
+  if (fs) {
+    // Formata o texto em blocos por etapa
+    var linhas = texto.split('\n');
+    var html = '';
+    linhas.forEach(function(linha) {
+      if (!linha.trim()) {
+        html += '<div style="height:8px"></div>';
+      } else if (linha.match(/^(ETAPA|CAMINHO|D\+|ÁUDIO|MENSAGEM|REFORÇO|ENTREGA|SEQUÊNCIA|PÓS)/i) || linha.match(/^[A-Z\s\+]+:$/)) {
+        html += '<div style="font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:18px;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #E8E4DC">' + linha + '</div>';
+      } else if (linha.startsWith('🎙️') || linha.startsWith('💬') || linha.startsWith('⏱️') || linha.startsWith('↪️')) {
+        html += '<div style="font-size:10px;font-weight:700;color:#555;letter-spacing:1px;margin-top:10px;margin-bottom:4px">' + linha + '</div>';
+      } else if (linha.startsWith('"') || linha.startsWith('"')) {
+        html += '<div style="background:#FAF8F3;border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px;font-size:13px;line-height:1.8;color:#333;white-space:pre-wrap;margin-bottom:4px;font-style:italic">' + linha + '</div>';
+      } else {
+        html += '<div style="background:#FAF8F3;border:1px solid #E8E4DC;border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.8;color:#333;white-space:pre-wrap;margin-bottom:4px">' + linha + '</div>';
+      }
+    });
+    fs.innerHTML = html;
+  }
+
+  // Esconde aba de recontato — tudo está no funil
+  var tab1 = document.getElementById('mk1-tab1');
+  if (tab1) tab1.style.display = 'none';
+  mk1SetTab(0);
+};
+
 
 window.mk1RenderOutput = function() {
   var out = window.mk1State.out;
