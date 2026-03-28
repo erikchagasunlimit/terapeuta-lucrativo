@@ -1766,7 +1766,7 @@ function renderMK1(container) {
 
       <div id="mk1-sugestoes" style="display:none;margin:16px 0">
         <div class="mk1-label" style="margin-bottom:10px">Escolha uma sugestão ou escreva abaixo:</div>
-        <div id="mk1-sug-list" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+        <div id="mk1-sug-list" style="display:flex;flex-direction:column;gap:8px"></div>
       </div>
 
       <div class="mk1-form-grid" style="margin-top:16px">
@@ -1913,6 +1913,20 @@ function renderMK1(container) {
       .mk1-sug-name { font-size:13px; font-weight:600; color:#111; margin-bottom:4px; }
       .mk1-sug-fmt { font-size:10px; color:var(--gold); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
       .mk1-sug-desc { font-size:11.5px; color:#888; line-height:1.5; }
+      .mk1-ideia-btn {
+        display:flex; align-items:center; gap:10px; width:100%;
+        padding:13px 16px; background:#FAF8F3;
+        border:1.5px solid #E8E4DC; border-radius:12px;
+        font-family:'Poppins',sans-serif; font-size:13px; color:#111;
+        cursor:pointer; transition:all .2s; text-align:left;
+      }
+      .mk1-ideia-btn:hover { border-color:var(--gold); background:rgba(201,168,76,0.05); color:#7A5500; }
+      .mk1-ideia-btn.selected { border-color:var(--gold); background:rgba(201,168,76,0.1); color:#7A5500; font-weight:600; }
+      .mk1-ideia-btn.selected .mk1-ideia-dot { background:var(--gold); border-color:var(--gold); }
+      .mk1-ideia-dot {
+        width:9px; height:9px; border-radius:50%;
+        border:1.5px solid #ccc; flex-shrink:0; transition:all .2s;
+      }
 
       /* BUTTONS */
       .mk1-nav-row { display:flex; align-items:center; justify-content:space-between; margin-top:28px; }
@@ -2092,56 +2106,110 @@ window.mk1CheckStep3 = function() {
 
 window.mk1GerarSugestoes = async function() {
   var st = window.mk1State;
-  if (!st.esp.length) return;
   var btn = document.getElementById('mk1-sug-btn');
   var icon = document.getElementById('mk1-sug-icon');
   var txt = document.getElementById('mk1-sug-txt');
+  var errEl = document.getElementById('mk1-err');
+
   if (btn) btn.disabled = true;
   if (icon) icon.textContent = '⟳';
   if (txt) txt.textContent = 'Gerando ideias...';
+  if (errEl) errEl.style.display = 'none';
 
-  var tipo = st.isca === 'free'
-    ? 'isca digital GRATUITA (e-book, guia, checklist, meditação guiada, áudio, mini-curso)'
-    : 'produto low-ticket entre R$27 e R$97 (e-book, mini-curso, workshop gravado, kit de exercícios, protocolo)';
+  // Collect form values
+  var nome  = (document.getElementById('mk1-nome')||{}).value || '';
+  var dif   = (document.getElementById('mk1-dif')||{}).value || '';
 
-  var prompt = 'Especialidade: ' + st.esp.join(', ') + '\nTipo: ' + tipo + '\n\nGere 4 ideias criativas. SOMENTE JSON:\n{"sugestoes":[{"nome":"...","desc":"O que entrega em 1 linha","formato":"e-book | áudio | checklist | mini-curso | kit | protocolo"}]}';
+  var payload = {
+    tipo:         st.isca,
+    nome:         nome,
+    bio:          dif,
+    especialidade: st.esp,
+    tom:          st.tom,
+    objetivo:     st.obj
+  };
 
   try {
-    var r = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:800, messages:[{role:'user',content:prompt}] })
+    var r = await fetch('https://webhook.pancadajoias.space/webhook/74ddc26d-4eb7-46ff-b5e6-ea7eab1f07a1', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
+
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+
     var d = await r.json();
-    var raw = (d.content||[]).map(function(b){return b.text||'';}).join('');
-    var clean = raw.replace(/```json|```/g,'').trim();
-    var parsed = JSON.parse(clean.slice(clean.indexOf('{'), clean.lastIndexOf('}')+1));
-    if (parsed && parsed.sugestoes) {
-      st.sugestoes = parsed.sugestoes;
-      var list = document.getElementById('mk1-sug-list');
-      var wrap = document.getElementById('mk1-sugestoes');
-      if (list) list.innerHTML = parsed.sugestoes.map(function(s,i){
-        return '<div class="mk1-sug-card" id="mk1-sc-'+i+'" onclick="mk1SelSug('+i+')">' +
-          '<div class="mk1-sug-fmt">'+s.formato+'</div>' +
-          '<div class="mk1-sug-name">'+s.nome+'</div>' +
-          '<div class="mk1-sug-desc">'+s.desc+'</div></div>';
-      }).join('');
-      if (wrap) wrap.style.display = 'block';
+
+    // Normalize response — accepts: string[], {ideias:[]}, [{nome:...}], {output:[]}, etc.
+    var ideias = [];
+    if (Array.isArray(d)) {
+      ideias = d.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || JSON.stringify(x)); });
+    } else if (d.ideias && Array.isArray(d.ideias)) {
+      ideias = d.ideias.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || x); });
+    } else if (d.output && Array.isArray(d.output)) {
+      ideias = d.output.map(function(x){ return typeof x === 'string' ? x : (x.nome || x.name || x); });
+    } else if (d.nomes && Array.isArray(d.nomes)) {
+      ideias = d.nomes;
+    } else if (typeof d === 'object') {
+      // Try to find first array value
+      var keys = Object.keys(d);
+      for (var k = 0; k < keys.length; k++) {
+        if (Array.isArray(d[keys[k]])) { ideias = d[keys[k]]; break; }
+      }
     }
-  } catch(e) {}
+
+    if (!ideias.length) throw new Error('Nenhuma ideia retornada');
+
+    st.sugestoes = ideias;
+    mk1RenderSugestoes(ideias);
+
+  } catch(e) {
+    if (errEl) {
+      errEl.style.display = 'block';
+      errEl.textContent = '⚠ Não foi possível gerar as ideias. Verifique sua conexão e tente novamente.';
+    }
+  }
 
   if (btn) btn.disabled = false;
   if (icon) icon.textContent = '✦';
-  if (txt) txt.textContent = 'Gerar novas ideias com IA';
+  if (txt) txt.textContent = 'Gerar novas ideias';
+};
+
+window.mk1RenderSugestoes = function(ideias) {
+  var list = document.getElementById('mk1-sug-list');
+  var wrap = document.getElementById('mk1-sugestoes');
+  if (!list || !wrap) return;
+
+  list.innerHTML = ideias.map(function(nome, i) {
+    var n = typeof nome === 'string' ? nome : (nome.nome || nome.name || String(nome));
+    return '<button class="mk1-ideia-btn" onclick="mk1SelIdeia('+i+',this)">' +
+      '<span class="mk1-ideia-dot"></span>' + n + '</button>';
+  }).join('');
+
+  wrap.style.display = 'block';
 };
 
 window.mk1SelSug = function(i) {
   var s = window.mk1State.sugestoes[i];
   window.mk1State.prodEsc = s;
+  var nome = typeof s === 'string' ? s : (s.nome || s.name || s);
   var inp = document.getElementById('mk1-prod-nome');
-  if (inp) { inp.value = s.nome; mk1CheckStep3(); }
+  if (inp) { inp.value = nome; mk1CheckStep3(); }
   document.querySelectorAll('.mk1-sug-card').forEach(function(c,idx){
     c.classList.toggle('ch', idx===i);
   });
+};
+
+window.mk1SelIdeia = function(i, btn) {
+  var ideias = window.mk1State.sugestoes;
+  var nome = typeof ideias[i] === 'string' ? ideias[i] : (ideias[i].nome || ideias[i].name || String(ideias[i]));
+  var inp = document.getElementById('mk1-prod-nome');
+  if (inp) { inp.value = nome; mk1CheckStep3(); }
+  // Visual feedback — mark selected
+  document.querySelectorAll('.mk1-ideia-btn').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  // Scroll to input
+  if (inp) inp.scrollIntoView({ behavior:'smooth', block:'center' });
 };
 
 window.mk1Gerar = async function() {
