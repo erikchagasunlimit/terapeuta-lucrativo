@@ -2121,18 +2121,22 @@ window.mk1GerarSugestoes = async function() {
   var dif   = (document.getElementById('mk1-dif')||{}).value || '';
 
   var payload = {
-    tipo:         st.isca,
-    nome:         nome,
-    bio:          dif,
-    especialidade: st.esp,
-    tom:          st.tom,
-    objetivo:     st.obj
+    tipo:          st.isca === 'free' ? 'Isca Gratuita' : 'Produto Pago (Low-ticket)',
+    nome:          nome,
+    bio:           dif || 'Não informado',
+    especialidade: st.esp.join(', '),
+    tom:           st.tom.join(', '),
+    objetivo:      st.obj.join(', ')
   };
 
   try {
     var r = await fetch('https://webhook.pancadajoias.space/webhook/74ddc26d-4eb7-46ff-b5e6-ea7eab1f07a1', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      mode: 'cors',
       body: JSON.stringify(payload)
     });
 
