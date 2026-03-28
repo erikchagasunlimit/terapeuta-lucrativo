@@ -940,28 +940,25 @@ const SENHA = "terapeuta0311";
 // NAV — Assistente de Atendimento
 const NAV_ATENDIMENTO = [
   {id:"dashboard",label:"Início",type:"main"},
-  {section:"MÓDULOS CLÍNICOS"},
-  {id:"m1",label:"12 Protocolos de Sessão",num:"M1",type:"module"},
+  {id:"m1",label:"Protocolos de Sessão",num:"M1",type:"module"},
   {id:"m2",label:"Árvore de Decisão Clínica",num:"M2",type:"module"},
-  {id:"m3",label:"17 Scripts de Condução",num:"M3",type:"module"},
+  {id:"m3",label:"Scripts de Condução",num:"M3",type:"module"},
   {id:"m4",label:"Kit de Fichas",num:"M4",type:"module"},
   {id:"m5",label:"Jornada de 8 Sessões",num:"M5",type:"module"},
   {section:"FERRAMENTAS"},
-  {id:"b4",label:"Certificado Digital",num:"B1",type:"bonus"},
+  {id:"b4",label:"Certificado Digital 🔒",num:"B1",type:"bonus",locked:true},
 ];
 
 // NAV — Assistente de Marketing
 const NAV_MARKETING = [
   {id:"dashboard",label:"Início",type:"main"},
-  {section:"MÓDULOS DE MARKETING"},
   {id:"m6",label:"Guia Terapeuta Lucrativo",num:"M1",type:"module"},
   {id:"mk1",label:"Fluxo para WhatsApp",num:"M2",type:"module"},
-  {id:"mk2",label:"Gerador de Iscas",num:"M3",type:"module"},
   {section:"FERRAMENTAS"},
-  {id:"b2",label:"30 Posts Instagram",num:"B1",type:"bonus"},
+  {id:"b2",label:"Posts Instagram",num:"B1",type:"bonus"},
   {id:"b3",label:"Calculadora de Faturamento",num:"B2",type:"bonus"},
   {id:"b5",label:"Stories Prontos",num:"B3",type:"bonus"},
-  {id:"b6",label:"15 Criativos Prontos",num:"B4",type:"bonus"},
+  {id:"b6",label:"Criativos Prontos",num:"B4",type:"bonus"},
 ];
 
 // NAV ativo — começa com atendimento
@@ -1090,34 +1087,33 @@ function renderDashboard(c){
     atendimento: {
       titulo: '🎯 Assistente de Atendimento',
       subtitulo: 'Ferramentas clínicas para conduzir sessões com segurança e resultado.',
-      secMods: 'MÓDULOS CLÍNICOS',
+      secMods: '',
       secBons: 'FERRAMENTAS',
       mods:[
-        {num:"MÓDULO 1",title:"12 Protocolos de Sessão",desc:"Roteiros completos do minuto 0 ao 60.",count:"12 protocolos",id:"m1"},
+        {num:"MÓDULO 1",title:"Protocolos de Sessão",desc:"Roteiros completos do minuto 0 ao 60.",count:"12 protocolos",id:"m1"},
         {num:"MÓDULO 2",title:"Árvore de Decisão Clínica",desc:"Fluxograma: queixa → protocolo → pergunta.",count:"1 fluxograma",id:"m2"},
-        {num:"MÓDULO 3",title:"17 Scripts de Condução",desc:"O que dizer nos momentos críticos.",count:"17 scripts",id:"m3"},
+        {num:"MÓDULO 3",title:"Scripts de Condução",desc:"O que dizer nos momentos críticos.",count:"17 scripts",id:"m3"},
         {num:"MÓDULO 4",title:"Kit de Fichas",desc:"Anamnese, evolução, questionários e relatório.",count:"5 fichas",id:"m4"},
         {num:"MÓDULO 5",title:"Jornada de 8 Sessões",desc:"Pacote completo pronto para vender.",count:"8 sessões",id:"m5"},
       ],
       bons:[
-        {num:"FERRAMENTA 1",title:"Certificado Digital",desc:"Certificado personalizado com seu nome.",count:"1 certificado",id:"b4",bonus:true},
+        {num:"FERRAMENTA 1",title:"Certificado Digital 🔒",desc:"Em breve — disponível ao concluir o programa.",count:"Em breve",id:"b4",bonus:true,locked:true},
       ]
     },
     marketing: {
       titulo: '📣 Assistente de Marketing',
       subtitulo: 'Tudo para atrair pacientes, crescer no Instagram e aumentar seu faturamento.',
-      secMods: 'MÓDULOS DE MARKETING',
+      secMods: '',
       secBons: 'FERRAMENTAS',
       mods:[
         {num:"MÓDULO 1",title:"Guia Terapeuta Lucrativo",desc:"Posicionamento, preço e captação.",count:"6 seções",id:"m6"},
         {num:"MÓDULO 2",title:"Fluxo para WhatsApp",desc:"Sequências prontas para converter leads.",count:"Em breve",id:"mk1"},
-        {num:"MÓDULO 3",title:"Gerador de Iscas",desc:"Ideias de e-books e produtos digitais.",count:"Em breve",id:"mk2"},
       ],
       bons:[
-        {num:"FERRAMENTA 1",title:"30 Posts Instagram",desc:"Templates prontos para atrair clientes.",count:"30 templates",id:"b2",bonus:true},
+        {num:"FERRAMENTA 1",title:"Posts Instagram",desc:"Templates prontos para atrair clientes.",count:"30 templates",id:"b2",bonus:true},
         {num:"FERRAMENTA 2",title:"Calculadora de Faturamento",desc:"Simule seu potencial de faturamento.",count:"1 planilha",id:"b3",bonus:true},
         {num:"FERRAMENTA 3",title:"Stories Prontos",desc:"15 modelos para todos os objetivos.",count:"15 stories",id:"b5",bonus:true},
-        {num:"FERRAMENTA 4",title:"15 Criativos Prontos",desc:"Artes com copy para tráfego pago.",count:"Em breve",id:"b6",bonus:true},
+        {num:"FERRAMENTA 4",title:"Criativos Prontos",desc:"Artes com copy para tráfego pago.",count:"Em breve",id:"b6",bonus:true},
       ]
     }
   };
@@ -1132,7 +1128,7 @@ function renderDashboard(c){
     <div class="welcome-sub">${dados.subtitulo}</div>
     <div class="prog-wrap"><div class="prog-fill" id="pf"></div></div>
     <div class="prog-label" id="pl">Carregando...</div>
-    <div class="section-eyebrow">${dados.secMods}</div>
+    ${dados.secMods ? '<div class="section-eyebrow">'+dados.secMods+'</div>' : ''}
     <div class="cards-grid">${mods.map(card).join('')}</div>
     <div class="section-eyebrow">${dados.secBons}</div>
     <div class="cards-grid">${bons.map(card).join('')}</div>`;
@@ -1145,7 +1141,7 @@ function renderDashboard(c){
 
 function renderM1(c){
   c.innerHTML=`
-        <div class="proto-title">12 Protocolos de Sessão</div>
+        <div class="proto-title">Protocolos de Sessão</div>
     <div class="proto-sub">Selecione um protocolo para acessar o conteúdo completo</div>
     <div class="gold-rule"></div>
     <div class="cards-grid">${PROTOCOLS.map(p=>`
@@ -1557,7 +1553,7 @@ const TUTORIAL_HTML = `
 const CATEGORIAS = ['Todos', 'Identificação', 'Autoridade', 'CTA', 'Educação'];
 
   c.innerHTML = `
-    <div class="proto-title">15 Criativos Prontos</div>
+    <div class="proto-title">Criativos Prontos</div>
     <div class="proto-sub">Textos prontos para anúncios e posts — com prompt de imagem para o Gemini e orientações de uso</div>
     <div class="gold-rule"></div>
 
@@ -2279,12 +2275,11 @@ function renderComingSoon(c,id){
   if(id==='m6'){renderM6(c);return;}
   if(id==='b2'){renderB2(c);return;}
   if(id==='b3'){renderB3(c);return;}
-  if(id==='b4'){renderB4(c);return;}
+  if(id==='b4'){renderCertLocked(c);return;}
   if(id==='b5'){renderB5(c);return;}
   if(id==='b6'){renderB6(c);return;}
   if(id==='mk1'){renderMK1(c);return;}
-  if(id==='mk2'){renderComingSoon(c,'mk2');return;}
-  const labels={m2:"Árvore de Decisão Clínica",m3:"17 Scripts de Condução",m4:"Kit de Fichas de Acompanhamento",m5:"Jornada de 8 Sessões",m6:"Guia Terapeuta Lucrativo",b2:"30 Modelos de Post para Instagram",b3:"Calculadora de Faturamento",b4:"Certificado Digital",b5:"Stories Prontos",b6:"15 Criativos Prontos",mk1:"Gerador de Fluxo para WhatsApp",mk2:"Gerador de Iscas e Produtos"};
+  const labels={m2:"Árvore de Decisão Clínica",m3:"Scripts de Condução",m4:"Kit de Fichas de Acompanhamento",m5:"Jornada de 8 Sessões",m6:"Guia Terapeuta Lucrativo",b2:"Posts para Instagram",b3:"Calculadora de Faturamento",b4:"Certificado Digital",b5:"Stories Prontos",b6:"Criativos Prontos",mk1:"Gerador de Fluxo para WhatsApp"};
   c.innerHTML=`
     <div class="proto-title">${labels[id]||id}</div><div class="gold-rule"></div>
     <div class="coming-box"><p>Conteúdo em produção</p><small>Este módulo será preenchido em breve.</small></div>`;
@@ -3766,7 +3761,7 @@ function renderM3(c){
   };
 
   c.innerHTML=`
-        <div class="proto-title">17 Scripts de Condução</div>
+        <div class="proto-title">Scripts de Condução</div>
     <div class="proto-sub">O que dizer nas situações que todo terapeuta enfrenta</div>
     <div class="gold-rule"></div>
     <div class="callout info" style="margin-bottom:16px">
@@ -6919,6 +6914,30 @@ function calcUpdate() {
 // BÔNUS 4 — CERTIFICADO DIGITAL PERSONALIZADO
 // Preview ao vivo + download PNG via Canvas
 // ═══════════════════════════════════════════════════════════════════════════
+
+function renderCertLocked(c) {
+  c.innerHTML = `
+    <div class="proto-title">Certificado Digital</div>
+    <div class="gold-rule"></div>
+    <div style="text-align:center;padding:60px 20px">
+      <div style="font-size:64px;margin-bottom:24px">🔒</div>
+      <div style="font-family:'Lora',serif;font-size:24px;color:#111;margin-bottom:12px">Conteúdo bloqueado</div>
+      <div style="font-size:14px;color:#888;line-height:1.8;max-width:380px;margin:0 auto 28px">
+        O Certificado Digital será liberado após a conclusão do programa.<br>
+        Finalize todos os módulos para desbloquear.
+      </div>
+      <div style="background:#FAF8F3;border:1px solid #E8E4DC;border-radius:14px;padding:20px 28px;display:inline-block;max-width:340px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:10px">O QUE VOCÊ VAI RECEBER</div>
+        <div style="font-size:13px;color:#555;line-height:1.8;text-align:left">
+          ✓ Certificado personalizado com seu nome<br>
+          ✓ Download em PNG de alta resolução<br>
+          ✓ Pronto para redes sociais e currículo<br>
+          ✓ Certificado de Aplicador Terapeuta Lucrativo
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 function renderB4(c) {
   c.innerHTML = `
