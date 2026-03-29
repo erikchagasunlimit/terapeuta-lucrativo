@@ -2047,7 +2047,14 @@ window.mk1GoStep = function(step) {
     }
   });
   var target = document.getElementById('mk1-step-' + step);
-  if (target) { target.style.display = 'block'; target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  if (target) { target.style.display = 'block'; }
+  // Scroll para o wizard bar para mostrar o progresso
+  var wizardBar = document.getElementById('mk1-wizard-bar');
+  if (wizardBar) {
+    wizardBar.scrollIntoView({ behavior:'smooth', block:'start' });
+  } else if (target) {
+    target.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
   st.currentStep = step;
 };
 
@@ -2360,8 +2367,10 @@ window.mk1Gerar = async function() {
     st.out = { texto: texto };
     setTimeout(function() {
       if (prog) prog.style.display = 'none';
-      mk1RenderOutputTexto(texto);
       mk1GoStep(4);
+      setTimeout(function() {
+        mk1RenderOutputTexto(texto);
+      }, 50);
     }, 400);
 
   } catch(e) {
