@@ -807,6 +807,14 @@
   .calc-plano-val { font-family: var(--f-code); font-size: 13px; font-weight: 400; color: var(--g); white-space: nowrap; }
   .calc-breakeven-box { background: var(--white); border: 1px solid var(--b1); border-radius: var(--r3); padding: 16px; }
   .calc-funil-box { background: var(--white); border: 1px solid var(--b1); border-radius: var(--r3); padding: 16px; margin-bottom: 10px; }
+  .calc-funil-card { background: var(--off); border: 1px solid var(--b1); border-radius: var(--r2); padding: 14px 12px; }
+  .calc-funil-card-label { font-family: var(--f-code); font-size: 8.5px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--t4); margin-bottom: 6px; }
+  .calc-funil-card-val { font-family: var(--f-display); font-size: 24px; font-weight: 400; color: var(--t1); line-height: 1; margin-bottom: 4px; }
+  .calc-funil-card-sub { font-size: 10.5px; color: var(--t4); font-weight: 400; }
+  .calc-funil-total { background: #186847 !important; border-color: #186847 !important; }
+  .calc-funil-anual { background: var(--off); border: 1px solid var(--b1); border-radius: var(--r2); padding: 16px 14px; margin-bottom: 10px; }
+  .calc-funil-invest { background: var(--off); border: 1px solid var(--b1); border-radius: var(--r2); padding: 14px 16px; }
+  .calc-media-hint { font-size: 11.5px; color: var(--t3); background: var(--off); border: 1px solid var(--b1); border-radius: var(--r1); padding: 7px 12px; margin-top: 8px; line-height: 1.5; }
   .calc-be-title { font-size: 13.5px; font-weight: 700; color: var(--t1); margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--b1); }
   .calc-be-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; color: var(--t2); border-bottom: 1px solid var(--b1); gap: 8px; }
   .calc-be-row:last-of-type { border-bottom: none; }
@@ -7242,51 +7250,67 @@ function renderB3(c) {
         </div>
 
         <!-- BLOCO 5: TRÁFEGO PAGO -->
-        <div class="calc-card">
-          <div class="calc-card-title">📣 Tráfego Pago (Meta Ads)</div>
+        <div class="calc-card" id="calc-trafego-card">
+          <div class="calc-card-title">📣 Ajuste Sua Realidade</div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>Investimento diário em anúncios</label>
+              <label>Investimento diário no Facebook/Meta Ads</label>
               <span class="calc-val" id="disp-inv-dia">R$30/dia</span>
             </div>
             <input type="range" class="calc-slider" id="sl-inv-dia"
               min="10" max="300" step="5" value="30"
               oninput="calcUpdate()">
             <div class="calc-range-labels"><span>R$10/dia</span><span>R$300/dia</span></div>
+            <div class="calc-media-hint">💡 Média dos nossos alunos: R$30 a R$50/dia · Retorno médio: R$14 para cada R$1 investido</div>
           </div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>Preço do produto low-ticket (isca paga)</label>
-              <span class="calc-val" id="disp-preco-lt">R$27</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-preco-lt"
-              min="9" max="97" step="1" value="27"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>R$9</span><span>R$97</span></div>
-          </div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Vendas do low-ticket por dia</label>
-              <span class="calc-val" id="disp-vendas-lt">5/dia</span>
+              <label>Vendas de e-book por mês</label>
+              <span class="calc-val" id="disp-vendas-lt"><b>160</b> vendas</span>
             </div>
             <input type="range" class="calc-slider" id="sl-vendas-lt"
-              min="1" max="30" step="1" value="5"
+              min="1" max="500" step="1" value="160"
               oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>1/dia</span><span>30/dia</span></div>
+            <div class="calc-range-labels"><span>0</span><span>500</span></div>
+            <div class="calc-media-hint">💡 Média dos nossos alunos: 200 a 600 vendas/mês · Preço sugerido: R$27</div>
           </div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>% compradores que agendam sessão experimental</label>
-              <span class="calc-val" id="disp-pct-agenda">10%</span>
+              <label>Sessões por semana</label>
+              <span class="calc-val" id="disp-sessoes-sem-lt"><b>6</b> sessões</span>
             </div>
-            <input type="range" class="calc-slider" id="sl-pct-agenda"
-              min="1" max="40" step="1" value="10"
+            <input type="range" class="calc-slider" id="sl-sessoes-sem-lt"
+              min="1" max="40" step="1" value="6"
               oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>1%</span><span>40%</span></div>
+            <div class="calc-range-labels"><span>1</span><span>40</span></div>
+            <div class="calc-media-hint">💡 Média dos nossos alunos: 6 a 12 sessões por semana</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Valor por sessão</label>
+              <span class="calc-val" id="disp-val-sessao-lt">R$ <b>300</b></span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-val-sessao-lt"
+              min="80" max="1000" step="10" value="300"
+              oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>R$80</span><span>R$1.000</span></div>
+            <div class="calc-media-hint">💡 Média dos nossos alunos: R$300 a R$500 por sessão</div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Pacotes de Sessões fechados por mês</label>
+              <span class="calc-val" id="disp-pacotes-lt"><b>4</b> pacotes</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-pacotes-lt"
+              min="0" max="20" step="1" value="4"
+              oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>0</span><span>20</span></div>
+            <div class="calc-media-hint">💡 Média dos nossos alunos: 4 a 8 pacotes de sessões por mês</div>
           </div>
 
         </div>
@@ -7348,7 +7372,7 @@ function renderB3(c) {
           </div>
         </div>
 
-        <!-- FUNIL DE TRÁFEGO -->
+        <!-- ESTIMATIVA DE FATURAMENTO MENSAL (FUNIL) -->
         <div class="calc-funil-box" id="calc-funil-box"></div>
 
         <!-- DIAGNÓSTICO -->
@@ -7389,10 +7413,15 @@ function calcUpdate() {
   var plat       = +document.getElementById('sl-plat').value;
   var impPct     = +document.getElementById('sl-imp').value / 100;
   // Tráfego
-  var invDia     = +document.getElementById('sl-inv-dia').value;
-  var precoLT    = +document.getElementById('sl-preco-lt').value;
-  var vendasLTDia= +document.getElementById('sl-vendas-lt').value;
-  var pctAgenda  = +document.getElementById('sl-pct-agenda').value / 100;
+  // Novos inputs do funil
+  var vendasLTMes  = +document.getElementById('sl-vendas-lt').value;
+  var sessSemLT    = +document.getElementById('sl-sessoes-sem-lt').value;
+  var valSessaoLT  = +document.getElementById('sl-val-sessao-lt').value;
+  var pacotesMesLT = +document.getElementById('sl-pacotes-lt').value;
+  // Preço fixo do e-book em R$27 (média dos alunos)
+  var precoLT      = 27;
+  var invDia       = +document.getElementById('sl-inv-dia').value;
+  var invMes       = invDia * 30;
 
   // ── Atualizar displays ──────────────────────────────────────────────────
   document.getElementById('disp-sessao').textContent    = 'R$' + vSessao;
@@ -7407,10 +7436,12 @@ function calcUpdate() {
   document.getElementById('disp-aluguel').textContent   = 'R$' + aluguel.toLocaleString('pt-BR');
   document.getElementById('disp-plat').textContent      = 'R$' + plat.toLocaleString('pt-BR');
   document.getElementById('disp-imp').textContent       = Math.round(impPct*100) + '%';
-  document.getElementById('disp-inv-dia').textContent   = 'R$' + invDia + '/dia';
-  document.getElementById('disp-preco-lt').textContent  = 'R$' + precoLT;
-  document.getElementById('disp-vendas-lt').textContent = vendasLTDia + '/dia';
-  document.getElementById('disp-pct-agenda').textContent= Math.round(pctAgenda*100) + '%';
+  // Displays do novo funil
+  document.getElementById('disp-inv-dia').textContent       = 'R$' + invDia + '/dia';
+  document.getElementById('disp-vendas-lt').textContent     = vendasLTMes + ' vendas';
+  document.getElementById('disp-sessoes-sem-lt').textContent= sessSemLT + ' sessões';
+  document.getElementById('disp-val-sessao-lt').textContent = 'R$ ' + valSessaoLT.toLocaleString('pt-BR');
+  document.getElementById('disp-pacotes-lt').textContent    = pacotesMesLT + ' pacotes';
 
   // ── Cálculos ────────────────────────────────────────────────────────────
 
@@ -7425,18 +7456,14 @@ function calcUpdate() {
   var vPacotePorSessao = vPacote / 8;
   var ticketMedio    = (pctPacote * vPacotePorSessao) + ((1 - pctPacote) * vSessao);
 
-  // ── Tráfego Pago — Funil Low-ticket ─────────────────────────────────────
-  var invMes         = invDia * 30;
-  var vendasLTMes    = vendasLTDia * 30;
-  var receitaLT      = vendasLTMes * precoLT;
-  var lucroLT        = receitaLT - invMes;
-  // Compradores que agendam sessão experimental
-  var agendaMes      = Math.round(vendasLTMes * pctAgenda);
-  // Desses, % que fecham pacote (usando convPct já definido)
-  var pacotesFunil   = Math.round(agendaMes * convPct);
-  var receitaFunil   = pacotesFunil * vPacote;
+  // ── Funil Low-ticket — novo modelo ───────────────────────────────────────
+  var receitaLT        = vendasLTMes * precoLT;
+  var lucroLT          = receitaLT - invMes;
+  var receitaFunilSess  = sessSemLT * 4 * valSessaoLT;
+  var receitaFunilPac   = pacotesMesLT * 1400;
+  var receitaFunil      = receitaFunilSess + receitaFunilPac;
 
-  // Faturamento bruto mensal (sessões clínicas + funil low-ticket)
+  // Faturamento bruto mensal = sessões clínicas (bloco agenda) + funil
   var bruto          = sessoesMes * ticketMedio + receitaLT + receitaFunil;
 
   // Custos fixos mensais
@@ -7522,73 +7549,89 @@ function calcUpdate() {
     diags.push({ tipo: 'tip', txt: 'Carga tributária alta. Verifique com um contador se seu regime fiscal é o mais adequado.' });
   }
 
-  if (lucroLT < 0) {
-    diags.push({ tipo: 'warning', txt: 'O funil low-ticket está gastando mais do que vendendo. Ajuste o preço ou aumente o volume de vendas diárias.' });
-  } else if (parseFloat(roasLT) >= 3) {
-    diags.push({ tipo: 'success', txt: 'ROAS de ' + roasLT + 'x no funil low-ticket — excelente retorno do tráfego pago.' });
+  if (vendasLTMes >= 200) {
+    diags.push({ tipo: 'success', txt: 'Volume de e-books acima de 200/mês — excelente geração de contatos. Isso está na média dos nossos melhores alunos.' });
   }
-
-  if (pacotesFunil >= 3) {
-    diags.push({ tipo: 'success', txt: 'O funil está gerando ' + pacotesFunil + ' pacotes/mês via tráfego. Isso representa ' + fmtc(receitaFunil) + ' em receita de sessões.' });
+  if (pacotesMesLT >= 4) {
+    diags.push({ tipo: 'success', txt: 'Com ' + pacotesMesLT + ' pacotes/mês o funil está convertendo bem. Mantenha o acompanhamento pelo WhatsApp.' });
+  }
+  if (sessSemLT >= 6 && valSessaoLT >= 300) {
+    diags.push({ tipo: 'tip', txt: 'Com ' + sessSemLT + ' sessões/semana a R$' + valSessaoLT + ' você está dentro da faixa ideal de faturamento sustentável.' });
   }
 
   var diagIcons = { danger:'🚨', warning:'⚠️', success:'✅', tip:'💡' };
   var diagColors = { danger:'#CC2222', warning:'#8B6914', success:'#1A6B47', tip:'#223388' };
   var diagBgs = { danger:'#FFF0F0', warning:'#FFF9EC', success:'#F0FAF4', tip:'#F0F2FA' };
 
-  // ── Funil de Tráfego ────────────────────────────────────────────────────
-  var funilEl = document.getElementById('calc-funil-box');
-  var roasLT = invMes > 0 ? (receitaLT / invMes).toFixed(2) : 0;
-  var custoAquisicao = agendaMes > 0 ? Math.round(invMes / agendaMes) : 0;
-  var custoCliente   = pacotesFunil > 0 ? Math.round(invMes / pacotesFunil) : 0;
+  // ── Funil de Tráfego — novo modelo ──────────────────────────────────────
   function fmtc(v) { return 'R$' + Math.round(v).toLocaleString('pt-BR'); }
+  var funilEl = document.getElementById('calc-funil-box');
+  // investimento médio dos alunos é fixo em R$1.240/mês para ROAS de referência
+  var invMedioAlunos = invMes; // usa o valor do slider
+  var roasReal = invMes > 0 ? (receitaLT / invMes).toFixed(1) : 0;
+
+  // Contatos gerados = compradores do e-book
+  var contatosGerados = vendasLTMes;
+  // Atendimentos = sessões semanais × 4 semanas × valor sessão
+  var receitaSessoesMes = sessSemLT * 4 * valSessaoLT;
+  // Pacotes = pacotes por mês × valor pacote (R$1.400 fixo como base, usuário ajusta com slider de pacote)
+  var valorPacote = 1400;
+  var receitaPacotes = pacotesMesLT * valorPacote;
+  var receitaAtendimentos = receitaSessoesMes + receitaPacotes;
+  // Total mensal do funil
+  var totalMensalFunil = receitaLT + receitaAtendimentos;
+  // Projeção anual
+  var anualFunil = totalMensalFunil * 12;
+
   funilEl.innerHTML =
-    '<div class="calc-plano-title" style="margin-bottom:14px">📣 Resultado do Funil de Tráfego</div>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">' +
-      '<div class="calc-metric-card">' +
-        '<div class="calc-metric-label">Investimento/mês</div>' +
-        '<div class="calc-metric-val" style="font-size:18px">' + fmtc(invMes) + '</div>' +
+    '<div style="font-family:var(--f-code);font-size:8.5px;letter-spacing:2px;color:var(--t4);text-transform:uppercase;margin-bottom:14px">Estimativa de Faturamento Mensal</div>' +
+    // Grid 2x2 de cards
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">' +
+      // E-books
+      '<div class="calc-funil-card">' +
+        '<div class="calc-funil-card-label">E-BOOKS</div>' +
+        '<div class="calc-funil-card-val">' + fmtc(receitaLT) + '</div>' +
+        '<div class="calc-funil-card-sub">vendas × R$27</div>' +
       '</div>' +
-      '<div class="calc-metric-card">' +
-        '<div class="calc-metric-label">Receita low-ticket</div>' +
-        '<div class="calc-metric-val c-gold" style="font-size:18px">' + fmtc(receitaLT) + '</div>' +
+      // Contatos gerados
+      '<div class="calc-funil-card">' +
+        '<div class="calc-funil-card-label">CONTATOS GERADOS</div>' +
+        '<div class="calc-funil-card-val" style="font-size:22px">' + contatosGerados + '</div>' +
+        '<div class="calc-funil-card-sub">potenciais pacientes</div>' +
       '</div>' +
-      '<div class="calc-metric-card">' +
-        '<div class="calc-metric-label">Lucro do low-ticket</div>' +
-        '<div class="calc-metric-val" style="font-size:18px;color:' + (lucroLT >= 0 ? 'var(--green)' : 'var(--red)') + '">' + fmtc(lucroLT) + '</div>' +
+      // Atendimentos
+      '<div class="calc-funil-card">' +
+        '<div class="calc-funil-card-label">ATENDIMENTOS</div>' +
+        '<div class="calc-funil-card-val">' + fmtc(receitaAtendimentos) + '</div>' +
+        '<div class="calc-funil-card-sub">sessões + pacotes</div>' +
       '</div>' +
-      '<div class="calc-metric-card">' +
-        '<div class="calc-metric-label">ROAS (retorno do ad)</div>' +
-        '<div class="calc-metric-val c-gold" style="font-size:18px">' + roasLT + 'x</div>' +
-      '</div>' +
-    '</div>' +
-    '<div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r2);padding:12px 14px;margin-bottom:8px">' +
-      '<div style="font-family:var(--f-code);font-size:8px;letter-spacing:2px;color:var(--g);margin-bottom:10px;text-transform:uppercase">Funil de Conversão</div>' +
-      '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">' +
-        '<div style="text-align:center;min-width:64px">' +
-          '<div style="font-size:20px;font-weight:700;color:var(--t1)">' + vendasLTMes + '</div>' +
-          '<div style="font-size:10px;color:var(--t4)">compradores/mês</div>' +
-        '</div>' +
-        '<div style="color:var(--g);font-size:16px">→</div>' +
-        '<div style="text-align:center;min-width:64px">' +
-          '<div style="font-size:20px;font-weight:700;color:var(--t1)">' + agendaMes + '</div>' +
-          '<div style="font-size:10px;color:var(--t4)">agendamentos</div>' +
-        '</div>' +
-        '<div style="color:var(--g);font-size:16px">→</div>' +
-        '<div style="text-align:center;min-width:64px">' +
-          '<div style="font-size:20px;font-weight:700;color:var(--g)">' + pacotesFunil + '</div>' +
-          '<div style="font-size:10px;color:var(--t4)">pacotes fechados</div>' +
-        '</div>' +
-        '<div style="color:var(--g);font-size:16px">→</div>' +
-        '<div style="text-align:center;min-width:80px">' +
-          '<div style="font-size:20px;font-weight:700;color:var(--g)">' + fmtc(receitaFunil) + '</div>' +
-          '<div style="font-size:10px;color:var(--t4)">receita pacotes</div>' +
-        '</div>' +
+      // Total mensal — destaque verde
+      '<div class="calc-funil-card calc-funil-total">' +
+        '<div class="calc-funil-card-label" style="color:rgba(255,255,255,0.65)">TOTAL MENSAL</div>' +
+        '<div class="calc-funil-card-val" style="color:#fff;font-size:20px">' + fmtc(totalMensalFunil) + '</div>' +
+        '<div class="calc-funil-card-sub" style="color:rgba(255,255,255,0.55)">e-books + atendimentos</div>' +
       '</div>' +
     '</div>' +
-    '<div class="calc-be-row"><span>Custo por agendamento</span><span class="calc-be-num">' + fmtc(custoAquisicao) + '</span></div>' +
-    '<div class="calc-be-row"><span>Custo por cliente fechado</span><span class="calc-be-num">' + fmtc(custoCliente) + '</span></div>' +
-    '<div class="calc-be-row"><span>Receita total do funil</span><span class="calc-be-num" style="color:var(--g)">' + fmtc(receitaLT + receitaFunil) + '</span></div>';
+    // Projeção anual
+    '<div class="calc-funil-anual">' +
+      '<div style="font-family:var(--f-code);font-size:8px;letter-spacing:1.5px;color:var(--t4);text-transform:uppercase;margin-bottom:8px">Potencial anual estimado</div>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between">' +
+        '<div style="font-family:var(--f-display);font-size:32px;font-weight:400;color:var(--t1)">' + fmtc(anualFunil) + '</div>' +
+        '<div style="background:var(--green);border-radius:var(--r2);padding:8px 10px;display:flex;align-items:center;justify-content:center;font-size:18px">📈</div>' +
+      '</div>' +
+    '</div>' +
+    // Card investimento médio dos alunos
+    '<div class="calc-funil-invest">' +
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">' +
+        '<div style="flex:1">' +
+          '<div style="font-size:13.5px;color:var(--t2);line-height:1.5;margin-bottom:6px">🎯 Para gerar esse resultado, nossos alunos investem em média</div>' +
+          '<div style="font-size:12px;color:var(--t4);line-height:1.5">em tráfego pago — retorno estimado de R$' + Math.round(totalMensalFunil / invMedioAlunos) + ' para cada R$1 investido.</div>' +
+        '</div>' +
+        '<div style="text-align:right;flex-shrink:0">' +
+          '<div style="font-size:18px;font-weight:700;color:var(--t1);white-space:nowrap">' + fmtc(invMedioAlunos) + '/mês</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
 
   var diagEl = document.getElementById('calc-diagnostico');
   if (diags.length > 0) {
