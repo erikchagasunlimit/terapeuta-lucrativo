@@ -806,6 +806,7 @@
   .calc-plano-label { font-size: 13px; color: var(--t2); font-weight: 400; }
   .calc-plano-val { font-family: var(--f-code); font-size: 13px; font-weight: 400; color: var(--g); white-space: nowrap; }
   .calc-breakeven-box { background: var(--white); border: 1px solid var(--b1); border-radius: var(--r3); padding: 16px; }
+  .calc-funil-box { background: var(--white); border: 1px solid var(--b1); border-radius: var(--r3); padding: 16px; margin-bottom: 10px; }
   .calc-be-title { font-size: 13.5px; font-weight: 700; color: var(--t1); margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--b1); }
   .calc-be-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; color: var(--t2); border-bottom: 1px solid var(--b1); gap: 8px; }
   .calc-be-row:last-of-type { border-bottom: none; }
@@ -7240,6 +7241,56 @@ function renderB3(c) {
 
         </div>
 
+        <!-- BLOCO 5: TRÁFEGO PAGO -->
+        <div class="calc-card">
+          <div class="calc-card-title">📣 Tráfego Pago (Meta Ads)</div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Investimento diário em anúncios</label>
+              <span class="calc-val" id="disp-inv-dia">R$30/dia</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-inv-dia"
+              min="10" max="300" step="5" value="30"
+              oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>R$10/dia</span><span>R$300/dia</span></div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Preço do produto low-ticket (isca paga)</label>
+              <span class="calc-val" id="disp-preco-lt">R$27</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-preco-lt"
+              min="9" max="97" step="1" value="27"
+              oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>R$9</span><span>R$97</span></div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Vendas do low-ticket por dia</label>
+              <span class="calc-val" id="disp-vendas-lt">5/dia</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-vendas-lt"
+              min="1" max="30" step="1" value="5"
+              oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>1/dia</span><span>30/dia</span></div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>% compradores que agendam sessão experimental</label>
+              <span class="calc-val" id="disp-pct-agenda">10%</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-pct-agenda"
+              min="1" max="40" step="1" value="10"
+              oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>1%</span><span>40%</span></div>
+          </div>
+
+        </div>
+
       </div><!-- /inputs-col -->
 
       <!-- ── COLUNA DIREITA: RESULTADOS ──────────────────────────────── -->
@@ -7297,6 +7348,9 @@ function renderB3(c) {
           </div>
         </div>
 
+        <!-- FUNIL DE TRÁFEGO -->
+        <div class="calc-funil-box" id="calc-funil-box"></div>
+
         <!-- DIAGNÓSTICO -->
         <div class="calc-diag-box" id="calc-diagnostico"></div>
 
@@ -7334,6 +7388,11 @@ function calcUpdate() {
   var aluguel    = +document.getElementById('sl-aluguel').value;
   var plat       = +document.getElementById('sl-plat').value;
   var impPct     = +document.getElementById('sl-imp').value / 100;
+  // Tráfego
+  var invDia     = +document.getElementById('sl-inv-dia').value;
+  var precoLT    = +document.getElementById('sl-preco-lt').value;
+  var vendasLTDia= +document.getElementById('sl-vendas-lt').value;
+  var pctAgenda  = +document.getElementById('sl-pct-agenda').value / 100;
 
   // ── Atualizar displays ──────────────────────────────────────────────────
   document.getElementById('disp-sessao').textContent    = 'R$' + vSessao;
@@ -7348,6 +7407,10 @@ function calcUpdate() {
   document.getElementById('disp-aluguel').textContent   = 'R$' + aluguel.toLocaleString('pt-BR');
   document.getElementById('disp-plat').textContent      = 'R$' + plat.toLocaleString('pt-BR');
   document.getElementById('disp-imp').textContent       = Math.round(impPct*100) + '%';
+  document.getElementById('disp-inv-dia').textContent   = 'R$' + invDia + '/dia';
+  document.getElementById('disp-preco-lt').textContent  = 'R$' + precoLT;
+  document.getElementById('disp-vendas-lt').textContent = vendasLTDia + '/dia';
+  document.getElementById('disp-pct-agenda').textContent= Math.round(pctAgenda*100) + '%';
 
   // ── Cálculos ────────────────────────────────────────────────────────────
 
@@ -7362,8 +7425,19 @@ function calcUpdate() {
   var vPacotePorSessao = vPacote / 8;
   var ticketMedio    = (pctPacote * vPacotePorSessao) + ((1 - pctPacote) * vSessao);
 
-  // Faturamento bruto mensal
-  var bruto          = sessoesMes * ticketMedio;
+  // ── Tráfego Pago — Funil Low-ticket ─────────────────────────────────────
+  var invMes         = invDia * 30;
+  var vendasLTMes    = vendasLTDia * 30;
+  var receitaLT      = vendasLTMes * precoLT;
+  var lucroLT        = receitaLT - invMes;
+  // Compradores que agendam sessão experimental
+  var agendaMes      = Math.round(vendasLTMes * pctAgenda);
+  // Desses, % que fecham pacote (usando convPct já definido)
+  var pacotesFunil   = Math.round(agendaMes * convPct);
+  var receitaFunil   = pacotesFunil * vPacote;
+
+  // Faturamento bruto mensal (sessões clínicas + funil low-ticket)
+  var bruto          = sessoesMes * ticketMedio + receitaLT + receitaFunil;
 
   // Custos fixos mensais
   var custoFixo      = aluguel + plat;
@@ -7448,9 +7522,73 @@ function calcUpdate() {
     diags.push({ tipo: 'tip', txt: 'Carga tributária alta. Verifique com um contador se seu regime fiscal é o mais adequado.' });
   }
 
+  if (lucroLT < 0) {
+    diags.push({ tipo: 'warning', txt: 'O funil low-ticket está gastando mais do que vendendo. Ajuste o preço ou aumente o volume de vendas diárias.' });
+  } else if (parseFloat(roasLT) >= 3) {
+    diags.push({ tipo: 'success', txt: 'ROAS de ' + roasLT + 'x no funil low-ticket — excelente retorno do tráfego pago.' });
+  }
+
+  if (pacotesFunil >= 3) {
+    diags.push({ tipo: 'success', txt: 'O funil está gerando ' + pacotesFunil + ' pacotes/mês via tráfego. Isso representa ' + fmtc(receitaFunil) + ' em receita de sessões.' });
+  }
+
   var diagIcons = { danger:'🚨', warning:'⚠️', success:'✅', tip:'💡' };
   var diagColors = { danger:'#CC2222', warning:'#8B6914', success:'#1A6B47', tip:'#223388' };
   var diagBgs = { danger:'#FFF0F0', warning:'#FFF9EC', success:'#F0FAF4', tip:'#F0F2FA' };
+
+  // ── Funil de Tráfego ────────────────────────────────────────────────────
+  var funilEl = document.getElementById('calc-funil-box');
+  var roasLT = invMes > 0 ? (receitaLT / invMes).toFixed(2) : 0;
+  var custoAquisicao = agendaMes > 0 ? Math.round(invMes / agendaMes) : 0;
+  var custoCliente   = pacotesFunil > 0 ? Math.round(invMes / pacotesFunil) : 0;
+  function fmtc(v) { return 'R$' + Math.round(v).toLocaleString('pt-BR'); }
+  funilEl.innerHTML =
+    '<div class="calc-plano-title" style="margin-bottom:14px">📣 Resultado do Funil de Tráfego</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">' +
+      '<div class="calc-metric-card">' +
+        '<div class="calc-metric-label">Investimento/mês</div>' +
+        '<div class="calc-metric-val" style="font-size:18px">' + fmtc(invMes) + '</div>' +
+      '</div>' +
+      '<div class="calc-metric-card">' +
+        '<div class="calc-metric-label">Receita low-ticket</div>' +
+        '<div class="calc-metric-val c-gold" style="font-size:18px">' + fmtc(receitaLT) + '</div>' +
+      '</div>' +
+      '<div class="calc-metric-card">' +
+        '<div class="calc-metric-label">Lucro do low-ticket</div>' +
+        '<div class="calc-metric-val" style="font-size:18px;color:' + (lucroLT >= 0 ? 'var(--green)' : 'var(--red)') + '">' + fmtc(lucroLT) + '</div>' +
+      '</div>' +
+      '<div class="calc-metric-card">' +
+        '<div class="calc-metric-label">ROAS (retorno do ad)</div>' +
+        '<div class="calc-metric-val c-gold" style="font-size:18px">' + roasLT + 'x</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r2);padding:12px 14px;margin-bottom:8px">' +
+      '<div style="font-family:var(--f-code);font-size:8px;letter-spacing:2px;color:var(--g);margin-bottom:10px;text-transform:uppercase">Funil de Conversão</div>' +
+      '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">' +
+        '<div style="text-align:center;min-width:64px">' +
+          '<div style="font-size:20px;font-weight:700;color:var(--t1)">' + vendasLTMes + '</div>' +
+          '<div style="font-size:10px;color:var(--t4)">compradores/mês</div>' +
+        '</div>' +
+        '<div style="color:var(--g);font-size:16px">→</div>' +
+        '<div style="text-align:center;min-width:64px">' +
+          '<div style="font-size:20px;font-weight:700;color:var(--t1)">' + agendaMes + '</div>' +
+          '<div style="font-size:10px;color:var(--t4)">agendamentos</div>' +
+        '</div>' +
+        '<div style="color:var(--g);font-size:16px">→</div>' +
+        '<div style="text-align:center;min-width:64px">' +
+          '<div style="font-size:20px;font-weight:700;color:var(--g)">' + pacotesFunil + '</div>' +
+          '<div style="font-size:10px;color:var(--t4)">pacotes fechados</div>' +
+        '</div>' +
+        '<div style="color:var(--g);font-size:16px">→</div>' +
+        '<div style="text-align:center;min-width:80px">' +
+          '<div style="font-size:20px;font-weight:700;color:var(--g)">' + fmtc(receitaFunil) + '</div>' +
+          '<div style="font-size:10px;color:var(--t4)">receita pacotes</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="calc-be-row"><span>Custo por agendamento</span><span class="calc-be-num">' + fmtc(custoAquisicao) + '</span></div>' +
+    '<div class="calc-be-row"><span>Custo por cliente fechado</span><span class="calc-be-num">' + fmtc(custoCliente) + '</span></div>' +
+    '<div class="calc-be-row"><span>Receita total do funil</span><span class="calc-be-num" style="color:var(--g)">' + fmtc(receitaLT + receitaFunil) + '</span></div>';
 
   var diagEl = document.getElementById('calc-diagnostico');
   if (diags.length > 0) {
