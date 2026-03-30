@@ -774,11 +774,11 @@
   .calc-field:last-child { margin-bottom: 0; }
   .calc-field-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
   .calc-field-header label { font-size: 13px; color: var(--t2); font-weight: 400; }
-  .calc-val { font-family: var(--f-code); font-size: 12px; font-weight: 400; color: var(--g); min-width: 80px; text-align: right; }
+  .calc-val { font-family: var(--f-body); font-size: 14px; font-weight: 700; color: var(--g); min-width: 80px; text-align: right; }
   .calc-slider { -webkit-appearance: none; width: 100%; height: 2px; border-radius: 1px; background: var(--subtle); outline: none; cursor: pointer; }
   .calc-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--g); cursor: pointer; border: 2px solid var(--white); box-shadow: var(--s1); }
   .calc-slider::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--g); cursor: pointer; border: 2px solid var(--white); }
-  .calc-range-labels { display: flex; justify-content: space-between; font-family: var(--f-code); font-size: 9px; color: var(--t4); margin-top: 4px; font-weight: 300; }
+  .calc-range-labels { display: flex; justify-content: space-between; font-family: var(--f-body); font-size: 11.5px; color: var(--t3); margin-top: 5px; font-weight: 500; }
   .calc-results-col { position: sticky; top: 16px; }
   .calc-result-hero { background: var(--t1); border-radius: var(--r3); padding: 24px; text-align: center; margin-bottom: 10px; }
   .calc-hero-label { font-family: var(--f-code); font-size: 8px; font-weight: 300; letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-bottom: 10px; text-transform: uppercase; display: block; }
@@ -807,6 +807,15 @@
   .calc-plano-val { font-family: var(--f-code); font-size: 13px; font-weight: 400; color: var(--g); white-space: nowrap; }
   .calc-breakeven-box { background: var(--white); border: 1px solid var(--b1); border-radius: var(--r3); padding: 16px; }
   .calc-funil-box { background: var(--white); border: 1px solid var(--b1); border-radius: var(--r3); padding: 16px; margin-bottom: 10px; }
+  .calc-trafego-box { background: var(--white); border: 1px solid var(--b1); border-radius: var(--r3); padding: 16px; margin-bottom: 10px; }
+  .calc-breakdown-box { background: var(--off); border: 1px solid var(--b1); border-radius: var(--r3); padding: 14px 16px; margin-bottom: 10px; }
+  .calc-bd-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .calc-bd-row:last-child { margin-bottom: 0; }
+  .calc-bd-label { font-size: 12px; color: var(--t3); min-width: 140px; font-weight: 400; }
+  .calc-bd-bar-wrap { flex: 1; height: 6px; background: var(--b1); border-radius: 3px; overflow: hidden; }
+  .calc-bd-bar { height: 100%; background: var(--t2); border-radius: 3px; transition: width 0.4s ease; min-width: 2px; }
+  .calc-bd-bar-gold { background: var(--g) !important; }
+  .calc-bd-val { font-family: var(--f-body); font-size: 12px; font-weight: 700; color: var(--t1); min-width: 70px; text-align: right; white-space: nowrap; }
   .calc-funil-card { background: var(--off); border: 1px solid var(--b1); border-radius: var(--r2); padding: 14px 12px; }
   .calc-funil-card-label { font-family: var(--f-code); font-size: 8.5px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--t4); margin-bottom: 6px; }
   .calc-funil-card-val { font-family: var(--f-display); font-size: 24px; font-weight: 400; color: var(--t1); line-height: 1; margin-bottom: 4px; }
@@ -7082,70 +7091,108 @@ function filterB2(cat, btn) {
 
 function renderB3(c) {
   c.innerHTML = `
-        <div class="proto-title">Calculadora de Faturamento</div>
-    <div class="proto-sub">Defina sua meta — o sistema mostra o caminho exato para chegar lá</div>
+    <div class="proto-title">Calculadora de Faturamento</div>
+    <div class="proto-sub">Ajuste os valores e veja seu faturamento atualizar em tempo real</div>
     <div class="gold-rule"></div>
-
-    <div class="callout tip" style="margin-bottom:20px">
-      <b>CLAREZA MATA ANSIEDADE.</b> Mova os controles abaixo e veja seu plano de faturamento atualizar em tempo real. Nenhum dado é salvo — é só para você pensar.
-    </div>
 
     <div class="calc-layout">
 
-      <!-- ── COLUNA ESQUERDA: INPUTS ─────────────────────────────────── -->
+      <!-- ── COLUNA ESQUERDA ── -->
       <div class="calc-inputs-col">
 
-        <!-- BLOCO 1: PRECIFICAÇÃO -->
+        <!-- PRECIFICAÇÃO -->
         <div class="calc-card">
           <div class="calc-card-title">💰 Precificação</div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>Valor da sessão avulsa</label>
+              <label>Valor por sessão avulsa</label>
               <span class="calc-val" id="disp-sessao">R$250</span>
             </div>
             <input type="range" class="calc-slider" id="sl-sessao"
-              min="80" max="800" step="10" value="250"
-              oninput="calcUpdate()">
+              min="80" max="800" step="10" value="250" oninput="calcUpdate()">
             <div class="calc-range-labels"><span>R$80</span><span>R$800</span></div>
           </div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>Valor do pacote 8 sessões</label>
-              <span class="calc-val" id="disp-pacote">R$1.800</span>
+              <label>Valor do pacote 4 sessões</label>
+              <span class="calc-val" id="disp-pac4">R$900</span>
             </div>
-            <input type="range" class="calc-slider" id="sl-pacote"
-              min="500" max="6000" step="100" value="1800"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>R$500</span><span>R$6.000</span></div>
+            <input type="range" class="calc-slider" id="sl-pac4"
+              min="200" max="4000" step="50" value="900" oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>R$200</span><span>R$4.000</span></div>
           </div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>% das vendas que são pacote</label>
-              <span class="calc-val" id="disp-pct-pacote">60%</span>
+              <label>Valor do pacote 8 sessões</label>
+              <span class="calc-val" id="disp-pac8">R$1.600</span>
             </div>
-            <input type="range" class="calc-slider" id="sl-pct-pacote"
-              min="0" max="100" step="5" value="60"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>0% (só avulso)</span><span>100% (só pacote)</span></div>
+            <input type="range" class="calc-slider" id="sl-pac8"
+              min="400" max="8000" step="100" value="1600" oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>R$400</span><span>R$8.000</span></div>
           </div>
         </div>
 
-        <!-- BLOCO 2: AGENDA -->
+        <!-- VENDAS -->
+        <div class="calc-card">
+          <div class="calc-card-title">📦 Vendas</div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Sessões avulsas por semana</label>
+              <span class="calc-val" id="disp-av-sem">4 sessões</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-av-sem"
+              min="0" max="30" step="1" value="4" oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>0</span><span>30</span></div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Pacotes de 4 sessões por mês</label>
+              <span class="calc-val" id="disp-pac4-mes">2 pacotes</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-pac4-mes"
+              min="0" max="30" step="1" value="2" oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>0</span><span>30</span></div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Pacotes de 8 sessões por mês</label>
+              <span class="calc-val" id="disp-pac8-mes">3 pacotes</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-pac8-mes"
+              min="0" max="20" step="1" value="3" oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>0</span><span>20</span></div>
+          </div>
+
+          <div class="calc-field">
+            <div class="calc-field-header">
+              <label>Vendas de e-book por mês</label>
+              <span class="calc-val" id="disp-ebook">150 vendas</span>
+            </div>
+            <input type="range" class="calc-slider" id="sl-ebook"
+              min="0" max="600" step="5" value="150" oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>0</span><span>600</span></div>
+            <div class="calc-media-hint">💡 Preço sugerido: R$27 · Média dos alunos: 200–600/mês</div>
+          </div>
+        </div>
+
+        <!-- AGENDA -->
         <div class="calc-card">
           <div class="calc-card-title">📅 Agenda</div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>Sessões por dia (dias que atende)</label>
+              <label>Sessões por dia</label>
               <span class="calc-val" id="disp-por-dia">5 sessões/dia</span>
             </div>
             <input type="range" class="calc-slider" id="sl-por-dia"
-              min="1" max="10" step="1" value="5"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>1</span><span>10</span></div>
+              min="1" max="12" step="1" value="5" oninput="calcUpdate()">
+            <div class="calc-range-labels"><span>1</span><span>12</span></div>
           </div>
 
           <div class="calc-field">
@@ -7154,8 +7201,7 @@ function renderB3(c) {
               <span class="calc-val" id="disp-dias">4 dias/semana</span>
             </div>
             <input type="range" class="calc-slider" id="sl-dias"
-              min="1" max="6" step="1" value="4"
-              oninput="calcUpdate()">
+              min="1" max="6" step="1" value="4" oninput="calcUpdate()">
             <div class="calc-range-labels"><span>1 dia</span><span>6 dias</span></div>
           </div>
 
@@ -7165,52 +7211,12 @@ function renderB3(c) {
               <span class="calc-val" id="disp-semanas">4 semanas</span>
             </div>
             <input type="range" class="calc-slider" id="sl-semanas"
-              min="2" max="5" step="0.5" value="4"
-              oninput="calcUpdate()">
+              min="2" max="5" step="0.5" value="4" oninput="calcUpdate()">
             <div class="calc-range-labels"><span>2 sem</span><span>5 sem</span></div>
           </div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Taxa de cancelamento / falta</label>
-              <span class="calc-val" id="disp-cancel">10%</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-cancel"
-              min="0" max="40" step="5" value="10"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>0%</span><span>40%</span></div>
-          </div>
         </div>
 
-        <!-- BLOCO 3: CAPTAÇÃO -->
-        <div class="calc-card">
-          <div class="calc-card-title">🎯 Captação</div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Taxa de conversão da sessão experimental</label>
-              <span class="calc-val" id="disp-conv">55%</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-conv"
-              min="10" max="90" step="5" value="55"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>10%</span><span>90%</span></div>
-          </div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Clientes fixos (já na agenda, renovam)</label>
-              <span class="calc-val" id="disp-fixos">8 clientes</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-fixos"
-              min="0" max="30" step="1" value="8"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>0</span><span>30</span></div>
-          </div>
-
-        </div>
-
-        <!-- BLOCO 4: CUSTOS -->
+        <!-- CUSTOS MENSAIS -->
         <div class="calc-card">
           <div class="calc-card-title">📋 Custos Mensais</div>
 
@@ -7220,141 +7226,68 @@ function renderB3(c) {
               <span class="calc-val" id="disp-aluguel">R$800</span>
             </div>
             <input type="range" class="calc-slider" id="sl-aluguel"
-              min="0" max="5000" step="100" value="800"
-              oninput="calcUpdate()">
+              min="0" max="5000" step="100" value="800" oninput="calcUpdate()">
             <div class="calc-range-labels"><span>R$0 (home)</span><span>R$5.000</span></div>
           </div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>Plataformas, cursos e supervisão</label>
+              <label>Plataformas e cursos</label>
               <span class="calc-val" id="disp-plat">R$400</span>
             </div>
             <input type="range" class="calc-slider" id="sl-plat"
-              min="0" max="3000" step="50" value="400"
-              oninput="calcUpdate()">
+              min="0" max="3000" step="50" value="400" oninput="calcUpdate()">
             <div class="calc-range-labels"><span>R$0</span><span>R$3.000</span></div>
           </div>
 
           <div class="calc-field">
             <div class="calc-field-header">
-              <label>Impostos / MEI / contador (%)</label>
+              <label>Impostos / MEI (%)</label>
               <span class="calc-val" id="disp-imp">15%</span>
             </div>
             <input type="range" class="calc-slider" id="sl-imp"
-              min="0" max="35" step="1" value="15"
-              oninput="calcUpdate()">
+              min="0" max="35" step="1" value="15" oninput="calcUpdate()">
             <div class="calc-range-labels"><span>0%</span><span>35%</span></div>
           </div>
-
-        </div>
-
-        <!-- BLOCO 5: TRÁFEGO PAGO -->
-        <div class="calc-card" id="calc-trafego-card">
-          <div class="calc-card-title">📣 Ajuste Sua Realidade</div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Investimento diário no Facebook/Meta Ads</label>
-              <span class="calc-val" id="disp-inv-dia">R$30/dia</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-inv-dia"
-              min="10" max="300" step="5" value="30"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>R$10/dia</span><span>R$300/dia</span></div>
-            <div class="calc-media-hint">💡 Média dos nossos alunos: R$30 a R$50/dia · Retorno médio: R$14 para cada R$1 investido</div>
-          </div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Vendas de e-book por mês</label>
-              <span class="calc-val" id="disp-vendas-lt"><b>160</b> vendas</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-vendas-lt"
-              min="1" max="500" step="1" value="160"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>0</span><span>500</span></div>
-            <div class="calc-media-hint">💡 Média dos nossos alunos: 200 a 600 vendas/mês · Preço sugerido: R$27</div>
-          </div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Sessões por semana</label>
-              <span class="calc-val" id="disp-sessoes-sem-lt"><b>6</b> sessões</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-sessoes-sem-lt"
-              min="1" max="40" step="1" value="6"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>1</span><span>40</span></div>
-            <div class="calc-media-hint">💡 Média dos nossos alunos: 6 a 12 sessões por semana</div>
-          </div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Valor por sessão</label>
-              <span class="calc-val" id="disp-val-sessao-lt">R$ <b>300</b></span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-val-sessao-lt"
-              min="80" max="1000" step="10" value="300"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>R$80</span><span>R$1.000</span></div>
-            <div class="calc-media-hint">💡 Média dos nossos alunos: R$300 a R$500 por sessão</div>
-          </div>
-
-          <div class="calc-field">
-            <div class="calc-field-header">
-              <label>Pacotes de Sessões fechados por mês</label>
-              <span class="calc-val" id="disp-pacotes-lt"><b>4</b> pacotes</span>
-            </div>
-            <input type="range" class="calc-slider" id="sl-pacotes-lt"
-              min="0" max="20" step="1" value="4"
-              oninput="calcUpdate()">
-            <div class="calc-range-labels"><span>0</span><span>20</span></div>
-            <div class="calc-media-hint">💡 Média dos nossos alunos: 4 a 8 pacotes de sessões por mês</div>
-          </div>
-
         </div>
 
       </div><!-- /inputs-col -->
 
-      <!-- ── COLUNA DIREITA: RESULTADOS ──────────────────────────────── -->
+      <!-- ── COLUNA DIREITA: RESULTADOS ── -->
       <div class="calc-results-col" id="calc-results-col">
 
-        <!-- NÚMERO PRINCIPAL -->
+        <!-- FATURAMENTO BRUTO -->
         <div class="calc-result-hero">
           <div class="calc-hero-label">FATURAMENTO BRUTO MENSAL</div>
           <div class="calc-hero-valor" id="res-bruto">R$0</div>
           <div class="calc-hero-sub" id="res-liquido-line">Líquido estimado: R$0</div>
         </div>
 
-        <!-- GRID DE MÉTRICAS -->
+        <!-- BREAKDOWN -->
+        <div class="calc-breakdown-box" id="calc-breakdown"></div>
+
+        <!-- MÉTRICAS -->
         <div class="calc-metrics-grid">
           <div class="calc-metric-card">
-            <div class="calc-metric-label">Sessões/mês (efetivas)</div>
-            <div class="calc-metric-val" id="res-sessoes-mes">0</div>
+            <div class="calc-metric-label">Sessões avulsas/mês</div>
+            <div class="calc-metric-val" id="res-av-mes">0</div>
+          </div>
+          <div class="calc-metric-card">
+            <div class="calc-metric-label">Receita de pacotes</div>
+            <div class="calc-metric-val" id="res-rec-pac">R$0</div>
+          </div>
+          <div class="calc-metric-card">
+            <div class="calc-metric-label">Receita e-books</div>
+            <div class="calc-metric-val c-gold" id="res-rec-ebook">R$0</div>
           </div>
           <div class="calc-metric-card">
             <div class="calc-metric-label">Horas clínicas/semana</div>
             <div class="calc-metric-val" id="res-horas-sem">0h</div>
           </div>
-          <div class="calc-metric-card">
-            <div class="calc-metric-label">Novos clientes necessários/mês</div>
-            <div class="calc-metric-val" id="res-novos-mes">0</div>
-          </div>
-          <div class="calc-metric-card">
-            <div class="calc-metric-label">Sessões experimentais/semana</div>
-            <div class="calc-metric-val c-gold" id="res-exp-sem">0</div>
-            <div class="calc-metric-sub">para bater a meta</div>
-          </div>
-          <div class="calc-metric-card">
-            <div class="calc-metric-label">Ticket médio ponderado</div>
-            <div class="calc-metric-val" id="res-ticket">R$0</div>
-          </div>
-          <div class="calc-metric-card">
-            <div class="calc-metric-label">Valor hora clínica</div>
-            <div class="calc-metric-val" id="res-hora">R$0/h</div>
-          </div>
         </div>
+
+        <!-- TRÁFEGO -->
+        <div class="calc-trafego-box" id="calc-trafego-result"></div>
 
         <!-- PROJEÇÃO ANUAL -->
         <div class="calc-anual-bar">
@@ -7372,17 +7305,8 @@ function renderB3(c) {
           </div>
         </div>
 
-        <!-- ESTIMATIVA DE FATURAMENTO MENSAL (FUNIL) -->
-        <div class="calc-funil-box" id="calc-funil-box"></div>
-
         <!-- DIAGNÓSTICO -->
         <div class="calc-diag-box" id="calc-diagnostico"></div>
-
-        <!-- PLANO DE AÇÃO SEMANAL -->
-        <div class="calc-plano-box">
-          <div class="calc-plano-title">📋 Plano de Ação Semanal</div>
-          <div id="calc-plano-lista"></div>
-        </div>
 
         <!-- PONTO DE EQUILÍBRIO -->
         <div class="calc-breakeven-box">
@@ -7391,7 +7315,6 @@ function renderB3(c) {
         </div>
 
       </div><!-- /results-col -->
-
     </div><!-- /layout -->
   `;
 
@@ -7400,298 +7323,180 @@ function renderB3(c) {
 
 function calcUpdate() {
   // ── Ler inputs ──────────────────────────────────────────────────────────
-  var vSessao    = +document.getElementById('sl-sessao').value;
-  var vPacote    = +document.getElementById('sl-pacote').value;
-  var pctPacote  = +document.getElementById('sl-pct-pacote').value / 100;
-  var porDia     = +document.getElementById('sl-por-dia').value;
-  var dias       = +document.getElementById('sl-dias').value;
-  var semanas    = +document.getElementById('sl-semanas').value;
-  var cancelPct  = +document.getElementById('sl-cancel').value / 100;
-  var convPct    = +document.getElementById('sl-conv').value / 100;
-  var fixos      = +document.getElementById('sl-fixos').value;
-  var aluguel    = +document.getElementById('sl-aluguel').value;
-  var plat       = +document.getElementById('sl-plat').value;
-  var impPct     = +document.getElementById('sl-imp').value / 100;
-  // Tráfego
-  // Novos inputs do funil
-  var vendasLTMes  = +document.getElementById('sl-vendas-lt').value;
-  var sessSemLT    = +document.getElementById('sl-sessoes-sem-lt').value;
-  var valSessaoLT  = +document.getElementById('sl-val-sessao-lt').value;
-  var pacotesMesLT = +document.getElementById('sl-pacotes-lt').value;
-  // Preço fixo do e-book em R$27 (média dos alunos)
-  var precoLT      = 27;
-  var invDia       = +document.getElementById('sl-inv-dia').value;
-  var invMes       = invDia * 30;
+  var vSessao   = +document.getElementById('sl-sessao').value;
+  var vPac4     = +document.getElementById('sl-pac4').value;
+  var vPac8     = +document.getElementById('sl-pac8').value;
+  var avSem     = +document.getElementById('sl-av-sem').value;
+  var pac4Mes   = +document.getElementById('sl-pac4-mes').value;
+  var pac8Mes   = +document.getElementById('sl-pac8-mes').value;
+  var ebookMes  = +document.getElementById('sl-ebook').value;
+  var porDia    = +document.getElementById('sl-por-dia').value;
+  var dias      = +document.getElementById('sl-dias').value;
+  var semanas   = +document.getElementById('sl-semanas').value;
+  var aluguel   = +document.getElementById('sl-aluguel').value;
+  var plat      = +document.getElementById('sl-plat').value;
+  var impPct    = +document.getElementById('sl-imp').value / 100;
 
   // ── Atualizar displays ──────────────────────────────────────────────────
-  document.getElementById('disp-sessao').textContent    = 'R$' + vSessao;
-  document.getElementById('disp-pacote').textContent    = 'R$' + vPacote.toLocaleString('pt-BR');
-  document.getElementById('disp-pct-pacote').textContent= Math.round(pctPacote*100) + '%';
-  document.getElementById('disp-por-dia').textContent   = porDia + ' sessões/dia';
-  document.getElementById('disp-dias').textContent      = dias + ' dias/semana';
-  document.getElementById('disp-semanas').textContent   = semanas + ' semanas';
-  document.getElementById('disp-cancel').textContent    = Math.round(cancelPct*100) + '%';
-  document.getElementById('disp-conv').textContent      = Math.round(convPct*100) + '%';
-  document.getElementById('disp-fixos').textContent     = fixos + ' clientes';
-  document.getElementById('disp-aluguel').textContent   = 'R$' + aluguel.toLocaleString('pt-BR');
-  document.getElementById('disp-plat').textContent      = 'R$' + plat.toLocaleString('pt-BR');
-  document.getElementById('disp-imp').textContent       = Math.round(impPct*100) + '%';
-  // Displays do novo funil
-  document.getElementById('disp-inv-dia').textContent       = 'R$' + invDia + '/dia';
-  document.getElementById('disp-vendas-lt').textContent     = vendasLTMes + ' vendas';
-  document.getElementById('disp-sessoes-sem-lt').textContent= sessSemLT + ' sessões';
-  document.getElementById('disp-val-sessao-lt').textContent = 'R$ ' + valSessaoLT.toLocaleString('pt-BR');
-  document.getElementById('disp-pacotes-lt').textContent    = pacotesMesLT + ' pacotes';
+  document.getElementById('disp-sessao').textContent   = 'R$' + vSessao.toLocaleString('pt-BR');
+  document.getElementById('disp-pac4').textContent     = 'R$' + vPac4.toLocaleString('pt-BR');
+  document.getElementById('disp-pac8').textContent     = 'R$' + vPac8.toLocaleString('pt-BR');
+  document.getElementById('disp-av-sem').textContent   = avSem + ' sessões';
+  document.getElementById('disp-pac4-mes').textContent = pac4Mes + ' pacotes';
+  document.getElementById('disp-pac8-mes').textContent = pac8Mes + ' pacotes';
+  document.getElementById('disp-ebook').textContent    = ebookMes + ' vendas';
+  document.getElementById('disp-por-dia').textContent  = porDia + ' sessões/dia';
+  document.getElementById('disp-dias').textContent     = dias + ' dias/semana';
+  document.getElementById('disp-semanas').textContent  = semanas + ' semanas';
+  document.getElementById('disp-aluguel').textContent  = 'R$' + aluguel.toLocaleString('pt-BR');
+  document.getElementById('disp-plat').textContent     = 'R$' + plat.toLocaleString('pt-BR');
+  document.getElementById('disp-imp').textContent      = Math.round(impPct * 100) + '%';
 
   // ── Cálculos ────────────────────────────────────────────────────────────
+  var precoEbook   = 27;
+  var horasSem     = porDia * dias;
 
-  // Capacidade total de slots por mês
-  var slotsMes       = porDia * dias * semanas;
-  // Slots efetivos após cancelamentos
-  var sessoesMes     = Math.round(slotsMes * (1 - cancelPct));
-  // Horas clínicas por semana
-  var horasSem       = porDia * dias;
+  // Receitas
+  var recAvulso    = avSem * semanas * vSessao;
+  var recPac4      = pac4Mes * vPac4;
+  var recPac8      = pac8Mes * vPac8;
+  var recPacotes   = recPac4 + recPac8;
+  var recEbook     = ebookMes * precoEbook;
 
-  // Ticket médio ponderado (pacote dividido por 8 sessões = valor por sessão equivalente)
-  var vPacotePorSessao = vPacote / 8;
-  var ticketMedio    = (pctPacote * vPacotePorSessao) + ((1 - pctPacote) * vSessao);
+  var bruto        = recAvulso + recPacotes + recEbook;
 
-  // ── Funil Low-ticket — novo modelo ───────────────────────────────────────
-  var receitaLT        = vendasLTMes * precoLT;
-  var lucroLT          = receitaLT - invMes;
-  var receitaFunilSess  = sessSemLT * 4 * valSessaoLT;
-  var receitaFunilPac   = pacotesMesLT * 1400;
-  var receitaFunil      = receitaFunilSess + receitaFunilPac;
-
-  // Faturamento bruto mensal = sessões clínicas (bloco agenda) + funil
-  var bruto          = sessoesMes * ticketMedio + receitaLT + receitaFunil;
-
-  // Custos fixos mensais
-  var custoFixo      = aluguel + plat;
-  // Impostos sobre bruto
-  var impostos       = bruto * impPct;
-  // Líquido
-  var liquido        = bruto - custoFixo - impostos;
-
-  // Valor hora clínica líquido
-  var horasMes       = horasSem * semanas;
-  var valorHora      = horasMes > 0 ? Math.round(liquido / horasMes) : 0;
-
-  // Slots ocupados por fixos (pressupõe 1 sessão/semana por cliente fixo)
-  var sessoesPorFixo = semanas; // sessões do cliente fixo no mês
-  var receitaFixos   = fixos * sessoesPorFixo * ticketMedio;
-  // Sessões restantes para novos clientes
-  var sessoesParaNovos = Math.max(0, sessoesMes - fixos * sessoesPorFixo);
-  // Novos clientes necessários por mês (cada novo = entra em processo)
-  var novosMes       = sessoesParaNovos > 0 ? Math.ceil(sessoesParaNovos / sessoesPorFixo) : 0;
-  // Sessões experimentais necessárias por mês (levando em conta conversão)
-  var expMes         = convPct > 0 ? Math.ceil(novosMes / convPct) : 0;
-  // Por semana
-  var expSem         = semanas > 0 ? (expMes / semanas).toFixed(1) : 0;
-
-  // Ponto de equilíbrio: sessões mínimas para cobrir custos
-  var beSessiones    = ticketMedio > 0 ? Math.ceil((custoFixo + impostos) / ticketMedio) : 0;
+  // Custos
+  var custoFixo    = aluguel + plat;
+  var impostos     = bruto * impPct;
+  var liquido      = bruto - custoFixo - impostos;
 
   // Projeção anual
-  var anualBruto     = bruto * 12;
-  var anualLiq       = liquido * 12;
+  var anualBruto   = bruto * 12;
+  var anualLiq     = liquido * 12;
 
-  // ── Atualizar resultados ────────────────────────────────────────────────
+  // Sessões avulsas por mês
+  var avMes        = avSem * semanas;
+
+  // Tráfego: ROAS 3 sobre receita de e-books
+  // Se receita ebook > 0, investimento necessário = recEbook / 3
+  var invNecessario = recEbook > 0 ? Math.round(recEbook / 3) : 0;
+  var invDia        = invNecessario > 0 ? Math.round(invNecessario / 30) : 0;
+  var roasAluno     = 3; // ROAS fixo de referência
+
+  // ── Helper ──────────────────────────────────────────────────────────────
   function fmt(v) { return 'R$' + Math.round(v).toLocaleString('pt-BR'); }
 
-  document.getElementById('res-bruto').textContent       = fmt(bruto);
-  document.getElementById('res-liquido-line').textContent= 'Líquido estimado: ' + fmt(liquido);
-  document.getElementById('res-sessoes-mes').textContent = sessoesMes;
-  document.getElementById('res-horas-sem').textContent   = horasSem + 'h';
-  document.getElementById('res-novos-mes').textContent   = novosMes;
-  document.getElementById('res-exp-sem').textContent     = expSem;
-  document.getElementById('res-ticket').textContent      = fmt(ticketMedio);
-  document.getElementById('res-hora').textContent        = fmt(valorHora) + '/h';
-  document.getElementById('res-anual-bruto').textContent = fmt(anualBruto);
-  document.getElementById('res-anual-liq').textContent   = fmt(anualLiq);
+  // ── Atualizar resultados principais ─────────────────────────────────────
+  document.getElementById('res-bruto').textContent        = fmt(bruto);
+  document.getElementById('res-liquido-line').textContent = 'Líquido estimado: ' + fmt(liquido);
+  document.getElementById('res-av-mes').textContent       = Math.round(avMes);
+  document.getElementById('res-rec-pac').textContent      = fmt(recPacotes);
+  document.getElementById('res-rec-ebook').textContent    = fmt(recEbook);
+  document.getElementById('res-horas-sem').textContent    = horasSem + 'h';
+  document.getElementById('res-anual-bruto').textContent  = fmt(anualBruto);
+  document.getElementById('res-anual-liq').textContent    = fmt(anualLiq);
 
-  // Cor do líquido — vermelho se negativo
   var heroEl = document.getElementById('res-bruto');
-  heroEl.style.color = liquido < 0 ? '#CC2222' : 'var(--gold)';
+  heroEl.style.color = liquido < 0 ? '#CC2222' : 'var(--gm)';
+
+  // ── Breakdown de receitas ───────────────────────────────────────────────
+  var bdEl = document.getElementById('calc-breakdown');
+  var total = bruto || 1;
+  function pct(v) { return Math.round((v / total) * 100); }
+  bdEl.innerHTML =
+    '<div style="font-family:var(--f-code);font-size:8px;letter-spacing:1.5px;color:var(--t4);text-transform:uppercase;margin-bottom:10px">Composição do faturamento</div>' +
+    '<div class="calc-bd-row"><span class="calc-bd-label">Sessões avulsas</span><div class="calc-bd-bar-wrap"><div class="calc-bd-bar" style="width:' + pct(recAvulso) + '%"></div></div><span class="calc-bd-val">' + fmt(recAvulso) + '</span></div>' +
+    '<div class="calc-bd-row"><span class="calc-bd-label">Pacotes (4 e 8 sess.)</span><div class="calc-bd-bar-wrap"><div class="calc-bd-bar" style="width:' + pct(recPacotes) + '%"></div></div><span class="calc-bd-val">' + fmt(recPacotes) + '</span></div>' +
+    '<div class="calc-bd-row"><span class="calc-bd-label">E-books</span><div class="calc-bd-bar-wrap"><div class="calc-bd-bar calc-bd-bar-gold" style="width:' + pct(recEbook) + '%"></div></div><span class="calc-bd-val c-gold">' + fmt(recEbook) + '</span></div>';
+
+  // ── Card de Tráfego ─────────────────────────────────────────────────────
+  var trafEl = document.getElementById('calc-trafego-result');
+  if (ebookMes > 0) {
+    trafEl.innerHTML =
+      '<div style="font-family:var(--f-code);font-size:8px;letter-spacing:1.5px;color:var(--t4);text-transform:uppercase;margin-bottom:12px">📣 Tráfego Necessário</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">' +
+        '<div class="calc-funil-card">' +
+          '<div class="calc-funil-card-label">INVESTIMENTO/MÊS</div>' +
+          '<div class="calc-funil-card-val">' + fmt(invNecessario) + '</div>' +
+          '<div class="calc-funil-card-sub">para gerar ' + ebookMes + ' vendas</div>' +
+        '</div>' +
+        '<div class="calc-funil-card">' +
+          '<div class="calc-funil-card-label">INVESTIMENTO/DIA</div>' +
+          '<div class="calc-funil-card-val">' + fmt(invDia) + '</div>' +
+          '<div class="calc-funil-card-sub">no Meta Ads</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="calc-funil-invest">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+          '<div style="flex:1;min-width:160px">' +
+            '<div style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:4px">Com ROAS 3 — para cada <b>R$1</b> investido, você recebe <b>R$3</b> em vendas de e-book.</div>' +
+            '<div style="font-size:11.5px;color:var(--t4);line-height:1.5">Investindo ' + fmt(invNecessario) + '/mês → ' + fmt(recEbook) + ' em e-books</div>' +
+          '</div>' +
+          '<div style="text-align:center;flex-shrink:0;background:var(--gp);border:1px solid var(--gr);border-radius:var(--r2);padding:10px 16px">' +
+            '<div style="font-family:var(--f-code);font-size:9px;color:var(--g);letter-spacing:1px;margin-bottom:4px">ROAS</div>' +
+            '<div style="font-family:var(--f-display);font-size:28px;font-weight:400;color:var(--g);line-height:1">3×</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  } else {
+    trafEl.innerHTML =
+      '<div class="calc-funil-invest" style="text-align:center;color:var(--t4);font-size:13px;padding:16px">' +
+        '📣 Adicione vendas de e-book para ver o investimento em tráfego necessário.' +
+      '</div>';
+  }
 
   // ── Diagnóstico ─────────────────────────────────────────────────────────
   var diags = [];
-
   if (liquido < 0) {
-    diags.push({ tipo: 'danger', txt: 'Líquido negativo — seus custos superam o faturamento com essa configuração. Aumente o preço ou reduza custos.' });
+    diags.push({ tipo: 'danger', txt: 'Líquido negativo — seus custos superam o faturamento. Aumente os preços ou reduza custos.' });
   } else if (liquido < 2000) {
-    diags.push({ tipo: 'warning', txt: 'Líquido abaixo de R$2.000. Considere aumentar o valor da sessão ou reduzir o custo fixo.' });
+    diags.push({ tipo: 'warning', txt: 'Líquido abaixo de R$2.000. Considere aumentar o valor das sessões ou reduzir custos fixos.' });
   } else if (liquido >= 5000) {
     diags.push({ tipo: 'success', txt: 'Configuração sustentável. Líquido acima de R$5.000/mês.' });
   }
-
   if (horasSem > 25) {
-    diags.push({ tipo: 'warning', txt: 'Você está acima de 25h clínicas por semana — zona de risco de esgotamento. Aumente o preço para trabalhar menos.' });
+    diags.push({ tipo: 'warning', txt: 'Acima de 25h clínicas por semana — risco de esgotamento. Aumente o preço e atenda menos.' });
   }
-
   if (horasSem <= 15 && liquido > 3000) {
-    diags.push({ tipo: 'success', txt: 'Excelente equilíbrio: menos de 15h clínicas com bom líquido. Este é o modelo sustentável.' });
+    diags.push({ tipo: 'success', txt: 'Excelente equilíbrio: menos de 15h clínicas com bom líquido.' });
   }
-
-  if (pctPacote < 0.3) {
-    diags.push({ tipo: 'tip', txt: 'Menos de 30% das vendas em pacote. Migrar para pacotes aumenta o ticket médio e reduz rotatividade.' });
+  if (pac4Mes === 0 && pac8Mes === 0) {
+    diags.push({ tipo: 'tip', txt: 'Sem pacotes na sua estrutura. Pacotes aumentam o ticket médio e reduzem rotatividade.' });
   }
-
-  if (parseFloat(expSem) > 5) {
-    diags.push({ tipo: 'warning', txt: 'Você precisaria de mais de 5 sessões experimentais por semana. Aumente o preço ou a taxa de conversão.' });
+  if (ebookMes >= 200) {
+    diags.push({ tipo: 'success', txt: 'Volume de e-books acima de 200/mês — excelente geração de contatos via funil.' });
   }
-
-  if (fixos >= 15) {
-    diags.push({ tipo: 'tip', txt: 'Com ' + fixos + ' clientes fixos, sua base está sólida. Foque em retenção mais do que captação.' });
-  }
-
   if (impPct >= 0.25) {
     diags.push({ tipo: 'tip', txt: 'Carga tributária alta. Verifique com um contador se seu regime fiscal é o mais adequado.' });
   }
 
-  if (vendasLTMes >= 200) {
-    diags.push({ tipo: 'success', txt: 'Volume de e-books acima de 200/mês — excelente geração de contatos. Isso está na média dos nossos melhores alunos.' });
-  }
-  if (pacotesMesLT >= 4) {
-    diags.push({ tipo: 'success', txt: 'Com ' + pacotesMesLT + ' pacotes/mês o funil está convertendo bem. Mantenha o acompanhamento pelo WhatsApp.' });
-  }
-  if (sessSemLT >= 6 && valSessaoLT >= 300) {
-    diags.push({ tipo: 'tip', txt: 'Com ' + sessSemLT + ' sessões/semana a R$' + valSessaoLT + ' você está dentro da faixa ideal de faturamento sustentável.' });
-  }
-
-  var diagIcons = { danger:'🚨', warning:'⚠️', success:'✅', tip:'💡' };
+  var diagIcons  = { danger:'🚨', warning:'⚠️', success:'✅', tip:'💡' };
   var diagColors = { danger:'#CC2222', warning:'#8B6914', success:'#1A6B47', tip:'#223388' };
-  var diagBgs = { danger:'#FFF0F0', warning:'#FFF9EC', success:'#F0FAF4', tip:'#F0F2FA' };
-
-  // ── Funil de Tráfego — novo modelo ──────────────────────────────────────
-  function fmtc(v) { return 'R$' + Math.round(v).toLocaleString('pt-BR'); }
-  var funilEl = document.getElementById('calc-funil-box');
-  // investimento médio dos alunos é fixo em R$1.240/mês para ROAS de referência
-  var invMedioAlunos = invMes; // usa o valor do slider
-  var roasReal = invMes > 0 ? (receitaLT / invMes).toFixed(1) : 0;
-
-  // Contatos gerados = compradores do e-book
-  var contatosGerados = vendasLTMes;
-  // Atendimentos = sessões semanais × 4 semanas × valor sessão
-  var receitaSessoesMes = sessSemLT * 4 * valSessaoLT;
-  // Pacotes = pacotes por mês × valor pacote (R$1.400 fixo como base, usuário ajusta com slider de pacote)
-  var valorPacote = 1400;
-  var receitaPacotes = pacotesMesLT * valorPacote;
-  var receitaAtendimentos = receitaSessoesMes + receitaPacotes;
-  // Total mensal do funil
-  var totalMensalFunil = receitaLT + receitaAtendimentos;
-  // Projeção anual
-  var anualFunil = totalMensalFunil * 12;
-
-  funilEl.innerHTML =
-    '<div style="font-family:var(--f-code);font-size:8.5px;letter-spacing:2px;color:var(--t4);text-transform:uppercase;margin-bottom:14px">Estimativa de Faturamento Mensal</div>' +
-    // Grid 2x2 de cards
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">' +
-      // E-books
-      '<div class="calc-funil-card">' +
-        '<div class="calc-funil-card-label">E-BOOKS</div>' +
-        '<div class="calc-funil-card-val">' + fmtc(receitaLT) + '</div>' +
-        '<div class="calc-funil-card-sub">vendas × R$27</div>' +
-      '</div>' +
-      // Contatos gerados
-      '<div class="calc-funil-card">' +
-        '<div class="calc-funil-card-label">CONTATOS GERADOS</div>' +
-        '<div class="calc-funil-card-val" style="font-size:22px">' + contatosGerados + '</div>' +
-        '<div class="calc-funil-card-sub">potenciais pacientes</div>' +
-      '</div>' +
-      // Atendimentos
-      '<div class="calc-funil-card">' +
-        '<div class="calc-funil-card-label">ATENDIMENTOS</div>' +
-        '<div class="calc-funil-card-val">' + fmtc(receitaAtendimentos) + '</div>' +
-        '<div class="calc-funil-card-sub">sessões + pacotes</div>' +
-      '</div>' +
-      // Total mensal — destaque verde
-      '<div class="calc-funil-card calc-funil-total">' +
-        '<div class="calc-funil-card-label" style="color:rgba(255,255,255,0.65)">TOTAL MENSAL</div>' +
-        '<div class="calc-funil-card-val" style="color:#fff;font-size:20px">' + fmtc(totalMensalFunil) + '</div>' +
-        '<div class="calc-funil-card-sub" style="color:rgba(255,255,255,0.55)">e-books + atendimentos</div>' +
-      '</div>' +
-    '</div>' +
-    // Projeção anual
-    '<div class="calc-funil-anual">' +
-      '<div style="font-family:var(--f-code);font-size:8px;letter-spacing:1.5px;color:var(--t4);text-transform:uppercase;margin-bottom:8px">Potencial anual estimado</div>' +
-      '<div style="display:flex;align-items:center;justify-content:space-between">' +
-        '<div style="font-family:var(--f-display);font-size:32px;font-weight:400;color:var(--t1)">' + fmtc(anualFunil) + '</div>' +
-        '<div style="background:var(--green);border-radius:var(--r2);padding:8px 10px;display:flex;align-items:center;justify-content:center;font-size:18px">📈</div>' +
-      '</div>' +
-    '</div>' +
-    // Card investimento médio dos alunos
-    '<div class="calc-funil-invest">' +
-      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">' +
-        '<div style="flex:1">' +
-          '<div style="font-size:13.5px;color:var(--t2);line-height:1.5;margin-bottom:6px">🎯 Para gerar esse resultado, nossos alunos investem em média</div>' +
-          '<div style="font-size:12px;color:var(--t4);line-height:1.5">em tráfego pago — retorno estimado de R$' + Math.round(totalMensalFunil / invMedioAlunos) + ' para cada R$1 investido.</div>' +
-        '</div>' +
-        '<div style="text-align:right;flex-shrink:0">' +
-          '<div style="font-size:18px;font-weight:700;color:var(--t1);white-space:nowrap">' + fmtc(invMedioAlunos) + '/mês</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
+  var diagBgs    = { danger:'#FFF0F0', warning:'#FFF9EC', success:'#F0FAF4', tip:'#F0F2FA' };
 
   var diagEl = document.getElementById('calc-diagnostico');
-  if (diags.length > 0) {
-    diagEl.innerHTML = '<div class="calc-diag-title">📊 Diagnóstico</div>' +
+  diagEl.innerHTML = diags.length > 0
+    ? '<div class="calc-diag-title">📊 Diagnóstico</div>' +
       diags.map(function(d) {
         return '<div class="calc-diag-item" style="background:' + diagBgs[d.tipo] + ';border-left-color:' + diagColors[d.tipo] + '">' +
           '<span>' + diagIcons[d.tipo] + '</span><span>' + d.txt + '</span></div>';
-      }).join('');
-  } else {
-    diagEl.innerHTML = '';
-  }
-
-  // ── Plano de ação semanal ───────────────────────────────────────────────
-  var plano = [
-    { label: 'Sessões clínicas por semana',        val: (porDia * dias) + ' sessões', dest: false },
-    { label: 'Sessões experimentais necessárias',  val: expSem + ' por semana', dest: true },
-    { label: 'Posts no Instagram (mínimo)',         val: '3–4 por semana', dest: false },
-    { label: 'Respostas de DM / seguimentos',       val: 'Diário — 15 min', dest: false },
-    { label: 'Tempo para captação ativa',           val: '30 min/dia', dest: false },
-    { label: 'Supervisão / desenvolvimento',        val: '1× por mês', dest: false },
-  ];
-
-  document.getElementById('calc-plano-lista').innerHTML = plano.map(function(item) {
-    return '<div class="calc-plano-item' + (item.dest ? ' destaque' : '') + '">' +
-      '<span class="calc-plano-label">' + item.label + '</span>' +
-      '<span class="calc-plano-val">' + item.val + '</span>' +
-    '</div>';
-  }).join('');
+      }).join('')
+    : '';
 
   // ── Ponto de equilíbrio ─────────────────────────────────────────────────
+  var beSessiones = vSessao > 0 ? Math.ceil((custoFixo + impostos) / vSessao) : 0;
   var beEl = document.getElementById('calc-be-content');
   beEl.innerHTML =
-    '<div class="calc-be-row">' +
-      '<span>Sessões mínimas para cobrir custos</span>' +
-      '<span class="calc-be-num">' + beSessiones + ' sessões/mês</span>' +
-    '</div>' +
-    '<div class="calc-be-row">' +
-      '<span>Custo fixo mensal total</span>' +
-      '<span class="calc-be-num">' + fmt(custoFixo) + '</span>' +
-    '</div>' +
-    '<div class="calc-be-row">' +
-      '<span>A partir da sessão ' + (beSessiones + 1) + '</span>' +
-      '<span class="calc-be-num" style="color:var(--gold)">tudo é lucro</span>' +
-    '</div>' +
+    '<div class="calc-be-row"><span>Sessões avulsas para cobrir custos</span><span class="calc-be-num">' + beSessiones + ' sessões/mês</span></div>' +
+    '<div class="calc-be-row"><span>Custo fixo mensal total</span><span class="calc-be-num">' + fmt(custoFixo) + '</span></div>' +
+    '<div class="calc-be-row"><span>A partir da sessão ' + (beSessiones + 1) + '</span><span class="calc-be-num" style="color:var(--g)">tudo é lucro</span></div>' +
     '<div class="calc-be-barra-wrap">' +
-      '<div class="calc-be-barra-label">Progresso até o equilíbrio (sessões efetivas)</div>' +
-      '<div class="calc-be-barra-bg">' +
-        '<div class="calc-be-barra-fill" style="width:' + Math.min(100, sessoesMes > 0 ? Math.round((Math.min(sessoesMes, beSessiones) / Math.max(beSessiones, 1)) * 100) : 0) + '%"></div>' +
-      '</div>' +
-      '<div class="calc-be-barra-pcts">' +
-        '<span>' + Math.min(sessoesMes, beSessiones) + ' / ' + beSessiones + '</span>' +
-        '<span>' + Math.min(100, sessoesMes > 0 ? Math.round((Math.min(sessoesMes, beSessiones) / Math.max(beSessiones, 1)) * 100) : 0) + '%</span>' +
-      '</div>' +
+      '<div class="calc-be-barra-label">Progresso até o equilíbrio</div>' +
+      '<div class="calc-be-barra-bg"><div class="calc-be-barra-fill" style="width:' + Math.min(100, beSessiones > 0 ? Math.round((Math.min(avMes, beSessiones) / beSessiones) * 100) : 0) + '%"></div></div>' +
+      '<div class="calc-be-barra-pcts"><span>' + Math.min(Math.round(avMes), beSessiones) + ' / ' + beSessiones + '</span><span>' + Math.min(100, beSessiones > 0 ? Math.round((Math.min(avMes, beSessiones) / beSessiones) * 100) : 0) + '%</span></div>' +
     '</div>';
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// BÔNUS 4 — CERTIFICADO DIGITAL PERSONALIZADO
-// Preview ao vivo + download PNG via Canvas
-// ═══════════════════════════════════════════════════════════════════════════
 
 function renderCertLocked(c) {
   c.innerHTML = `
