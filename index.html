@@ -1288,6 +1288,7 @@ const NAV_MARKETING = [
   {id:"dashboard",label:"Início",type:"main"},
   {id:"m6",label:"Guia Terapeuta Lucrativo",num:"M1",type:"module"},
   {id:"mk1",label:"Fluxo para WhatsApp",num:"M2",type:"module"},
+  {id:"mk2",label:"Roteiros Sessão Experimental",num:"M3",type:"module"},
   {section:"FERRAMENTAS"},
   {id:"b2",label:"Posts Instagram",num:"B1",type:"bonus"},
   {id:"b3",label:"Calculadora de Faturamento",num:"B2",type:"bonus"},
@@ -1442,6 +1443,7 @@ function renderDashboard(c){
       mods:[
         {num:"MÓDULO 1",title:"Guia Terapeuta Lucrativo",desc:"Posicionamento, preço e captação.",count:"6 seções",id:"m6"},
         {num:"MÓDULO 2",title:"Fluxo para WhatsApp",desc:"Sequências prontas para converter leads.",count:"Em breve",id:"mk1"},
+        {num:"MÓDULO 3",title:"Roteiros Sessão Experimental",desc:"12 roteiros por perfil de paciente — da abertura à proposta.",count:"12 roteiros",id:"mk2"},
       ],
       bons:[
         {num:"FERRAMENTA 1",title:"Posts Instagram",desc:"Templates prontos para atrair clientes.",count:"30 templates",id:"b2",bonus:true},
@@ -2882,6 +2884,557 @@ window.mk1CopyMsg = function(btn, encoded) {
 };
 
 
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MÓDULO 3 MARKETING — ROTEIROS DE SESSÃO EXPERIMENTAL
+// 12 roteiros por perfil de paciente
+// ═══════════════════════════════════════════════════════════════════════════
+
+const MK2_ROTEIROS = [
+  {
+    num:'01', id:'r01',
+    perfil:'A Ansiosa Sobrecarregada',
+    tags:['Ansiedade','Mulheres','Sobrecarga'],
+    cor:'#C9A84C', bg:'#FFF9EC',
+    icone:'🌪️',
+    queixa:'"Estou me sentindo muito ansiosa, não consigo desligar."',
+    faixaEtaria:'28–42 anos',
+    descricao:'Trabalha muito, cuida de todos, não consegue descansar sem culpa. Sente que está no limite. Dorme mal, mente acelerada, corpo tenso.',
+    abertura:'"[Nome], que bom ter você aqui. Hoje temos 50 minutos juntos — e quero que esse tempo seja completamente seu. Não tem resposta certa ou errada. Pode começar me contando: o que te trouxe até aqui hoje?"',
+    aberturaObs:'Escuta ativa de 2–3 minutos. Observe linguagem corporal e o que ela evita dizer.',
+    perguntas:[
+      {num:'P1', texto:'Numa escala de 0 a 10, quanto essa ansiedade está pesando hoje?', obs:'Anote o número. Vai usar no fechamento.'},
+      {num:'P2', texto:'Essa sensação de ter que dar conta de tudo — desde quando está com você?', obs:'Mapeia a origem do padrão.'},
+      {num:'P3', texto:'O que essa ansiedade está te custando? No corpo, nas relações, no trabalho?', obs:'Torna o custo real e tangível.'},
+      {num:'P4', texto:'Se essa ansiedade fosse embora amanhã — o que você faria diferente?', obs:'Essa resposta é o destino. Use no fechamento.'},
+    ],
+    tecnica:'Regulação Nervosa + Ressignificação da Urgência',
+    tecnicaPassos:[
+      {titulo:'Regulação imediata (5 min)', descricao:'Conduza 3 ciclos de respiração (inspira 4 tempos, segura 2, solta 6). Depois pergunte: "O que você percebeu no seu corpo agora?"'},
+      {titulo:'Identificando a crença (10 min)', script:'"Essa sensação de que você precisa dar conta de tudo — de onde ela veio? Quem na sua família carregava tudo nas costas?" → "Então você aprendeu desde cedo que cuidar de todos é o seu papel. E quem cuida de você?" [Silêncio.]'},
+      {titulo:'Semente de nova perspectiva (5 min)', script:'"E se eu te dissesse que essa ansiedade não é um defeito — ela é o alarme de um sistema que nunca teve permissão de descansar? O problema não é você. É que você nunca recebeu a mensagem de que pode parar."'},
+    ],
+    fechamento:'"Lá no começo você estava num [X]. Agora, depois do que a gente trabalhou — onde ela está?" → "Isso que você sentiu — essa leveza — é o que é possível. E esse foi só o começo."',
+    ancora:'"Eu tenho permissão para existir sem precisar me justificar." — Peça para repetir e pergunte o que sente.',
+    proposta:'"O que a gente fez hoje foi apenas a superfície. Para ir mais fundo — trabalhar a raiz desse padrão, não só o sintoma — a gente precisaria de uma continuidade. Trabalho com pacotes de 8 sessões para um processo mais completo, e com pacotes de 4 sessões para quem está num momento de crise mais pontual. Me conta: você sente que está num processo maior, ou num momento de crise específico?"',
+    pacoteIdeal:'8 sessões',
+  },
+  {
+    num:'02', id:'r02',
+    perfil:'O Executivo Esgotado',
+    tags:['Burnout','Alta Performance','Liderança'],
+    cor:'#223388', bg:'#F0F2FA',
+    icone:'💼',
+    queixa:'"Não tô conseguindo render no trabalho. Perdi a motivação."',
+    faixaEtaria:'35–50 anos',
+    descricao:'Alta performance, liderança, muito produtivo externamente mas vazio por dentro. Procura terapia com resistência. Burnout silencioso.',
+    abertura:'"Obrigado por ter vindo. Sei que pra muita gente com o seu perfil, dar esse passo não é fácil. Vou ser direto: nossa conversa não vai ser de conselhos — vou fazer algumas perguntas, e o que você vai descobrir vai vir de você mesmo. Combinado?"',
+    aberturaObs:'Ele/ela gosta de controle. Dê isso a ele/ela desde o início.',
+    perguntas:[
+      {num:'P1', texto:'Você falou em perda de rendimento. Compara: como você estava há 2 anos versus agora? O que mudou objetivamente?', obs:'Usa linguagem de performance que ele/ela entende.'},
+      {num:'P2', texto:'O que te fez aguentar tanto tempo? O que te motivava antes que hoje não motiva mais?', obs:'Mapeia o que foi perdido.'},
+      {num:'P3', texto:'Fora do trabalho — nas relações, no seu corpo — o que o esgotamento já tomou de você?', obs:'Expande o custo para além do profissional.'},
+      {num:'P4', texto:'Se você parar — tirar uma semana, um mês — o que você tem medo que aconteça?', obs:'Revela o núcleo: medo de não ser suficiente, de perder valor.'},
+    ],
+    tecnica:'Separação entre Identidade e Desempenho',
+    tecnicaPassos:[
+      {titulo:'Espelhamento preciso', script:'"Você descreveu muito bem o que você faz. Me fala agora: quem você é quando não está produzindo?" [Silêncio de 5–10 segundos.]'},
+      {titulo:'Nomeando o padrão', script:'"O que eu estou ouvindo é alguém que aprendeu muito cedo que seu valor estava diretamente ligado ao que você entrega. E esse sistema funcionou — te trouxe até aqui. Mas sistemas têm limite de carga. O esgotamento não é fraqueza. É o sinal de que você chegou no teto de um modelo que precisa ser atualizado."'},
+      {titulo:'Intervenção cognitiva', script:'"Vou te fazer uma pergunta diferente. Se um colaborador seu chegasse com exatamente os sintomas que você me descreveu — o que você diria a ele?" [Ouve.] "E por que você não aplica isso a você mesmo?" [Silêncio.]'},
+    ],
+    fechamento:'"Você não perdeu a motivação. Você está exausto de tentar ser suficiente o tempo todo. São coisas muito diferentes — e têm soluções muito diferentes."',
+    ancora:'"Meu valor não é o que eu produzo." — Pergunte se parece mentira e trabalhe a resistência.',
+    proposta:'"Você veio aqui por um problema de performance. O que eu estou te dizendo é que por baixo disso tem um padrão de identidade — e esse padrão não se resolve em uma conversa. Tem dois caminhos que eu ofereço: um processo de 8 sessões onde a gente vai até a raiz, ou um de 4 sessões focado em estabilização e ferramentas práticas. Qual faz mais sentido?"',
+    pacoteIdeal:'8 sessões',
+  },
+  {
+    num:'03', id:'r03',
+    perfil:'A Mãe que Perdeu a Si Mesma',
+    tags:['Maternidade','Identidade','Culpa'],
+    cor:'#7A3B9A', bg:'#FAF0FF',
+    icone:'👶',
+    queixa:'"Amo meus filhos mas me sinto muito presa. Me sinto uma pessoa ruim por sentir isso."',
+    faixaEtaria:'30–45 anos',
+    descricao:'Filhos pequenos. Sente culpa por qualquer necessidade própria. Perdeu identidade. Irritabilidade, choro fácil, sensação de viver para os outros.',
+    abertura:'"Antes de qualquer coisa: obrigada pela sua coragem de vir. E preciso te dizer uma coisa já de começo — o que você está sentindo não te faz uma pessoa ruim. Faz de você uma pessoa honesta. Aqui é um lugar seguro para ser exatamente isso."',
+    aberturaObs:'A validação inicial é essencial para reduzir a culpa que ela carrega para a sessão.',
+    perguntas:[
+      {num:'P1', texto:'Você falou que se sente presa. Me conta mais — presa em relação a quê?', obs:'Deixa ela definir, não pressupõe.'},
+      {num:'P2', texto:'Antes de ser mãe — quem era você? O que você gostava de fazer, de sentir, de ser?', obs:'Resgata identidade pré-maternidade.'},
+      {num:'P3', texto:'Quando foi a última vez que você fez algo só por você, sem culpa?', obs:'Torna a carência concreta e mensurável.'},
+      {num:'P4', texto:'Essa culpa que você sente por ter necessidades próprias — de onde você acha que ela veio?', obs:'Inicia rastreamento da origem.'},
+    ],
+    tecnica:'Recuperação de Identidade + Permissão',
+    tecnicaPassos:[
+      {titulo:'Validação profunda', script:'"Você não está cansada de ser mãe. Você está cansada de ter apagado tudo que existia antes da maternidade. São coisas completamente diferentes."'},
+      {titulo:'Identificando o modelo aprendido', script:'"A mãe que você aprendeu a ser — onde você aprendeu isso? Sua mãe se cuidava? Ela tinha espaço para suas próprias necessidades?" [Deixa a conexão acontecer.]'},
+      {titulo:'Intervenção do espelho', script:'"Você quer que seus filhos cresçam vendo uma mãe que se apaga ou uma mãe que se respeita? Porque o que eles vão aprender sobre amor próprio é o que você demonstrar, não o que você disser." [Dê espaço para a emoção.]'},
+      {titulo:'Exercício âncora', script:'"Feche os olhos e pense em uma coisa que a versão de você de antes da maternidade amava fazer. O que apareceu?" → "Isso ainda existe em você. Não foi embora. Só ficou esperando."'},
+    ],
+    fechamento:'"Uma mãe que se cuida não é egoísta — ela é um modelo." — Peça para repetir.',
+    ancora:'"Eu mereço existir além do meu papel de mãe."',
+    proposta:'"O que a gente tocou hoje é só a superfície de um processo que precisa de tempo e de segurança. Trabalho com pacotes de 8 sessões — que seria o ideal pra você reconstituir sua identidade — e de 4 sessões se você quiser começar com um processo mais curto. O que faz mais sentido pra você agora?"',
+    pacoteIdeal:'8 sessões',
+  },
+  {
+    num:'04', id:'r04',
+    perfil:'O Jovem Sem Propósito',
+    tags:['Propósito','Crise de Identidade','20–30 anos'],
+    cor:'#1A6B47', bg:'#F0FAF4',
+    icone:'🧭',
+    queixa:'"Não sei o que quero da vida. Todo mundo parece saber e eu não."',
+    faixaEtaria:'20–30 anos',
+    descricao:'Formado ou quase. Não sabe quem é, o que quer, pra onde vai. Compara com os outros nas redes. Sensação de vazio e de estar atrasado.',
+    abertura:'"Que bom que você veio. O que você descreveu — não saber o que quer — é um dos momentos mais desafiadores e ao mesmo tempo mais importantes da vida adulta. Hoje a gente vai olhar para isso juntos."',
+    aberturaObs:'Evite usar a palavra "propósito" nas primeiras perguntas — carrega peso e expectativa demais.',
+    perguntas:[
+      {num:'P1', texto:'Quando você olha pra vida que você tem hoje — o que mais te incomoda nela?', obs:'Abre pelo desconforto, não pela aspiração.'},
+      {num:'P2', texto:'Esse "não saber o que quero" — há quanto tempo está com você? Foi sempre assim ou teve um momento em que você sabia?', obs:'Situa no tempo.'},
+      {num:'P3', texto:'Quando você imagina a vida que gostaria de ter — o que aparece? Mesmo que vago, mesmo que pareça impossível.', obs:'Abre o campo do desejo real.'},
+      {num:'P4', texto:'O que te impede de ir nessa direção? Quando você pensa nisso, o que aparece?', obs:'Identifica o bloqueio central.'},
+    ],
+    tecnica:'Separação entre Propósito Imposto e Propósito Real — Exercício dos 3 Mundos',
+    tecnicaPassos:[
+      {titulo:'Distinção fundamental', script:'"Tem o que você acha que deveria querer — baseado no que sua família espera, no que seus amigos fazem, no que as redes mostram. E tem o que você realmente quer. A sua confusão pode não ser \'não saber\' — pode ser que você sabe, mas tem medo de que o que você quer não seja suficiente ou aprovado."'},
+      {titulo:'Exercício dos 3 Mundos', script:'"Vou te pedir pra imaginar três mundos. No primeiro, ninguém vai te julgar pelo que você escolher. No segundo, você tem garantia de sucesso em qualquer coisa. No terceiro, você vai morrer em 10 anos e quer olhar pra trás sem arrependimento. Em cada um — o que você escolheria?" [Anote as respostas. Os padrões que se repetem são pistas.]'},
+      {titulo:'Revelando o padrão', script:'"Olha o que se repetiu nos três mundos: [X]. Isso não é coincidência. Isso é sinal."'},
+    ],
+    fechamento:'"Você não está atrasado. Você está no tempo exato de começar a se ouvir de verdade."',
+    ancora:'"O que me move existe. Eu só preciso ter coragem de escutá-lo."',
+    proposta:'"A crise de propósito não se resolve com uma conversa — ela precisa de um processo de autoconhecimento. Trabalho com pacotes de 8 sessões para quem quer ir fundo nisso, e de 4 sessões para quem quer ter uma bússola inicial. O que faz sentido pra você?"',
+    pacoteIdeal:'4 ou 8 sessões',
+  },
+  {
+    num:'05', id:'r05',
+    perfil:'O Casal em Crise (Individual)',
+    tags:['Relacionamentos','Conflito','Decisão'],
+    cor:'#CC7733', bg:'#FFF5EE',
+    icone:'💔',
+    queixa:'"Meu relacionamento está muito difícil. Não sei se vale continuar."',
+    faixaEtaria:'28–45 anos',
+    descricao:'Relacionamento com conflito recorrente. Sensação de não ser ouvido/a, de estar sozinho/a mesmo junto. Dúvida sobre continuar ou separar.',
+    abertura:'"Me conta como você está chegando aqui hoje. Não precisa começar pelo relacionamento — pode começar por como você está."',
+    aberturaObs:'Começar por como a pessoa está, não pelo problema, cria conexão mais rápida e reduz defesa.',
+    perguntas:[
+      {num:'P1', texto:'Me conta como está seu relacionamento hoje — não o que aconteceu, mas como você se sente dentro dele.', obs:'Prioriza o sentimento, não o conteúdo.'},
+      {num:'P2', texto:'Tinha uma época em que era diferente? Como era?', obs:'Resgata o que existia antes.'},
+      {num:'P3', texto:'O que você mais sente falta na relação? E o que você mais sente falta em você dentro dessa relação?', obs:'Diferencia a queixa do outro da queixa de si mesmo.'},
+      {num:'P4', texto:'Se você soubesse com certeza que o relacionamento ia melhorar — você ficaria? E se soubesse que não ia — o que você faria?', obs:'Revela o que ela/ele realmente quer.'},
+    ],
+    tecnica:'Diferenciação Eu/Relação',
+    tecnicaPassos:[
+      {titulo:'Redirecionando o foco', script:'"Uma coisa que percebo é que você está falando muito sobre o que o outro faz ou não faz. Quero focar em você por um momento. Como você está, além da relação? Quem é você fora desse problema?"'},
+      {titulo:'Identificando o padrão relacional', script:'"Esse padrão de se sentir não ouvido/a — ele só existe nesse relacionamento ou apareceu antes? Nas outras relações, na sua família de origem?" [Aqui surgem padrões de vínculo aprendidos.]'},
+      {titulo:'Responsabilidade sem culpa', script:'"Não estou dizendo que o problema é seu. Estou dizendo que tem uma parte sua nessa dinâmica — não porque você é culpado/a, mas porque você também aprendeu a se relacionar de um jeito. E isso você pode mudar, independente do que o outro faça."'},
+    ],
+    fechamento:'"A pergunta não é \'o relacionamento vale a pena\'. A pergunta é \'eu valho a pena trabalhar em mim mesmo/a?\' E a resposta é sim."',
+    ancora:'"Eu posso mudar minha parte nessa dinâmica. Isso começa em mim."',
+    proposta:'"O que você precisa agora não é uma resposta sobre ficar ou sair — é entender quem você é nessa relação e o que você quer de fato. Ofereço pacotes de 8 sessões para quem quer ir fundo no autoconhecimento relacional, e de 4 sessões mais focadas em decisão e clareza. O que faz mais sentido?"',
+    pacoteIdeal:'4 ou 8 sessões',
+  },
+  {
+    num:'06', id:'r06',
+    perfil:'O Enlutado',
+    tags:['Luto','Perda','Acolhimento'],
+    cor:'#4A6B8A', bg:'#EEF4FA',
+    icone:'🕊️',
+    queixa:'"Perdi minha mãe há 4 meses. Achei que já ia estar melhor."',
+    faixaEtaria:'Qualquer idade',
+    descricao:'Perdeu alguém importante. Está em luto mas funcionando externamente. Sente culpa por não estar superando.',
+    abertura:'"Antes de qualquer pergunta, quero dizer: obrigado por estar aqui. Sei que carregar uma perda e ainda assim dar um passo como esse exige muita força. Não tem prazo para luto. E hoje não precisa estar bem — pode estar exatamente como está."',
+    aberturaObs:'Não apresse para as perguntas. O acolhimento inicial aqui é mais longo do que em outros perfis.',
+    perguntas:[
+      {num:'P1', texto:'Como você está descrevendo como se sente para as pessoas ao seu redor? E como você está de verdade?', obs:'Revela a diferença entre o que mostra e o que sente.'},
+      {num:'P2', texto:'Quem foi [a pessoa perdida] para você? Me conta sobre ela/ele.', obs:'Não interrompa. Essa escuta já é terapêutica.'},
+      {num:'P3', texto:'O que você ainda não conseguiu dizer sobre essa perda — pra ninguém?', obs:'Abre o que ficou em aberto. Onde o luto frequentemente trava.'},
+      {num:'P4', texto:'Você falou em estar melhor. O que seria "estar melhor" para você?', obs:'Desmistifica a expectativa de superação.'},
+    ],
+    tecnica:'Validação do Luto + Continuação do Vínculo',
+    tecnicaPassos:[
+      {titulo:'Desmistificando o luto', script:'"Tem uma ideia equivocada de que luto é linear — que você vai do chão, melhora aos poucos e um dia fica bem. A realidade é muito mais complexa. O luto não é sobre esquecer. É sobre aprender a carregar."'},
+      {titulo:'A culpa do luto', script:'"Você falou [repita o que expressou sobre culpa]. Quero que você saiba: o luto não tem jeito certo. Sentir raiva, alívio, culpa, vazio — tudo isso é luto. Nenhum sentimento torna você uma pessoa ruim."'},
+      {titulo:'Exercício de continuação do vínculo', script:'"Quero te convidar a fazer algo. Pensa em [a pessoa perdida]. O que ela diria pra você agora, se estivesse aqui? O que ela gostaria que você fizesse com essa dor?" [Dê muito espaço para a emoção.]'},
+    ],
+    fechamento:'"Você não precisa superar. Você precisa integrar. Existe uma diferença enorme — e você está no caminho."',
+    ancora:'"Minha dor é a medida do amor que senti. E isso nunca vai embora."',
+    proposta:'"O que você carrega é muito. E carregar sozinho tem um custo alto. Trabalho com pacotes de 8 sessões para acompanhamento mais longo, e de 4 sessões para quem precisa de um suporte mais imediato. Qual soa mais certo pra você agora?"',
+    pacoteIdeal:'8 sessões',
+    alerta:'Tome cuidado com o timing da proposta — seja mais gentil e menos diretivo. O vínculo vem antes da oferta.',
+  },
+  {
+    num:'07', id:'r07',
+    perfil:'O Perfeccionista Autodestrutivo',
+    tags:['Perfeccionismo','Autocrítica','Bloqueio'],
+    cor:'#8B1A1A', bg:'#FFF0F0',
+    icone:'🎯',
+    queixa:'"Sou muito exigente comigo mesmo e isso me paralisa."',
+    faixaEtaria:'25–45 anos',
+    descricao:'Alto nível de exigência consigo mesmo. Procrastina por medo de não fazer bem. Autocrítica intensa. Nunca se sente suficiente.',
+    abertura:'"Que interessante que você veio com essa queixa — muita gente exigente demais consigo mesma tem dificuldade de admitir isso, como se admitir fosse uma fraqueza. O fato de você estar aqui já diz muito."',
+    aberturaObs:'Valide a coragem de reconhecer o padrão antes de começar a trabalhar.',
+    perguntas:[
+      {num:'P1', texto:'Essa exigência — como ela soa dentro da sua cabeça? Me dá um exemplo do que você ouve quando comete um erro.', obs:'Torna o crítico interno concreto.'},
+      {num:'P2', texto:'Você falaria com um amigo da forma que você fala consigo mesmo?', obs:'Clássica inversão que cria distância da autocrítica.'},
+      {num:'P3', texto:'Essa voz crítica — ela te lembra alguém? Ela tem um rosto, um tom, uma pessoa de referência?', obs:'Identifica a origem do crítico.'},
+      {num:'P4', texto:'O que você acha que aconteceria se você diminuísse um pouco essa exigência? O que você tem medo de se tornar?', obs:'Revela a função protetora da autocrítica.'},
+    ],
+    tecnica:'Origem do Crítico Interno + Autopiedade',
+    tecnicaPassos:[
+      {titulo:'Humanizando o crítico', script:'"Esse crítico interno não nasceu do nada. Ele foi criado para te proteger — para te manter alerta, para te fazer melhorar, para evitar erros que um dia foram perigosos ou dolorosos. O problema não é que ele existe. É que ele ainda age como se você fosse uma criança que precisa ser controlada."'},
+      {titulo:'Intenção positiva', script:'"Se esse crítico tivesse uma intenção positiva por trás de tudo — o que ele estaria tentando proteger em você?"'},
+      {titulo:'Exercício de autopiedade', script:'"Pensa numa situação recente em que você foi muito duro consigo mesmo. Agora imagina que um amigo próximo viveu exatamente essa situação. O que você diria a ele? Como você o trataria?" [Depois:] "Você acabou de mostrar que tem compaixão. Só precisa aprender a apontar ela para dentro."'},
+    ],
+    fechamento:'"Excelência e autopunição não são a mesma coisa. Você pode ser excelente e gentil consigo mesmo ao mesmo tempo."',
+    ancora:'"Meu melhor não é meu perfeito. E isso é suficiente."',
+    proposta:'"A autocrítica que te paralisa é um padrão antigo — e padrões antigos precisam de tempo e de trabalho consistente para mudar. Ofereço um processo de 8 sessões para ir à raiz disso, ou 4 sessões para aprender ferramentas práticas de gestão do crítico interno. O que faz sentido?"',
+    pacoteIdeal:'8 sessões',
+  },
+  {
+    num:'08', id:'r08',
+    perfil:'O Fóbico Social / Inseguro nas Relações',
+    tags:['Fobia Social','Insegurança','Rejeição'],
+    cor:'#1A6B47', bg:'#F0FAF4',
+    icone:'🫙',
+    queixa:'"Tenho muita dificuldade de me relacionar com as pessoas. Me sinto sempre de fora."',
+    faixaEtaria:'18–35 anos',
+    descricao:'Dificuldade de se posicionar, medo de rejeição, evitação social. Sente-se diferente dos outros, inadequado. Pode ter histórico de bullying.',
+    abertura:'"Obrigado por estar aqui — sei que pra muita gente com esse perfil, falar sobre isso com um desconhecido já é um desafio enorme. Então quero que você saiba: aqui não tem julgamento."',
+    aberturaObs:'Nomeie a coragem de estar ali — isso já modela uma experiência diferente de relação.',
+    perguntas:[
+      {num:'P1', texto:'Quando você diz "de fora" — o que você quer dizer com isso? Como é essa sensação?', obs:'Pede especificidade para a experiência interna.'},
+      {num:'P2', texto:'Em que tipos de situação isso aparece mais? E quando você está mais à vontade?', obs:'Mapeia contextos e exceções.'},
+      {num:'P3', texto:'Lembra de alguma situação na infância ou adolescência em que você se sentiu excluído ou julgado de uma forma que ficou com você?', obs:'Conecta ao aprendizado original.'},
+      {num:'P4', texto:'Se você não tivesse esse medo — o que você faria diferente na sua vida?', obs:'Mapeia o custo e o desejo real.'},
+    ],
+    tecnica:'Exposição Cognitiva + Reescrita da Narrativa de Si',
+    tecnicaPassos:[
+      {titulo:'Nomeando a crença', script:'"Parece que por baixo dessa dificuldade tem uma crença de que você não é suficientemente interessante, ou de que as pessoas vão te rejeitar se te conhecerem de verdade. Isso ressoa?"'},
+      {titulo:'Origem da crença', script:'"Essa crença faz sentido se você passou por situações onde realmente foi rejeitado ou excluído. Ela foi uma proteção. Mas ela também te impediu de descobrir que você é capaz de conexão genuína."'},
+      {titulo:'A experiência como evidência', script:'"Quero que você olhe pra essa sessão agora. Você se abriu, você foi honesto, você se mostrou. O que aconteceu? Eu te rejeitei?" [Deixe a experiência falar por si.]'},
+    ],
+    fechamento:'"Você não é difícil de amar. Você só aprendeu que era. E essa aprendizagem pode ser refeita."',
+    ancora:'"Eu sou capaz de conexão real. Isso está em mim."',
+    proposta:'"O processo de construir segurança nas relações é gradual — e muito mais profundo do que dicas de comunicação. Trabalho com pacotes de 8 sessões para quem quer transformação real, e de 4 sessões para quem quer um ponto de partida. O que faz mais sentido pra você?"',
+    pacoteIdeal:'8 sessões',
+  },
+  {
+    num:'09', id:'r09',
+    perfil:'O Trauma Oculto',
+    tags:['Trauma','Vazio','Sem Motivo'],
+    cor:'#5A3080', bg:'#F5F0FF',
+    icone:'🌫️',
+    queixa:'"Não sei bem por que vim. Minha vida é boa, mas não consigo me sentir feliz."',
+    faixaEtaria:'Qualquer idade',
+    descricao:'Sente que não tem motivo para estar mal. Vida aparentemente boa. Vazio difuso, reações emocionais desproporcionais.',
+    abertura:'"Isso que você descreveu — ter tudo bem no papel mas não estar bem por dentro — é uma das formas mais solitárias de sofrer. Porque além do sofrimento, ainda vem a culpa de \'não ter motivo\'. Então quero que você saiba: você não precisa justificar seu sofrimento. Estar aqui já é motivo suficiente."',
+    aberturaObs:'A validação do sofrimento sem causa aparente é o alicerce desta sessão.',
+    perguntas:[
+      {num:'P1', texto:'Você disse que não sabe bem por que veio. Mas algo te trouxe até aqui hoje. O que foi?', obs:'Há sempre algo. A pergunta ajuda a nomear.'},
+      {num:'P2', texto:'Esse vazio que você sente — como ele aparece? Quando é mais intenso?', obs:'Torna concreto algo que parece abstrato.'},
+      {num:'P3', texto:'Tem alguma situação, lugar ou tipo de interação que dispara uma emoção muito forte — mesmo que pareça desproporcional?', obs:'Rastreia gatilhos de trauma não processado.'},
+      {num:'P4', texto:'Como era a atmosfera emocional da sua casa quando você crescia? Era um lugar seguro emocionalmente?', obs:'Conecta ao contexto de formação.'},
+    ],
+    tecnica:'Psicoeducação sobre Trauma + Validação da Experiência',
+    tecnicaPassos:[
+      {titulo:'Normalizando', script:'"Trauma não é só um evento catastrófico. Trauma é qualquer experiência que o seu sistema nervoso não conseguiu processar no momento em que aconteceu. Pode ser anos de invalidação emocional, de não poder sentir certas coisas, de precisar ser forte quando queria chorar."'},
+      {titulo:'Conectando os pontos', script:'"Quando você me descreveu [repita algo específico que o paciente disse] — o que você estava sentindo naquele momento da vida?" [Começa a aparecer o que estava oculto.]'},
+      {titulo:'Validação', script:'"Faz todo sentido que você esteja assim. Seu sistema nervoso aprendeu a sobreviver — e sobreviver às vezes significa desconectar do que se sente. O vazio não é ausência de emoção. É uma emoção que foi ensinada a ficar quieta."'},
+    ],
+    fechamento:'"Você não está quebrado. Você está protegido de uma forma que não precisa mais."',
+    ancora:'"Meu sistema nervoso aprendeu a se proteger. Agora posso aprender a se abrir."',
+    proposta:'"O que surgiu hoje é só o começo de um processo que vai precisar de cuidado e de tempo. Traumas ocultos não se resolvem rapidamente — mas respondem muito bem ao processo terapêutico consistente. Trabalho com pacotes de 8 sessões para acompanhamento profundo, e de 4 sessões para quem quer um primeiro mapeamento. O que faz sentido pra você?"',
+    pacoteIdeal:'8 sessões',
+  },
+  {
+    num:'10', id:'r10',
+    perfil:'O Dependente Emocional',
+    tags:['Dependência','Apego','Relacionamentos'],
+    cor:'#C9A84C', bg:'#FFF9EC',
+    icone:'🔗',
+    queixa:'"Sempre me entrego demais nos relacionamentos e fico arrasado quando termina."',
+    faixaEtaria:'22–40 anos',
+    descricao:'Se apaga nos relacionamentos. Medo de abandono intenso. Faz tudo pelo outro para não ser deixado. Fica em relações que não servem.',
+    abertura:'"Obrigado por trazer isso. O que você descreveu — se entregar demais — não é fraqueza. É uma estratégia que faz todo sentido quando a gente aprende que precisa dar muito para ser amado."',
+    aberturaObs:'Não use a expressão "dependência emocional" logo de início — pode criar resistência.',
+    perguntas:[
+      {num:'P1', texto:'Quando você diz que se entrega demais — o que você faz que sente que é demais?', obs:'Torna concreto o comportamento.'},
+      {num:'P2', texto:'O que acontece em você quando sente que alguém pode te deixar — mesmo que ainda não tenha acontecido?', obs:'Mapeia o medo antecipatório.'},
+      {num:'P3', texto:'Como era a segurança de vínculo com seus cuidadores quando você era criança? Você se sentia seguro de que o amor estava garantido?', obs:'Conecta ao apego da infância.'},
+      {num:'P4', texto:'O que você acha que tem de errado em você que faz as pessoas irem embora?', obs:'Revela a crença central. Trabalhe com cuidado.'},
+    ],
+    tecnica:'Teoria do Apego Simplificada + Ressignificação da Crença',
+    tecnicaPassos:[
+      {titulo:'Psicoeducação de apego', script:'"Você aprendeu a se relacionar de um jeito específico muito cedo — baseado no que você viveu com as pessoas que deveriam te fazer sentir seguro. Quando esse apego não foi estável, o sistema aprendeu: \'preciso fazer tudo para não ser abandonado.\' Isso não é fraqueza. É uma resposta inteligente a um ambiente inseguro."'},
+      {titulo:'Separando passado do presente', script:'"O problema é que você ainda usa essa estratégia hoje — com pessoas que talvez não sejam ameaça. Você leva o passado pra dentro do presente."'},
+      {titulo:'Invertendo o foco', script:'"Nas suas relações — quem cuida de você? Ou você sempre é quem cuida?" [Silêncio. Deixe trabalhar.]'},
+    ],
+    fechamento:'"Você não é difícil demais para ser amado. Você só ainda não aprendeu que o amor não precisa ser comprado com entrega total."',
+    ancora:'"Eu mereço ser amado sem precisar me apagar para isso."',
+    proposta:'"O que você descreveu é um padrão de apego — e padrões de apego respondem muito bem à terapia, mas precisam de consistência. Ofereço 8 sessões para trabalho profundo com esse padrão, ou 4 sessões para um primeiro processo de compreensão. O que faz sentido?"',
+    pacoteIdeal:'8 sessões',
+  },
+  {
+    num:'11', id:'r11',
+    perfil:'O que Passou por Abuso ou Violência',
+    tags:['Trauma','Abuso','Violência'],
+    cor:'#5A5A5A', bg:'#F5F5F5',
+    icone:'🛡️',
+    queixa:'"Passei por coisas difíceis e acho que isso ainda me afeta."',
+    faixaEtaria:'Qualquer idade',
+    descricao:'Histórico de violência psicológica, física ou sexual. Pode não nomear como abuso. Baixa autoestima, dificuldade de confiar, hipervigilância.',
+    abertura:'"Hoje não tem pressa. Esse espaço é completamente seu — no ritmo que for confortável pra você. Não precisa contar nada que não queira. Pode começar de onde fizer sentido."',
+    aberturaObs:'⚠️ Passe mais tempo no acolhimento (até 8 min). O vínculo de segurança é a primeira intervenção. Nunca pressione.',
+    perguntas:[
+      {num:'P1', texto:'Como você está se sentindo hoje — no geral?', obs:'Começa suave. Não vai direto para o trauma.'},
+      {num:'P2', texto:'Quanto tempo você está carregando isso?', obs:'Situa no tempo sem pedir detalhes do evento.'},
+      {num:'P3', texto:'Houve situações na sua vida em que pessoas que deveriam te proteger te machucaram — de alguma forma?', obs:'Se ela/ele se fechar: "Está tudo bem. Não precisa ir lá agora."'},
+      {num:'P4', texto:'O que você gostaria de sentir que ainda não consegue?', obs:'Foca no desejo, não na dor.'},
+    ],
+    tecnica:'Estabilização e Segurança — SEM Exposição ao Trauma',
+    tecnicaPassos:[
+      {titulo:'Estabelecendo segurança', script:'"Antes de qualquer coisa, quero que a gente trabalhe algo importante: a sua segurança agora. Não vamos ir a lugares dolorosos hoje sem que você esteja pronto/a. O processo começa pela base — e a base é que esse espaço é seguro."'},
+      {titulo:'Técnica do lugar seguro', script:'"Fecha os olhos se quiser. Pensa num lugar — real ou imaginário — onde você se sente completamente seguro. Um lugar onde nada pode te machucar. Descreve esse lugar pra mim." [Âncora do recurso. Pode usar em momentos de dificuldade.]'},
+      {titulo:'Nomeando sem rotular', script:'"O que você carrega não é culpa sua. Nunca foi. E o fato de você estar aqui hoje mostra que existe uma parte sua que sabe que merece mais do que isso."'},
+    ],
+    fechamento:'"Você sobreviveu. E sobreviver foi necessário. Agora é hora de começar a viver."',
+    ancora:'"Não sou o que aconteceu comigo. Sou o que escolho ser a partir daqui."',
+    proposta:'"O que você precisa agora é de um espaço consistente e seguro — algo que vai construindo ao longo do tempo. Trabalho com pacotes de 8 sessões porque processo como o seu pede tempo e confiança. Se quiser começar mais devagar, tenho também o pacote de 4 sessões. O que soa mais certo pra você?"',
+    pacoteIdeal:'8 sessões',
+    alerta:'Seja ainda mais cuidadoso/a na proposta. A relação de segurança vem primeiro. Se sentir resistência, ofereça uma segunda sessão antes de apresentar pacotes.',
+  },
+  {
+    num:'12', id:'r12',
+    perfil:'O Estagnado',
+    tags:['Estagnação','Apatia','Sem Brilho'],
+    cor:'#7A7A5A', bg:'#FAFAF0',
+    icone:'⏸️',
+    queixa:'"Não tenho nada de errado mas não me sinto vivo. Só vou levando."',
+    faixaEtaria:'30–55 anos',
+    descricao:'Vida aceitável mas sem brilho. Não está em crise mas não está bem. Apatia, falta de motivação, anos passando.',
+    abertura:'"Sabe, o que você descreveu é uma das queixas mais comuns e ao mesmo tempo mais ignoradas. As pessoas tendem a buscar ajuda quando estão em crise. Você veio antes da crise — e isso diz muito sobre você."',
+    aberturaObs:'Reforce que vir antes da crise é atitude de inteligência emocional, não fraqueza.',
+    perguntas:[
+      {num:'P1', texto:'Quando você diz "só vai levando" — o que seria o oposto disso? Como seria uma vida que você de fato quisesse viver?', obs:'Cria contraste entre o atual e o desejado.'},
+      {num:'P2', texto:'Teve algum momento na sua vida em que você se sentiu mais vivo — mais presente? O que era diferente?', obs:'Rastreia momentos de vitalidade.'},
+      {num:'P3', texto:'O que você abriu mão ao longo dos anos que talvez ainda faça falta?', obs:'Identifica o que foi perdido no caminho.'},
+      {num:'P4', texto:'O que te impede de mudar? Não o que atrapalha — o que te impede internamente?', obs:'Diferencia obstáculo externo de bloqueio interno.'},
+    ],
+    tecnica:'Rastreamento de Vitalidade + Confronto Suave com o Tempo',
+    tecnicaPassos:[
+      {titulo:'Nomeando o estado', script:'"O que você está descrevendo tem um nome: é o estado de \'funcionamento\' — quando a pessoa opera no piloto automático. Não está mal o suficiente para parar, não está bem o suficiente para viver de verdade. É uma zona de conforto desconfortável."'},
+      {titulo:'O custo do tempo', script:'"Você falou que os anos estão passando. Quanto tempo você está nesse estado? E se daqui 5 anos nada tiver mudado — como você vai se sentir?" [Essa projeção temporal cria urgência interna genuína.]'},
+      {titulo:'Encontrando o fio', script:'"Você disse que em [período X] se sentia mais vivo. O que havia nesse período que não há agora? Não precisa ser grande coisa — pode ser um detalhe." [Trabalhe o detalhe. Ele é a pista do caminho.]'},
+    ],
+    fechamento:'"A vida não começa quando as condições ficam perfeitas. Ela começa quando você decide que quer mais do que sobreviver."',
+    ancora:'"Eu quero mais do que funcionar. Eu quero viver."',
+    proposta:'"O que você precisa é de um processo de reconexão com o que te faz vivo — e isso tem camadas. Trabalho com pacotes de 8 sessões para um processo completo de transformação, ou de 4 sessões para quem quer começar a se mover. O que faz mais sentido pra você agora — antes que mais um ano passe?"',
+    pacoteIdeal:'4 ou 8 sessões',
+  },
+];
+
+function renderMK2(c) {
+  // Injetar CSS específico se ainda não existe
+  if (!document.getElementById('mk2-style')) {
+    var st = document.createElement('style');
+    st.id = 'mk2-style';
+    st.textContent = `
+      .mk2-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:20px}
+      .mk2-overview-card{background:var(--white);border:1.5px solid var(--b1);border-radius:var(--r3);padding:18px;cursor:pointer;transition:all .2s var(--ease);position:relative;overflow:hidden}
+      .mk2-overview-card:hover{transform:translateY(-3px);box-shadow:var(--s3);border-color:var(--b2)}
+      .mk2-overview-card.selected{box-shadow:var(--s3)}
+      .mk2-ov-icon{font-size:26px;margin-bottom:10px;display:block}
+      .mk2-ov-num{font-family:var(--f-code);font-size:8.5px;font-weight:400;letter-spacing:1.5px;margin-bottom:4px;text-transform:uppercase}
+      .mk2-ov-perfil{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:5px;line-height:1.3}
+      .mk2-ov-queixa{font-size:11.5px;color:var(--t4);font-style:italic;line-height:1.5;margin-bottom:8px}
+      .mk2-tags{display:flex;flex-wrap:wrap;gap:4px}
+      .mk2-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--muted);color:var(--t3);border:1px solid var(--b1)}
+      .mk2-roteiro-panel{border:1.5px solid var(--b1);border-radius:var(--r4);overflow:hidden;margin-bottom:12px}
+      .mk2-rp-header{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;background:var(--white);transition:background .1s}
+      .mk2-rp-header:hover{background:var(--off)}
+      .mk2-rp-badge{width:42px;height:42px;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;color:#fff}
+      .mk2-rp-num{font-family:var(--f-code);font-size:8.5px;font-weight:400;letter-spacing:1.5px;margin-bottom:2px;text-transform:uppercase}
+      .mk2-rp-title{font-size:15px;font-weight:700;color:var(--t1);line-height:1.2;margin-bottom:3px}
+      .mk2-rp-meta{font-size:12px;color:var(--t4);font-style:italic}
+      .mk2-rp-chevron{font-size:11px;color:var(--g);flex-shrink:0;margin-left:auto}
+      .mk2-rp-body{border-top:1px solid var(--b1);background:var(--white)}
+      .mk2-section{padding:16px 20px;border-bottom:1px solid var(--b1)}
+      .mk2-section:last-child{border-bottom:none}
+      .mk2-sec-label{font-family:var(--f-code);font-size:8.5px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--b1)}
+      .mk2-abertura-box{background:var(--off);border-left:3px solid var(--g);border-radius:0 var(--r2) var(--r2) 0;padding:14px 16px;font-family:var(--f-display);font-size:14px;font-style:italic;color:var(--t1);line-height:1.9;margin-bottom:8px}
+      .mk2-obs-pill{background:var(--amber-bg);border-radius:var(--r1);padding:6px 12px;font-size:12px;color:var(--amber);line-height:1.5;margin-top:4px}
+      .mk2-perg{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--b1)}
+      .mk2-perg:last-child{border-bottom:none}
+      .mk2-pnum{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px}
+      .mk2-ptext{font-size:13.5px;font-weight:600;color:var(--t1);line-height:1.5;flex:1}
+      .mk2-pobs{font-size:11.5px;color:var(--t4);font-style:italic;margin-top:2px;line-height:1.4}
+      .mk2-passo{background:var(--off);border:1px solid var(--b1);border-radius:var(--r2);padding:14px;margin-bottom:8px}
+      .mk2-passo:last-child{margin-bottom:0}
+      .mk2-passo-titulo{font-family:var(--f-code);font-size:8.5px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+      .mk2-passo-script{background:var(--white);border-left:3px solid;border-radius:0 var(--r1) var(--r1) 0;padding:10px 14px;font-family:var(--f-display);font-size:13.5px;font-style:italic;color:var(--t1);line-height:1.9}
+      .mk2-passo-desc{font-size:13px;color:var(--t2);line-height:1.6}
+      .mk2-ancora-box{background:var(--gp);border-left:3px solid var(--g);border-radius:0 var(--r2) var(--r2) 0;padding:12px 16px;font-family:var(--f-display);font-size:14px;font-style:italic;color:var(--t1);line-height:1.8}
+      .mk2-proposta-box{background:var(--t1);border-radius:var(--r2);padding:16px 18px;font-family:var(--f-display);font-size:14px;font-style:italic;color:var(--white);line-height:1.9}
+      .mk2-pacote-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gp);color:var(--g);border:1px solid var(--gr);border-radius:20px;padding:4px 14px;font-family:var(--f-code);font-size:9px;font-weight:400;letter-spacing:1px;margin-top:10px}
+      .mk2-alerta-box{background:var(--red-bg);border-left:3px solid var(--red);border-radius:0 var(--r1) var(--r1) 0;padding:10px 14px;font-size:12.5px;color:var(--red);line-height:1.6;margin-top:8px}
+      @media(max-width:600px){.mk2-grid{grid-template-columns:1fr}}
+    `;
+    document.head.appendChild(st);
+  }
+
+  var filterCat = 'ALL';
+
+  c.innerHTML = `
+    <div class="proto-title">Roteiros de Sessão Experimental</div>
+    <div class="proto-sub">12 roteiros por perfil de paciente — da abertura à proposta de pacote</div>
+    <div class="gold-rule"></div>
+
+    <div class="callout tip" style="margin-bottom:20px">
+      <b>COMO USAR:</b> Cada roteiro cobre 50 minutos completos: acolhimento → diagnóstico → intervenção → âncora → proposta. Adapte à sua voz — o roteiro é o mapa, não o script. A sessão experimental termina sempre com a apresentação do pacote mais adequado.
+    </div>
+
+    <div class="callout info" style="margin-bottom:24px">
+      <b>FUNIL DE FECHAMENTO:</b>
+      <span style="font-weight:700;color:var(--g)"> Pacote 8 sessões</span> (processo completo) →
+      <span style="font-weight:700;color:var(--t2)"> Pacote 4 sessões</span> (processo focado) →
+      <span style="font-weight:700;color:var(--t4)"> Sessão avulsa</span> (último caso)
+    </div>
+
+    <!-- FILTRO POR TAG -->
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px" id="mk2-filtros">
+      <button class="queixa-btn queixa-all active" onclick="mk2Filter('ALL',this)">Todos os 12</button>
+      <button class="queixa-btn" onclick="mk2Filter('Ansiedade',this)">Ansiedade</button>
+      <button class="queixa-btn" onclick="mk2Filter('Burnout',this)">Burnout</button>
+      <button class="queixa-btn" onclick="mk2Filter('Relacionamentos',this)">Relacionamentos</button>
+      <button class="queixa-btn" onclick="mk2Filter('Identidade',this)">Identidade</button>
+      <button class="queixa-btn" onclick="mk2Filter('Trauma',this)">Trauma</button>
+      <button class="queixa-btn" onclick="mk2Filter('Luto',this)">Luto</button>
+    </div>
+
+    <div id="mk2-list">
+      ${MK2_ROTEIROS.map(function(r){ return buildMK2Card(r); }).join('')}
+    </div>
+  `;
+}
+
+function buildMK2Card(r) {
+  var bodyId = 'mk2-body-' + r.id;
+  var chevId = 'mk2-chev-' + r.id;
+
+  var pergHtml = r.perguntas.map(function(p) {
+    return '<div class="mk2-perg">' +
+      '<div class="mk2-pnum" style="background:'+r.cor+'">'+p.num.replace('P','')+'</div>' +
+      '<div><div class="mk2-ptext">'+p.texto+'</div><div class="mk2-pobs">↳ '+p.obs+'</div></div>' +
+      '</div>';
+  }).join('');
+
+  var passosHtml = r.tecnicaPassos.map(function(p) {
+    var inner = p.script
+      ? '<div class="mk2-passo-script" style="border-color:'+r.cor+'">'+p.script+'</div>'
+      : '<div class="mk2-passo-desc">'+p.descricao+'</div>';
+    return '<div class="mk2-passo">' +
+      '<div class="mk2-passo-titulo" style="color:'+r.cor+'">'+p.titulo+'</div>' +
+      inner + '</div>';
+  }).join('');
+
+  var alertaHtml = r.alerta
+    ? '<div class="mk2-alerta-box"><b>⚠ Atenção:</b> ' + r.alerta + '</div>'
+    : '';
+
+  var tagsHtml = r.tags.map(function(t){
+    return '<span class="mk2-tag">'+t+'</span>';
+  }).join('');
+
+  return '<div class="mk2-roteiro-panel" id="mk2-panel-'+r.id+'" data-tags="'+r.tags.join(',').toLowerCase()+'">' +
+    '<div class="mk2-rp-header" onclick="toggleMK2(\''+r.id+'\')">' +
+    '<div class="mk2-rp-badge" style="background:'+r.cor+'">'+r.icone+'</div>' +
+    '<div style="flex:1;min-width:0">' +
+    '<div class="mk2-rp-num" style="color:'+r.cor+'">ROTEIRO '+r.num+' · '+r.faixaEtaria+'</div>' +
+    '<div class="mk2-rp-title">'+r.perfil+'</div>' +
+    '<div class="mk2-rp-meta">'+r.queixa+'</div>' +
+    '</div>' +
+    '<span class="mk2-rp-chevron" id="'+chevId+'">▼</span>' +
+    '</div>' +
+    '<div class="mk2-rp-body" id="'+bodyId+'" style="display:none">' +
+
+    // Tags e descrição
+    '<div class="mk2-section">' +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">'+tagsHtml+'</div>' +
+    '<div style="font-size:13px;color:var(--t3);line-height:1.6">'+r.descricao+'</div>' +
+    '</div>' +
+
+    // Abertura
+    '<div class="mk2-section">' +
+    '<div class="mk2-sec-label" style="color:'+r.cor+'">⏱ 0–5 min — Abertura e Acolhimento</div>' +
+    '<div class="mk2-abertura-box">"'+r.abertura+'"</div>' +
+    '<div class="mk2-obs-pill">↳ '+r.aberturaObs+'</div>' +
+    '</div>' +
+
+    // Perguntas
+    '<div class="mk2-section">' +
+    '<div class="mk2-sec-label" style="color:'+r.cor+'">🔍 5–20 min — Diagnóstico</div>' +
+    pergHtml +
+    '</div>' +
+
+    // Técnica
+    '<div class="mk2-section">' +
+    '<div class="mk2-sec-label" style="color:'+r.cor+'">⚡ 20–40 min — Intervenção: '+r.tecnica+'</div>' +
+    passosHtml +
+    '</div>' +
+
+    // Fechamento
+    '<div class="mk2-section">' +
+    '<div class="mk2-sec-label" style="color:'+r.cor+'">🎯 40–47 min — Fechamento e Âncora</div>' +
+    '<div style="font-size:13.5px;color:var(--t2);line-height:1.7;margin-bottom:10px">'+r.fechamento+'</div>' +
+    '<div class="mk2-sec-label" style="color:'+r.cor+'">FRASE ÂNCORA PARA LEVAR</div>' +
+    '<div class="mk2-ancora-box">'+r.ancora+'</div>' +
+    '</div>' +
+
+    // Proposta
+    '<div class="mk2-section">' +
+    '<div class="mk2-sec-label" style="color:'+r.cor+'">💼 47–50 min — Apresentação da Proposta</div>' +
+    '<div class="mk2-proposta-box">"'+r.proposta+'"</div>' +
+    '<div class="mk2-pacote-badge">✦ Pacote ideal: '+r.pacoteIdeal+'</div>' +
+    alertaHtml +
+    '</div>' +
+
+    '</div>' + // body
+    '</div>'; // panel
+}
+
+window.toggleMK2 = function(id) {
+  var body = document.getElementById('mk2-body-' + id);
+  var chev = document.getElementById('mk2-chev-' + id);
+  var open = body.style.display === 'none';
+  // Fecha todos os outros
+  MK2_ROTEIROS.forEach(function(r) {
+    if (r.id !== id) {
+      var b = document.getElementById('mk2-body-' + r.id);
+      var c2 = document.getElementById('mk2-chev-' + r.id);
+      if (b) b.style.display = 'none';
+      if (c2) c2.textContent = '▼';
+    }
+  });
+  body.style.display = open ? 'block' : 'none';
+  chev.textContent = open ? '▲' : '▼';
+  if (open) {
+    var panel = document.getElementById('mk2-panel-' + id);
+    if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
+window.mk2Filter = function(cat, btn) {
+  document.querySelectorAll('#mk2-filtros .queixa-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('[id^="mk2-panel-"]').forEach(function(panel) {
+    if (cat === 'ALL') {
+      panel.style.display = 'block';
+    } else {
+      var tags = (panel.dataset.tags || '').toLowerCase();
+      panel.style.display = tags.includes(cat.toLowerCase()) ? 'block' : 'none';
+    }
+  });
+};
+
 function renderComingSoon(c,id){
   if(id==='m2'){renderM2(c);return;}
   if(id==='m3'){renderM3(c);return;}
@@ -2894,6 +3447,7 @@ function renderComingSoon(c,id){
   if(id==='b5'){renderB5(c);return;}
   if(id==='b6'){renderB6(c);return;}
   if(id==='mk1'){renderMK1(c);return;}
+  if(id==='mk2'){renderMK2(c);return;}
   const labels={m2:"Árvore de Decisão Clínica",m3:"Scripts de Condução",m4:"Kit de Fichas de Acompanhamento",m5:"Jornada de 8 Sessões",m6:"Guia Terapeuta Lucrativo",b2:"Posts para Instagram",b3:"Calculadora de Faturamento",b4:"Certificado Digital",b5:"Stories Prontos",b6:"Criativos Prontos",mk1:"Gerador de Fluxo para WhatsApp"};
   c.innerHTML=`
     <div class="proto-title">${labels[id]||id}</div><div class="gold-rule"></div>
