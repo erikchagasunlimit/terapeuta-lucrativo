@@ -3310,6 +3310,409 @@ function renderMK2(c) {
       <button class="queixa-btn" onclick="mk2Filter('Luto',this)">Luto</button>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════
+         BLOCO DE ESTRATÉGIAS DE FECHAMENTO
+    ═══════════════════════════════════════════════════════ -->
+    <div id="mk2-fechamento-bloco" style="margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--b2) 40%,var(--b2) 60%,transparent)"></div>
+        <span style="font-family:var(--f-code);font-size:8.5px;letter-spacing:2px;color:var(--g);text-transform:uppercase;white-space:nowrap">Estratégia de Fechamento</span>
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--b2) 40%,var(--b2) 60%,transparent)"></div>
+      </div>
+
+      <!-- ACORDEÕES DE FECHAMENTO -->
+      <div id="mk2-fech-acordeoes" style="display:flex;flex-direction:column;gap:8px">
+
+        <!-- 1. MENTALIDADE -->
+        <div class="mk2-roteiro-panel" id="fech-panel-1">
+          <div class="mk2-rp-header" onclick="toggleFech('1')" style="padding:14px 18px">
+            <div class="mk2-rp-badge" style="background:var(--t1);font-size:18px">🧠</div>
+            <div style="flex:1;min-width:0">
+              <div class="mk2-rp-num" style="color:var(--g)">BASE</div>
+              <div class="mk2-rp-title">Mentalidade de Fechamento</div>
+              <div class="mk2-rp-meta">O que separa o terapeuta que fecha do que perde o paciente no final</div>
+            </div>
+            <span class="mk2-rp-chevron" id="fech-chev-1">▼</span>
+          </div>
+          <div class="mk2-rp-body" id="fech-body-1" style="display:none">
+            <div class="mk2-section">
+              <div class="callout tip" style="margin-bottom:14px">
+                <b>Premissa central:</b> Você não está vendendo. Você está apresentando um caminho para alguém que já demonstrou que precisa. Fechar é um ato terapêutico — deixar a pessoa ir sem estrutura é a omissão, não o fechamento.
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--off);border-radius:var(--r2);border-left:3px solid var(--g)">
+                  <span style="font-size:18px;flex-shrink:0">✗</span>
+                  <div>
+                    <div style="font-size:13.5px;font-weight:700;color:var(--red);margin-bottom:3px">Mentalidade errada</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6">"Não quero parecer que estou empurrando algo. Se quiser, me procura."<br>→ Resultado: paciente sai sem direção, resfria, não volta.</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--green-bg);border-radius:var(--r2);border-left:3px solid var(--green)">
+                  <span style="font-size:18px;flex-shrink:0">✓</span>
+                  <div>
+                    <div style="font-size:13.5px;font-weight:700;color:var(--green);margin-bottom:3px">Mentalidade correta</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6">"Meu papel é apresentar com clareza o que eu vi nessa sessão e o que eu proponho. A decisão é dele/dela — mas a omissão não é gentileza, é negligência."<br>→ Resultado: paciente sente que você enxergou algo real e que tem um plano.</div>
+                  </div>
+                </div>
+                <div style="padding:12px 14px;background:var(--gp);border-radius:var(--r2);border-left:3px solid var(--g)">
+                  <div style="font-family:var(--f-code);font-size:8.5px;color:var(--g);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">REGRA DE OURO</div>
+                  <div style="font-family:var(--f-display);font-size:14px;font-style:italic;color:var(--t1);line-height:1.8">O terapeuta que fecha é aquele que apresenta o próximo passo com convicção clínica — não com desculpa comercial.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. TIMING E ESTRUTURA -->
+        <div class="mk2-roteiro-panel" id="fech-panel-2">
+          <div class="mk2-rp-header" onclick="toggleFech('2')" style="padding:14px 18px">
+            <div class="mk2-rp-badge" style="background:var(--blue);font-size:18px">⏱</div>
+            <div style="flex:1;min-width:0">
+              <div class="mk2-rp-num" style="color:var(--blue)">TIMING</div>
+              <div class="mk2-rp-title">Estrutura dos Últimos 10 Minutos</div>
+              <div class="mk2-rp-meta">O que dizer, quando e em que ordem — da âncora à proposta</div>
+            </div>
+            <span class="mk2-rp-chevron" id="fech-chev-2">▼</span>
+          </div>
+          <div class="mk2-rp-body" id="fech-body-2" style="display:none">
+            <div class="mk2-section">
+              <div style="display:flex;flex-direction:column;gap:6px">
+
+                <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--off);border:1px solid var(--b1);border-radius:var(--r2)">
+                  <div style="background:var(--g);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:var(--f-code);font-size:11px;font-weight:700;flex-shrink:0">1</div>
+                  <div>
+                    <div style="font-family:var(--f-code);font-size:8.5px;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">40–43 min — ESPELHO DO AVANÇO</div>
+                    <div class="mk2-passo-script" style="border-color:var(--g);margin-bottom:6px">"Lá no começo você estava num [X — nota que o paciente deu]. Agora, depois do que a gente fez — onde você está? Tira um número."</div>
+                    <div style="font-size:12px;color:var(--t4);font-style:italic">↳ Espere a resposta. Se o número melhorou — use isso. É a prova de que o processo funciona. Se não melhorou — "Esse é exatamente o sinal de que há mais camadas para trabalhar."</div>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--off);border:1px solid var(--b1);border-radius:var(--r2)">
+                  <div style="background:var(--g);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:var(--f-code);font-size:11px;font-weight:700;flex-shrink:0">2</div>
+                  <div>
+                    <div style="font-family:var(--f-code);font-size:8.5px;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">43–45 min — ÂNCORA E DIAGNÓSTICO CLÍNICO</div>
+                    <div class="mk2-passo-script" style="border-color:var(--g);margin-bottom:6px">"O que eu vi hoje foi [diagnóstico direto, sem termos técnicos]. Isso tem origem — e tem solução. Mas não é algo que se resolve em um encontro."</div>
+                    <div style="font-size:12px;color:var(--t4);font-style:italic">↳ Fale com convicção. Isso não é venda — é leitura clínica. Fale como médico que viu um exame e tem um plano.</div>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--off);border:1px solid var(--b1);border-radius:var(--r2)">
+                  <div style="background:var(--g);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:var(--f-code);font-size:11px;font-weight:700;flex-shrink:0">3</div>
+                  <div>
+                    <div style="font-family:var(--f-code);font-size:8.5px;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">45–48 min — APRESENTAÇÃO DOS PACOTES</div>
+                    <div class="mk2-passo-script" style="border-color:var(--g);margin-bottom:6px">"Trabalho com três formatos. Vou apresentar os três, e você vai saber qual faz sentido pra você."</div>
+                    <div style="font-size:12px;color:var(--t4);font-style:italic">↳ Apresente sempre os três — do maior para o menor. Nunca comece pelo avulso. Veja o bloco de pacotes abaixo.</div>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--off);border:1px solid var(--b1);border-radius:var(--r2)">
+                  <div style="background:var(--g);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:var(--f-code);font-size:11px;font-weight:700;flex-shrink:0">4</div>
+                  <div>
+                    <div style="font-family:var(--f-code);font-size:8.5px;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">48–50 min — PERGUNTA DE DECISÃO</div>
+                    <div class="mk2-passo-script" style="border-color:var(--g);margin-bottom:6px">"Qual desses formatos faz mais sentido pra onde você está agora?"</div>
+                    <div style="font-size:12px;color:var(--t4);font-style:italic">↳ Depois dessa pergunta: <b>silêncio</b>. Quem fala primeiro perde a ancoragem. Deixe o paciente processar e responder.</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. OS TRÊS PACOTES -->
+        <div class="mk2-roteiro-panel" id="fech-panel-3">
+          <div class="mk2-rp-header" onclick="toggleFech('3')" style="padding:14px 18px">
+            <div class="mk2-rp-badge" style="background:var(--g);font-size:18px">📦</div>
+            <div style="flex:1;min-width:0">
+              <div class="mk2-rp-num" style="color:var(--g)">PACOTES</div>
+              <div class="mk2-rp-title">Como Apresentar os 3 Formatos</div>
+              <div class="mk2-rp-meta">Script completo para pacote de 8, de 4 sessões e avulso — com ancoragem de preço</div>
+            </div>
+            <span class="mk2-rp-chevron" id="fech-chev-3">▼</span>
+          </div>
+          <div class="mk2-rp-body" id="fech-body-3" style="display:none">
+            <div class="mk2-section">
+
+              <div class="callout info" style="margin-bottom:14px">
+                <b>REGRA DE APRESENTAÇÃO:</b> Sempre apresente do maior para o menor. O pacote de 8 sessões ancora o valor. Quando apresentar o de 4 e o avulso depois, o preço parece mais acessível por contraste. Nunca apresente o avulso primeiro.
+              </div>
+
+              <!-- PACOTE 8 -->
+              <div style="background:var(--t1);border-radius:var(--r3);padding:18px;margin-bottom:10px">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                  <div style="background:var(--g);color:#fff;border-radius:var(--r1);padding:3px 10px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Recomendado</div>
+                  <div style="font-family:var(--f-display);font-size:17px;font-weight:400;color:var(--white)">Processo Completo — 8 Sessões</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:var(--gm);background:rgba(255,255,255,0.06);color:var(--white);margin-bottom:10px">"O processo completo são 8 sessões. Cada sessão tem intenção específica: as primeiras mapeamos a origem do padrão, as do meio fazemos o trabalho de ressignificação e nas últimas ancoramos o novo e preparamos você para continuar sozinho.<br><br>É o processo que eu recomendo para você porque o que eu vi hoje precisa de tempo e de profundidade. Superfície não resolve raiz.<br><br>O valor do processo completo é [R$X]."</div>
+                <div style="font-size:12px;color:rgba(196,160,64,0.8);line-height:1.6">✦ Indique para: padrões de longa data, ansiedade com raiz familiar, trauma, processos de identidade.<br>✦ Highlight: economia vs. avulso, sessões com tema estruturado, resultado mensurável ao final.</div>
+              </div>
+
+              <!-- PACOTE 4 -->
+              <div style="background:var(--off);border:1.5px solid var(--b2);border-radius:var(--r3);padding:18px;margin-bottom:10px">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                  <div style="background:var(--t2);color:#fff;border-radius:var(--r1);padding:3px 10px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Focado</div>
+                  <div style="font-family:var(--f-display);font-size:17px;font-weight:400;color:var(--t1)">Processo Focado — 4 Sessões</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:var(--t2);margin-bottom:10px">"Se você está num momento mais pontual — uma crise específica, uma decisão importante, um padrão que quer trabalhar sem um processo longo — tenho o processo focado de 4 sessões.<br><br>Não é menos sério. É mais cirúrgico. A gente delimita um tema central e vai fundo nele.<br><br>O valor é [R$X]."</div>
+                <div style="font-size:12px;color:var(--t3);line-height:1.6">✦ Indique para: quem quer começar sem compromisso longo, crise pontual, quem tem restrição orçamentária.<br>✦ Use como degrau: "Muitos clientes começam com 4 e continuam. Mas isso é decisão sua ao final."</div>
+              </div>
+
+              <!-- AVULSO -->
+              <div style="background:var(--white);border:1px solid var(--b1);border-radius:var(--r3);padding:18px;margin-bottom:10px">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                  <div style="background:var(--t4);color:#fff;border-radius:var(--r1);padding:3px 10px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Último caso</div>
+                  <div style="font-family:var(--f-display);font-size:17px;font-weight:400;color:var(--t1)">Sessão Avulsa</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:var(--b3);margin-bottom:10px">"E se por algum motivo você não conseguir entrar num processo agora — tenho a sessão avulsa por [R$X].<br><br>Mas preciso ser honesto com você: o que eu vi hoje não vai se resolver em sessões isoladas. Sessão avulsa funciona bem para quem já tem um processo e quer um encontro extra. Para o que você trouxe hoje, processo é o caminho."</div>
+                <div style="font-size:12px;color:var(--t4);line-height:1.6;font-style:italic">↳ Nunca apresente o avulso como opção principal. Apresente como alternativa — e reforce porque não é o ideal para o caso específico.</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. QUEBRA DE OBJEÇÕES -->
+        <div class="mk2-roteiro-panel" id="fech-panel-4">
+          <div class="mk2-rp-header" onclick="toggleFech('4')" style="padding:14px 18px">
+            <div class="mk2-rp-badge" style="background:#7A4600;font-size:18px">🛡</div>
+            <div style="flex:1;min-width:0">
+              <div class="mk2-rp-num" style="color:#7A4600">OBJEÇÕES</div>
+              <div class="mk2-rp-title">Quebra de Objeções — Scripts por Cenário</div>
+              <div class="mk2-rp-meta">As 6 objeções mais comuns com condução exata para cada uma</div>
+            </div>
+            <span class="mk2-rp-chevron" id="fech-chev-4">▼</span>
+          </div>
+          <div class="mk2-rp-body" id="fech-body-4" style="display:none">
+            <div class="mk2-section">
+
+              <div class="callout tip" style="margin-bottom:14px">
+                <b>REGRA ANTES DE RESPONDER QUALQUER OBJEÇÃO:</b> Nunca contra-argumente imediatamente. Valide primeiro. Objeção não validada vira resistência. Objeção validada vira conversa.
+              </div>
+
+              <!-- OBJEÇÃO 1 -->
+              <div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r3);padding:16px;margin-bottom:8px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <div style="background:#FFF6E8;color:#7A4600;border:1px solid rgba(122,70,0,0.2);border-radius:20px;padding:3px 12px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Objeção 1</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--t1)">"Está caro."</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">"Faz sentido falar sobre isso. Me diz: em relação ao que exatamente está caro? Ao que você esperava pagar, ou ao que você tem disponível agora?"</div>
+                <div style="font-size:12px;color:var(--t4);font-style:italic;margin-bottom:8px">↳ Deixe a pessoa especificar. "Caro" pode ser percepção de valor ou restrição real. São problemas diferentes.</div>
+                <div style="font-family:var(--f-code);font-size:8.5px;color:#7A4600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">SE FOR PERCEPÇÃO DE VALOR:</div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">"Entendo. Vou te dizer o que você está comprando: não são 8 horas com um terapeuta. É um processo com começo, meio e resultado específico — mapeamento de onde o padrão nasceu, intervenção no nível da crença, e âncoras práticas que você leva pra vida. Quanto você acha que custa um ano continuando exatamente como está?"</div>
+                <div style="font-family:var(--f-code);font-size:8.5px;color:#7A4600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">SE FOR RESTRIÇÃO REAL:</div>
+                <div class="mk2-passo-script" style="border-color:#7A4600">"Respeito muito isso. Nesse caso, posso te oferecer o processo de 4 sessões por [R$X] — ou, se preferir, começamos com uma sessão avulsa e vemos como se encaixa no seu momento. Mas quero que você saiba: o que você trouxe hoje merece continuidade. A decisão é sua — mas minha recomendação clínica é clara."</div>
+              </div>
+
+              <!-- OBJEÇÃO 2 -->
+              <div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r3);padding:16px;margin-bottom:8px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <div style="background:#FFF6E8;color:#7A4600;border:1px solid rgba(122,70,0,0.2);border-radius:20px;padding:3px 12px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Objeção 2</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--t1)">"Preciso pensar."</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">"Claro, e eu respeito isso. Me conta: tem algo específico que você precisa pensar, ou é mais uma questão de tempo para processar?"</div>
+                <div style="font-size:12px;color:var(--t4);font-style:italic;margin-bottom:8px">↳ "Preciso pensar" quase sempre é outra objeção disfarçada. Descubra qual.</div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">[Após ouvir a resposta:] "Faz sentido. Te propor uma coisa: as sessões dessa semana estão [disponíveis/preenchendo]. Se você quiser garantir uma vaga pra não perder o embalo do que a gente trabalhou hoje — posso segurar por 24 horas. Depois desse tempo, abre para a lista."</div>
+                <div style="font-size:12px;color:var(--t4);font-style:italic">↳ Urgência real, não fabricada. Só use se for verdade. Credibilidade é o ativo mais valioso.</div>
+              </div>
+
+              <!-- OBJEÇÃO 3 -->
+              <div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r3);padding:16px;margin-bottom:8px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <div style="background:#FFF6E8;color:#7A4600;border:1px solid rgba(122,70,0,0.2);border-radius:20px;padding:3px 12px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Objeção 3</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--t1)">"Não sei se vou conseguir comparecer às sessões."</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">"Me conta mais: é uma questão de agenda, de comprometimento, ou de não saber se é o momento certo?"</div>
+                <div style="font-size:12px;color:var(--t4);font-style:italic;margin-bottom:8px">↳ Separe o logístico do emocional. Agenda se resolve. Medo de comprometimento é outra conversa.</div>
+                <div class="mk2-passo-script" style="border-color:#7A4600">[Se for agenda:] "Atendo com flexibilidade de horário — podemos encontrar um que funcione. Qual é a sua disponibilidade durante a semana?"<br><br>[Se for comprometimento:] "Sabe o que é interessante? A dificuldade de se comprometer com o processo pode ser exatamente um dos padrões que vamos trabalhar. Não precisa estar 100% pronto para começar. Precisa dar o primeiro passo."</div>
+              </div>
+
+              <!-- OBJEÇÃO 4 -->
+              <div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r3);padding:16px;margin-bottom:8px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <div style="background:#FFF6E8;color:#7A4600;border:1px solid rgba(122,70,0,0.2);border-radius:20px;padding:3px 12px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Objeção 4</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--t1)">"Já fiz terapia antes e não funcionou."</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">"Me conta: o que não funcionou? O que você esperava que acontecesse e não aconteceu?"</div>
+                <div style="font-size:12px;color:var(--t4);font-style:italic;margin-bottom:8px">↳ Escuta ativa aqui é ouro. Você vai descobrir exatamente o que diferenciar no seu processo.</div>
+                <div class="mk2-passo-script" style="border-color:#7A4600">"Faz sentido que isso tenha ficado. O que você descreveu — [resumo do que a pessoa disse] — me diz que o que você fez antes não foi ao nível de raiz. Foi manejo de sintoma.<br><br>O que eu proponho é diferente: a gente não vai falar sobre o problema todo encontro. A gente vai ao ponto de origem — e trabalha de lá para cá. Não é mais do mesmo."</div>
+              </div>
+
+              <!-- OBJEÇÃO 5 -->
+              <div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r3);padding:16px;margin-bottom:8px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <div style="background:#FFF6E8;color:#7A4600;border:1px solid rgba(122,70,0,0.2);border-radius:20px;padding:3px 12px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Objeção 5</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--t1)">"Quero começar com uma sessão avulsa pra ver como é."</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">"Entendo a lógica. Posso fazer isso — mas quero te contar o que acontece: em uma sessão avulsa, a gente vai mais raso por necessidade. Não é que eu não quero ir fundo — é que sem o contexto de um processo, não é ético ir até o nível de raiz sem saber que terei você nas próximas sessões para sustentá-lo.<br><br>Então sim, podemos marcar uma avulsa. Mas quero que você saiba: vai ser uma experiência diferente — e não representativa de como é o processo completo."</div>
+                <div style="font-size:12px;color:var(--t4);font-style:italic">↳ Isso converte muitos "avulsos" de volta para pacote — porque torna a comparação mais honesta. Quem quer o real vai escolher o processo.</div>
+              </div>
+
+              <!-- OBJEÇÃO 6 -->
+              <div style="background:var(--off);border:1px solid var(--b1);border-radius:var(--r3);padding:16px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <div style="background:#FFF6E8;color:#7A4600;border:1px solid rgba(122,70,0,0.2);border-radius:20px;padding:3px 12px;font-family:var(--f-code);font-size:9px;letter-spacing:1px;text-transform:uppercase">Objeção 6</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--t1)">"Vou conversar com [parceiro/família] antes."</div>
+                </div>
+                <div class="mk2-passo-script" style="border-color:#7A4600;margin-bottom:8px">"Completamente válido. Me faz uma pergunta — o que você acha que pode surgir nessa conversa? Qual é a preocupação que você está antecipando?"</div>
+                <div style="font-size:12px;color:var(--t4);font-style:italic;margin-bottom:8px">↳ Muitas vezes, a objeção real é vergonha ou medo de julgamento de fazer terapia. Deixe emergir.</div>
+                <div class="mk2-passo-script" style="border-color:#7A4600">[Após ouvir:] "Faz sentido incluir [parceiro/família] nessa decisão. O que eu te peço é uma coisa: quando você tiver essa conversa, parte do que aconteceu aqui hoje você não vai conseguir traduzir — porque é sentido, não explicado. Então não se preocupe em justificar tudo. Só pergunte a si mesmo: o que você sentiu aqui hoje foi real?"</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. SIMULAÇÃO DE CENÁRIOS -->
+        <div class="mk2-roteiro-panel" id="fech-panel-5">
+          <div class="mk2-rp-header" onclick="toggleFech('5')" style="padding:14px 18px">
+            <div class="mk2-rp-badge" style="background:var(--green);font-size:18px">🎭</div>
+            <div style="flex:1;min-width:0">
+              <div class="mk2-rp-num" style="color:var(--green)">CENÁRIOS</div>
+              <div class="mk2-rp-title">Simulação dos 4 Cenários de Fechamento</div>
+              <div class="mk2-rp-meta">Como conduzir do início ao fim em cada situação real</div>
+            </div>
+            <span class="mk2-rp-chevron" id="fech-chev-5">▼</span>
+          </div>
+          <div class="mk2-rp-body" id="fech-body-5" style="display:none">
+            <div class="mk2-section">
+
+              <!-- CENÁRIO A -->
+              <div style="border-left:4px solid var(--green);border-radius:0 var(--r3) var(--r3) 0;background:var(--green-bg);padding:16px;margin-bottom:12px">
+                <div style="font-family:var(--f-code);font-size:8.5px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Cenário A — O Fechamento Ideal</div>
+                <div style="font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:10px">Paciente emocionado, conectado, aberto</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="background:var(--white);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--green);letter-spacing:1px;margin-bottom:4px">TERAPEUTA</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"O que a gente fez hoje foi a primeira camada. E você já sente a diferença — você mesmo disse que estava num [X] e agora está num [Y]. Imagina o que 8 sessões podem fazer. O processo completo está disponível, e posso te falar sobre ele agora."</div>
+                  </div>
+                  <div style="background:rgba(24,104,71,0.08);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--green);letter-spacing:1px;margin-bottom:4px">PACIENTE</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Sim, quero saber mais."</div>
+                  </div>
+                  <div style="background:var(--white);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--green);letter-spacing:1px;margin-bottom:4px">TERAPEUTA</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"São 8 encontros. Cada um com foco específico — da origem do padrão até a ancoragem do novo. O valor é [R$X]. Posso abrir a agenda agora para a primeira sessão da sequência. Que dia funciona melhor pra você?"</div>
+                  </div>
+                  <div style="background:var(--gp);border-radius:var(--r2);padding:10px 13px;border:1px solid var(--gr)">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--g);letter-spacing:1px;margin-bottom:4px">NOTA</div>
+                    <div style="font-size:12px;color:var(--t2);line-height:1.6">→ Vá direto para a agenda. Não deixe um "vazio" após o preço — ele convida o paciente a pensar em mais objeções. Já direcione para o próximo passo concreto.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CENÁRIO B -->
+              <div style="border-left:4px solid var(--amber);border-radius:0 var(--r3) var(--r3) 0;background:var(--amber-bg);padding:16px;margin-bottom:12px">
+                <div style="font-family:var(--f-code);font-size:8.5px;color:var(--amber);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Cenário B — O Indeciso</div>
+                <div style="font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:10px">Paciente conectado mas hesitante no preço ou comprometimento</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="background:var(--white);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--amber);letter-spacing:1px;margin-bottom:4px">TERAPEUTA</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"O processo completo é [R$X]. O que você está sentindo agora?"</div>
+                  </div>
+                  <div style="background:rgba(122,70,0,0.08);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--amber);letter-spacing:1px;margin-bottom:4px">PACIENTE</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"É muito... Deixa eu ver como organizar."</div>
+                  </div>
+                  <div style="background:var(--white);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--amber);letter-spacing:1px;margin-bottom:4px">TERAPEUTA</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Entendo. Tenho uma opção intermediária que pode fazer sentido pra você: o processo focado de 4 sessões por [R$X]. A gente delimita um tema central — no seu caso seria [tema específico do que surgiu] — e vai fundo nele. Não é o processo completo, mas é um passo real. O que você acha?"</div>
+                  </div>
+                  <div style="background:rgba(122,70,0,0.08);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--amber);letter-spacing:1px;margin-bottom:4px">PACIENTE</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Isso parece mais viável."</div>
+                  </div>
+                  <div style="background:var(--white);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--amber);letter-spacing:1px;margin-bottom:4px">TERAPEUTA</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Ótimo. Vamos marcar a primeira ainda essa semana para a gente manter o embalo. Que horário funciona melhor pra você?"</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CENÁRIO C -->
+              <div style="border-left:4px solid var(--blue);border-radius:0 var(--r3) var(--r3) 0;background:var(--blue-bg);padding:16px;margin-bottom:12px">
+                <div style="font-family:var(--f-code);font-size:8.5px;color:var(--blue);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Cenário C — O Resistente</div>
+                <div style="font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:10px">Paciente intelectualiza, racionaliza, quer "apenas uma sessão pra experimentar"</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="background:rgba(37,68,176,0.08);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--blue);letter-spacing:1px;margin-bottom:4px">PACIENTE</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Quero fazer uma sessão primeiro. Se gostar, penso em continuar."</div>
+                  </div>
+                  <div style="background:var(--white);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--blue);letter-spacing:1px;margin-bottom:4px">TERAPEUTA</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Posso fazer isso. Mas quero ser transparente com você sobre uma coisa: essa sessão que você está tendo agora — ela já é a experimental. O que acontece numa sessão avulsa é diferente de um processo.<br><br>Em sessão avulsa, vou mais raso por responsabilidade clínica — não consigo ir até a raiz de algo sabendo que você pode não voltar. O que você sentiu hoje foi superfície. O que está embaixo é o que muda de verdade.<br><br>Então sim, podemos agendar uma avulsa. Mas eu quero que você vá com essa clareza. O que você prefere?"</div>
+                  </div>
+                  <div style="background:var(--gp);border-radius:var(--r2);padding:10px 13px;border:1px solid var(--gr)">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--g);letter-spacing:1px;margin-bottom:4px">NOTA</div>
+                    <div style="font-size:12px;color:var(--t2);line-height:1.6">→ Não force. Honestidade radical converte mais do que pressão. Quem quer resultado vai escolher o processo quando entender a diferença real.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CENÁRIO D -->
+              <div style="border-left:4px solid var(--red);border-radius:0 var(--r3) var(--r3) 0;background:var(--red-bg);padding:16px">
+                <div style="font-family:var(--f-code);font-size:8.5px;color:var(--red);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Cenário D — O Não Por Enquanto</div>
+                <div style="font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:10px">Paciente não fecha na sessão — como sair com o relacionamento preservado</div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="background:rgba(192,25,15,0.08);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--red);letter-spacing:1px;margin-bottom:4px">PACIENTE</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Preciso pensar melhor. Não vou decidir agora."</div>
+                  </div>
+                  <div style="background:var(--white);border-radius:var(--r2);padding:10px 13px">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--red);letter-spacing:1px;margin-bottom:4px">TERAPEUTA</div>
+                    <div style="font-size:13px;color:var(--t2);line-height:1.6;font-style:italic">"Completamente respeitável. Antes de você ir — posso deixar uma coisa registrada?<br><br>O que você trouxe hoje — [tema central da sessão] — não some enquanto você pensa. Ele continua operando. E cada dia sem direção é um dia a mais no padrão.<br><br>Quando você estiver pronto — e acredito que vai estar — minha agenda vai estar esperando. Manda uma mensagem quando quiser retomar. E se surgir alguma dúvida antes disso, pode me perguntar."</div>
+                  </div>
+                  <div style="background:var(--gp);border-radius:var(--r2);padding:10px 13px;border:1px solid var(--gr)">
+                    <div style="font-family:var(--f-code);font-size:8px;color:var(--g);letter-spacing:1px;margin-bottom:4px">FOLLOW-UP — 48–72H DEPOIS</div>
+                    <div style="font-size:12.5px;color:var(--t2);line-height:1.6;font-style:italic">"Oi [nome], passando para saber como você está desde nossa conversa. Fico à disposição quando quiser retomar — e as vagas dessa semana ainda estão abertas se quiser garantir uma."</div>
+                    <div style="font-size:11.5px;color:var(--t4);margin-top:6px;font-style:italic">↳ Uma mensagem de follow-up bem-feita fecha entre 20–35% dos "não agora". Não seja insistente — seja presente.</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. ERROS FATAIS -->
+        <div class="mk2-roteiro-panel" id="fech-panel-6">
+          <div class="mk2-rp-header" onclick="toggleFech('6')" style="padding:14px 18px">
+            <div class="mk2-rp-badge" style="background:var(--red);font-size:18px">⚠️</div>
+            <div style="flex:1;min-width:0">
+              <div class="mk2-rp-num" style="color:var(--red)">ERROS</div>
+              <div class="mk2-rp-title">7 Erros que Destroem o Fechamento</div>
+              <div class="mk2-rp-meta">O que nunca fazer nos últimos 10 minutos da sessão experimental</div>
+            </div>
+            <span class="mk2-rp-chevron" id="fech-chev-6">▼</span>
+          </div>
+          <div class="mk2-rp-body" id="fech-body-6" style="display:none">
+            <div class="mk2-section">
+              <div style="display:flex;flex-direction:column;gap:8px">
+
+                ${[
+                  {n:'1', erro:'Perguntar o preço desculpando-se', detalhe:'Nunca diga "o valor é R$X... mas pode ser negociado" antes da pessoa pedir. Sinaliza que você mesmo não acredita no preço.'},
+                  {n:'2', erro:'Apresentar o avulso primeiro', detalhe:'Isso desancora o valor dos pacotes. A ordem correta é sempre: processo completo → processo focado → avulso.'},
+                  {n:'3', erro:'Falar demais depois de apresentar o preço', detalhe:'Após dizer o valor e a pergunta de decisão, o silêncio é do paciente. Quem fala primeiro sente que precisa justificar. Espere.'},
+                  {n:'4', erro:'Dar desconto antes de ouvir a objeção real', detalhe:'Desconto prematuro destrói percepção de valor. Descubra a objeção real antes de qualquer concessão.'},
+                  {n:'5', erro:'Transformar o fechamento em monólogo', detalhe:'Proposta e pergunta. Proposta e pergunta. Não é palestra. Se você está falando por mais de 2 minutos seguidos, perdeu o fechamento.'},
+                  {n:'6', erro:'Não ter próximo passo concreto após o "sim"', detalhe:'Se a pessoa disse sim e você não abriu a agenda na hora, a probabilidade de confirmar cai pela metade. Confirme data e forma de pagamento na sessão.'},
+                  {n:'7', erro:'Desistir após a primeira objeção', detalhe:'A primeira objeção raramente é a real. Terapeuta que ouve uma vez e desiste está tratando a resistência de superfície. Valide, investigue, proponha alternativa.'},
+                ].map(function(e){ return '<div style="display:flex;gap:12px;align-items:flex-start;background:var(--off);border:1px solid var(--b1);border-radius:var(--r2);padding:12px 14px"><div style="background:var(--red);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-family:var(--f-code);font-size:10px;font-weight:700;flex-shrink:0">'+e.n+'</div><div><div style="font-size:13.5px;font-weight:700;color:var(--red);margin-bottom:4px">'+e.erro+'</div><div style="font-size:12.5px;color:var(--t2);line-height:1.6">'+e.detalhe+'</div></div></div>'; }).join('')}
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /acordeoes -->
+
+      <div style="display:flex;align-items:center;gap:10px;margin-top:20px;margin-bottom:8px">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--b2) 40%,var(--b2) 60%,transparent)"></div>
+        <span style="font-family:var(--f-code);font-size:8.5px;letter-spacing:2px;color:var(--t4);text-transform:uppercase;white-space:nowrap">Roteiros por Perfil de Paciente</span>
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--b2) 40%,var(--b2) 60%,transparent)"></div>
+      </div>
+
+    </div><!-- /mk2-fechamento-bloco -->
+
     <div id="mk2-list">
       ${MK2_ROTEIROS.map(function(r){ return buildMK2Card(r); }).join('')}
     </div>
@@ -3418,6 +3821,28 @@ window.toggleMK2 = function(id) {
   chev.textContent = open ? '▲' : '▼';
   if (open) {
     var panel = document.getElementById('mk2-panel-' + id);
+    if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
+window.toggleFech = function(id) {
+  var body = document.getElementById('fech-body-' + id);
+  var chev = document.getElementById('fech-chev-' + id);
+  if (!body) return;
+  var open = body.style.display === 'none';
+  // Fecha todos os outros
+  ['1','2','3','4','5','6'].forEach(function(i) {
+    if (i !== id) {
+      var b = document.getElementById('fech-body-' + i);
+      var c = document.getElementById('fech-chev-' + i);
+      if (b) b.style.display = 'none';
+      if (c) c.textContent = '▼';
+    }
+  });
+  body.style.display = open ? 'block' : 'none';
+  chev.textContent = open ? '▲' : '▼';
+  if (open) {
+    var panel = document.getElementById('fech-panel-' + id);
     if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 };
